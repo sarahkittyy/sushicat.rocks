@@ -8,7 +8,7 @@
     "frontend": "vue-cli-service serve",
     "backend": "tsc-watch --onSuccess 'node build/backend/index.js'",
     "serve": "pm2 start pm2.config.json",
-    "prod": "vue-cli-service build --mode production && tsc && node ."
+    "prod": "vue-cli-service build --mode production && tsc && node . &"
   },
   "author": "Sarah Ohlin",
   "license": "MIT",
