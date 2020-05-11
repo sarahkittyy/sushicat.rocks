@@ -7,7 +7,7 @@ import './db/init';
 import api from './api';
 
 const app = express();
-app.use('/asset', express.static(appRoot.resolve('assets')));
+app.use('/assets', express.static(appRoot.resolve('assets')));
 app.use('/js', express.static(appRoot.resolve('build/frontend/js')));
 app.use('/css', express.static(appRoot.resolve('build/frontend/css')));
 
