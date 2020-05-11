@@ -71,7 +71,7 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  config.vm.provision :shell, path: "vagrant/provision.sh"
+  config.vm.provision :shell, path: "vagrant/provision.sh", name: "npm"
   config.vm.provision :shell, path: "vagrant/init-dev.sh", privileged: false, name: "dev"
   config.vm.provision :shell, path: "vagrant/init-prod.sh", privileged: false, name: "prod"
 end
