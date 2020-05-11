@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
   # your network.
-  # config.vm.network "public_network"
+  config.vm.network "public_network"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -68,5 +68,6 @@ Vagrant.configure("2") do |config|
   #   apt-get install -y apache2
   # SHELL
   config.vm.provision :shell, path: "vagrant/provision.sh"
-  config.vm.provision :shell, path: "vagrant/init.sh", run: "always", privileged: false
+  config.vm.provision :shell, path: "vagrant/init-dev.sh", privileged: false, name: "dev"
+  config.vm.provision :shell, path: "vagrant/init-prod.sh", privileged: false, name: "prod"
 end
