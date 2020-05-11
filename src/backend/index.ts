@@ -11,6 +11,10 @@ app.get('/asset', express.static(appRoot.resolve('assets')));
 app.get('/js', express.static(appRoot.resolve('build/frontend/js')));
 app.get('/css', express.static(appRoot.resolve('build/frontend/css')));
 
+app.get('/favicon.ico', (req, res) => {
+	return res.sendFile(appRoot.resolve('assets/favicon.ico'));
+});
+
 app.use('/api', api);
 
 app.get('/*', (req, res) => {
