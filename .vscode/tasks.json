@@ -6,7 +6,7 @@
 		{
 			"type": "shell",
 			"label": "test",
-			"command": "npm run dev",
+			"command": "vagrant up",
 			"args": [
 				
 			],

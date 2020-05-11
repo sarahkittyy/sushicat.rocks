@@ -1,14 +1,14 @@
 {
   "name": "sushicat.rocks",
   "version": "1.0.0",
-  "description": "sarah's home site",
+	"description": "sarah's home site",
+	"repository": "https://github.com/sarahkittyy/sushicat.rocks",
   "main": "build/backend/index.js",
   "scripts": {
     "frontend": "vue-cli-service serve",
     "backend": "tsc-watch --onSuccess 'node build/backend/index.js'",
-    "serve": "pm2-runtime start pm2.config.json",
-    "dev": "docker-compose up -d",
-    "update-deps": "docker exec app npm install"
+		"serve": "pm2 start pm2.config.json",
+		"prod": "vue-cli-service build --mode production && tsc && node ."
   },
   "author": "Sarah Ohlin",
   "license": "MIT",
