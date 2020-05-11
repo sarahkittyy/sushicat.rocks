@@ -1,6 +1,6 @@
 <template>
 <div>
-	<h1>-=- wip -=-</h1>
+	<h1>-=- WIP (comin soon) -=-</h1>
 </div>
 </template>
 
