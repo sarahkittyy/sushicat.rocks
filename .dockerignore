@@ -1,0 +1,5 @@
+*.md
+.vscode
+*.code-workspace
+node_modules
+build

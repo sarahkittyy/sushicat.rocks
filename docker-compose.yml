@@ -1,0 +1,13 @@
+version: "3"
+services:
+  app:
+    container_name: app
+    build: .
+    ports:
+     - "8000:8000"
+    volumes:
+     - ./:/workspace
+     - /workspace/node_modules
+    entrypoint: ["npm", "run", "serve"]
+  db:
+    image: mongo:3.6.17-xenial

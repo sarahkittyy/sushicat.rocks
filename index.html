@@ -1,0 +1,61 @@
+<html>
+	<head>
+		<title>* sooshi cat *</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/p5@0.10.2/lib/p5.js"></script>
+
+		<link href="css/style.css" rel="stylesheet"></link>
+
+		<link rel="icon" href="/favicon.ico?v1" type="image/x-icon" />
+
+		<script src="js/background.js"></script>
+		<script src="js/init.js"></script>
+	<body onload="init()">
+		<div id="pat-anim" class="full below-all">
+			<img src="/assets/kitty.png" id="kitty" style="z-index: -10001;" />
+			<img src="/assets/hand.png" id="hand" style="z-index: -10000;" />
+		</div>
+		<div id="background-p5" class="background-p5"></div>
+		<div class="header">
+			<div id="left">
+				<img
+					src="/assets/sushicat.png"
+					class="shrink-to-fit spin-right"
+					style="width: 90px;"
+					alt="a v good sushi kitty" />
+			</div>
+			<div id="right">
+				<img
+					src="/assets/sushicat.png"
+					class="shrink-to-fit spin-left"
+					style="width: 90px;"
+					alt="also a v good sushi kitty" />
+			</div>
+			<div id="center">
+				<h1>sushi cat &lt;3</h1>
+			</div>
+		</div>
+		<div class="patting-corner">
+			<form id="pat-form" onsubmit="return false;">
+				<input
+					type="text"
+					class="input-box"
+					placeholder="ur name"
+					name="name"
+					id="name-input" />
+				<br />
+				<button id="pat-girl" class="button query-spawner" type="submit">commit cat pat</button>	
+				<br />
+			</form>
+			<button class="button small-button query-spawner" id="update-pats">refwesh pats</button>
+			<h4 style="color: black;" id="pat-count"></h4>
+			<h3>the pattin leaderboards</h3>
+			<table align="center" id="patboard" class="table">
+				<tr>
+					<th>nyame</th>
+					<th>pats</th>
+				</tr>
+			</table>
+		</div>
+	</body>
+</html>
