@@ -1,14 +1,14 @@
 {
   "name": "sushicat.rocks",
   "version": "1.0.0",
-	"description": "sarah's home site",
-	"repository": "https://github.com/sarahkittyy/sushicat.rocks",
+  "description": "sarah's home site",
+  "repository": "https://github.com/sarahkittyy/sushicat.rocks",
   "main": "build/backend/index.js",
   "scripts": {
     "frontend": "vue-cli-service serve",
     "backend": "tsc-watch --onSuccess 'node build/backend/index.js'",
-		"serve": "pm2 start pm2.config.json",
-		"prod": "vue-cli-service build --mode production && tsc && node ."
+    "serve": "pm2 start pm2.config.json",
+    "prod": "vue-cli-service build --mode production && tsc && node ."
   },
   "author": "Sarah Ohlin",
   "license": "MIT",
@@ -28,7 +28,6 @@
     "sass-loader": "^8.0.2",
     "tsc-watch": "^4.2.3",
     "typescript": "^3.8.3",
-    "vue-headful": "^2.1.0",
     "vue-template-compiler": "^2.6.11"
   },
   "dependencies": {

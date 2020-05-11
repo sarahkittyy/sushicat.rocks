@@ -1,7 +1,6 @@
 <template>
 <div>
-	<vue-headful title="sushicat.rocks" />
-	<h1>test1234</h1>
+	<h1>-=-wip-=-</h1>
 </div>
 </template>
 
