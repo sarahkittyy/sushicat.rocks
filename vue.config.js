@@ -4,7 +4,7 @@ module.exports = {
 		index: {
 			entry: 'src/frontend/index.js',
 			template: 'src/frontend/index.html',
-			title: 'untitled',
+			title: '* sooshi cat *',
 		},
 	},
 	runtimeCompiler: true,
