@@ -42,8 +42,8 @@ class Cube {
 		translate(this.x, this.y, -100);
 		fill('#4a669477');
 		stroke(150,150,150,220);
-		rotateX(millis() / 1000 * this.speed);
-		rotateY(millis() / 1000 * this.speed);
+		rotateX(millis() / 2000 * this.speed);
+		rotateY(millis() / 2000 * this.speed);
 		box(this.size);
 		
 		pop();
@@ -56,6 +56,8 @@ function setup() {
 	cnv.parent('canvas');
 	
 	cubes.push(new Cube());
+	
+	frameRate(30);
 }
 
 function draw() {
@@ -64,7 +66,7 @@ function draw() {
 	resizeCanvas(innerWidth, innerHeight);
 
 	// set background
-	background(190);
+	background(220);
 	
 	// update
 	cubes = cubes.filter(c => !c.delete);
