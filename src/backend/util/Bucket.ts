@@ -29,21 +29,23 @@ function updateBucket(b: Bucket): Bucket {
 };
 
 /// middleware to avoid too many requests
-function ratelimit(req: Request, res: Response, next: NextFunction) {
-	if (!req.session.bucket) { req.session.bucket = newBucket(); }
-	let bucket: Bucket = req.session.bucket;
-	
-	// update the bucket, given how much time has passed 
-	bucket = updateBucket(bucket);
-	
-	if (bucket.tokens === 0) {
-		return res.status(429).send('Too many requests! Try slowing down <3');
-	} else {
-		bucket.tokens--;
-		req.session.bucket = bucket;
+function ratelimit(usage: number): (req: Request, res: Response, next: NextFunction) => void {
+	return (req: Request, res: Response, next: NextFunction) => {
+		if (!req.session.bucket) { req.session.bucket = newBucket(); }
+		let bucket: Bucket = req.session.bucket;
+		
+		// update the bucket, given how much time has passed 
+		bucket = updateBucket(bucket);
 
-		return next();
-	}
+		bucket.tokens = Math.max(0, bucket.tokens - usage);
+		req.session.bucket = bucket;
+		
+		if (bucket.tokens <= 0) {
+			return res.status(429).send('Too many requests! Try slowing down <3');
+		} else {
+			return next();
+		}
+	};
 };
 
 export { ratelimit, Bucket };
