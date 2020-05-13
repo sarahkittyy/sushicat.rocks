@@ -1,5 +1,5 @@
 <template>
-<div id="canvas" class="full-viewport fixed-background">
+<div id="canvas" class="full-viewport fixed-background" :hidden="!enabled">
 </div>
 </template>
 
@@ -10,13 +10,11 @@ export default {
 		enabled: Boolean,
 	},
 	created() {
-		if (this.$props.enabled) {
-			this.$loadScript("/assets/js/p5.min.js")
-			.then(() => {
-				this.$loadScript("/assets/js/background.js");
-			});
-		}
-	}
+		this.$loadScript("/assets/js/p5.min.js")
+		.then(() => {
+			this.$loadScript("/assets/js/background.js");
+		});
+	},
 }
 </script>
 
@@ -36,6 +34,10 @@ export default {
 	top: 0px;
 	left: 0px;
 	z-index: -9999999999;
+}
+
+#canvas[hidden] {
+	display: none;
 }
 
 </style>

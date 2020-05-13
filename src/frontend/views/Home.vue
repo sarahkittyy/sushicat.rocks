@@ -6,6 +6,8 @@
 			<spinning-sushicat dir="right" id="right" :maxheight="sushicatHeight" />
 			<div class="font-comic-sans" id="middle">
 				<h1>* sooshi cat *</h1>
+				<span>background?</span>
+				<b-form-checkbox v-model="backgroundVisible" switch />
 			</div>
 		</div>
 	</header-divider>
@@ -19,24 +21,18 @@ import HeaderDivider from '../components/HeaderDivider';
 import P5Background from '../components/P5Background';
 import SpinningSushicat from '../components/SpinningSushicat';
 
-import { mapGetters, mapMutations } from 'vuex';
-
 export default {
 	name: 'Home',
 	data() {
 		return {
 			sushicatHeight: 75,
+			backgroundVisible: true,
 		};
 	},
-	computed: {
-		...mapGetters([
-			'backgroundVisible'
-		]),
-	},
 	methods: {
-		...mapMutations([
-			'setBackgroundVisible',
-		]),
+		setBackgroundVisibility(val) {
+			this.backgroundVisible = val;
+		} 	
 	},
 	components: {
 		HeaderDivider,
@@ -47,7 +43,7 @@ export default {
 		if (window.innerWidth < 480) {
 			this.setBackgroundVisibility(false);
 		}
-	}
+	},
 };
 </script>
 
