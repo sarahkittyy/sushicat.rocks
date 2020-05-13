@@ -6,7 +6,7 @@
 		{
 			"type": "shell",
 			"label": "test",
-			"command": "vagrant up && vagrant provision --provision-with deps,dev",
+			"command": "vagrant up && vagrant provision --provision-with dev",
 			"args": [
 				
 			],

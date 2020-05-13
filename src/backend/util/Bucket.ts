@@ -1,32 +1,49 @@
-//* my attempt at a leaky bucket algorithm <3
+//* my attempt at a token bucket algorithm <3
 
 import express, { Request, Response, NextFunction } from 'express';
-
-interface Droplet {
-	made: Date;
-};
+import moment, { Moment } from 'moment';
 
 interface Bucket {
-	requests: Droplet[];
+	tokens: number;
+	lastUpdated: number;
 };
 
-function emptyBucket(): Bucket {
+function newBucket(): Bucket {
 	return {
-		requests: []
+		tokens: parseInt(process.env.MAX_TOKENS),
+		lastUpdated: moment().unix(),
 	};
 };
 
-function isFull(b: Bucket): boolean {
-	return b.requests.length >= parseInt(process.env.MAX_REQ);
+function updateBucket(b: Bucket): Bucket {
+	let now = moment().unix();
+	let seconds: number = now - b.lastUpdated;
+	
+	let maxTokens = parseInt(process.env.MAX_TOKENS);
+	let tokenRate = parseInt(process.env.TOKEN_RATE);
+
+	return {
+		tokens: Math.min(maxTokens, b.tokens + tokenRate * seconds),
+		lastUpdated: now,
+	};
 };
 
 /// middleware to avoid too many requests
 function ratelimit(req: Request, res: Response, next: NextFunction) {
-	if (!req.session.bucket) { req.session.bucket = emptyBucket(); }
+	if (!req.session.bucket) { req.session.bucket = newBucket(); }
 	let bucket: Bucket = req.session.bucket;
 	
+	// update the bucket, given how much time has passed 
+	bucket = updateBucket(bucket);
+	
+	if (bucket.tokens === 0) {
+		return res.status(429).send('Too many requests! Try slowing down <3');
+	} else {
+		bucket.tokens--;
+		req.session.bucket = bucket;
 
-	next();
+		return next();
+	}
 };
 
-export { ratelimit };
+export { ratelimit, Bucket };
