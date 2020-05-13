@@ -6,11 +6,13 @@ import appRoot from 'app-root-path';
 import './db/init';
 
 import api from './api';
+import { ratelimit } from './util/Bucket';
 
 const app = express();
 app.use(session({
 	secret: process.env.SECRET,
 }));
+app.use(ratelimit);
 
 app.use('/assets', express.static(appRoot.resolve('assets')));
 app.use('/js', express.static(appRoot.resolve('build/frontend/js')));
