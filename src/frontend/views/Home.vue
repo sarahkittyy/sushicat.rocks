@@ -10,6 +10,7 @@
 		</div>
 	</header-divider>
 	<p5-background :enabled="backgroundVisible" />
+	<vue-snotify />
 </div>
 </template>
 
@@ -42,7 +43,7 @@ export default {
 		P5Background,
 		SpinningSushicat,
 	},
-	created() {
+	mounted() {
 		if (window.innerWidth < 480) {
 			this.setBackgroundVisibility(false);
 		}

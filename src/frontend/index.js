@@ -1,22 +1,30 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
 
 import VueRouter from 'vue-router';
 import LoadScript from 'vue-plugin-load-script';
+import Snotify, { SnotifyPosition } from 'vue-snotify';
+import 'vue-snotify/styles/simple.css';
 
 import store from './store';
 import router from './router';
-
-import Home from './views/Home';
 
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(LoadScript);
+Vue.use(Snotify, {
+	toast: {
+		position: SnotifyPosition.rightBottom,
+		timeout: 1500,
+	},
+});
 
-const app = new Vue({
+const vm = new Vue({
 	el: '#root',
 	store,
 	router,
-	template: '<router-view></router-view>',
+	template: '<router-view />',
 });
+
+// todo - remove this in prod :)
+window.vm = vm;
