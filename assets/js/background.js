@@ -75,6 +75,7 @@ function draw() {
 	}
 	
 	// draw
+	pointLight(255, 255, 255, -innerWidth/2, -innerHeight/2, 0);
 	for (let cube of cubes) {
 		cube.update();
 		cube.draw();
