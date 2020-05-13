@@ -23,10 +23,10 @@ app.use((req, res, next) => {
 });
 
 /// static assets
-app.use('/assets', ratelimit(1), express.static(appRoot.resolve('assets')));
-app.use('/js', ratelimit(1), express.static(appRoot.resolve('build/frontend/js')));
-app.use('/css', ratelimit(1), express.static(appRoot.resolve('build/frontend/css')));
-app.get('/favicon.ico', ratelimit(1), (req, res) => {
+app.use('/assets', ratelimit(), express.static(appRoot.resolve('assets')));
+app.use('/js', ratelimit(), express.static(appRoot.resolve('build/frontend/js')));
+app.use('/css', ratelimit(), express.static(appRoot.resolve('build/frontend/css')));
+app.get('/favicon.ico', ratelimit(), (req, res) => {
 	return res.sendFile(appRoot.resolve('assets/favicon.ico'));
 });
 
@@ -34,7 +34,7 @@ app.get('/favicon.ico', ratelimit(1), (req, res) => {
 app.use('/api', api);
 
 /// returning static vue files
-app.get('/*', ratelimit(1), (req, res) => {
+app.get('/*', ratelimit(), (req, res) => {
 	res.sendFile(appRoot.resolve('build/frontend/index.html'));
 });
 

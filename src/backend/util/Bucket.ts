@@ -29,7 +29,7 @@ function updateBucket(b: Bucket): Bucket {
 };
 
 /// middleware to avoid too many requests
-function ratelimit(usage: number): (req: Request, res: Response, next: NextFunction) => void {
+function ratelimit(usage: number = 1): (req: Request, res: Response, next: NextFunction) => void {
 	return (req: Request, res: Response, next: NextFunction) => {
 		if (!req.session.bucket) { req.session.bucket = newBucket(); }
 		let bucket: Bucket = req.session.bucket;
