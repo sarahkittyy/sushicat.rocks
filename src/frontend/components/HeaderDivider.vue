@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../../styles/common.scss';
+@import '../styles/common.scss';
 
 .header {
 	width: 100%;

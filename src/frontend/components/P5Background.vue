@@ -6,23 +6,28 @@
 <script>
 export default {
 	name: 'P5Background',
-	data: function() {
+	data() {
 		return {
 			
 		};
 	},
-	created: function() {
-		this.$loadScript("/assets/js/p5.min.js")
-		.then(() => {
-			this.$loadScript("/assets/js/background.js");
-		});
+	props: {
+		enabled: Boolean,
+	},
+	created() {
+		if (this.$props.enabled) {
+			this.$loadScript("/assets/js/p5.min.js")
+			.then(() => {
+				this.$loadScript("/assets/js/background.js");
+			});
+		}
 	}
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
-@import '../../styles/common.scss';
+@import '../styles/common.scss';
 
 .full-viewport {
 	width: 100%;
