@@ -1,12 +1,12 @@
 <template>
 <div>
 	<header-divider height="125px">
-		<div id="header-grid" class="full-height">
-			<spinning-sushicat dir="left" :maxheight="sushicatHeight" />
-			<div class="font-comic-sans">
+		<div class="container">
+			<spinning-sushicat dir="left" id="left" :maxheight="sushicatHeight" />
+			<spinning-sushicat dir="right" id="right" :maxheight="sushicatHeight" />
+			<div class="font-comic-sans" id="middle">
 				<h1>* sooshi cat *</h1>
 			</div>
-			<spinning-sushicat dir="right" :maxheight="sushicatHeight" />
 		</div>
 	</header-divider>
 	<p5-background :enabled="backgroundVisible" />
@@ -54,23 +54,25 @@ export default {
 
 @import '../styles/common.scss';
 
-#header-grid {
-	display: flex;
-
+.container {
 	width: 100%;
-	height: 100%;
-
-	align-items: center;
-	justify-content: center;
-
-	column-count: 3;
-	column-rule: none;
 	
 	text-align: center;
-	overflow: visible;
+	justify-content: center;
 	
-	* {
-		height: 100%;
+	#left {
+		float: left;
+		width: 200px;	
+	}
+	
+	#middle {
+		margin: 0 auto;
+		width: 500px
+	}
+	
+	#right {
+		float: right;
+		width: 200px;
 	}
 }
 
