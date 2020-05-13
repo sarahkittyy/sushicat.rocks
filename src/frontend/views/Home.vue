@@ -1,9 +1,13 @@
 <template>
 <div>
-	<header-divider>
-		<grid-container :rows=1 :cols=3>
-		
-		</grid-container>
+	<header-divider height="125px">
+		<div id="header-grid" class="full-height">
+			<spinning-sushicat dir="left" :maxheight="sushicatHeight" />
+			<div class="font-comic-sans">
+				<h1>* sooshi cat *</h1>
+			</div>
+			<spinning-sushicat dir="right" :maxheight="sushicatHeight" />
+		</div>
 	</header-divider>
 	<p5-background :enabled="backgroundVisible" />
 </div>
@@ -12,8 +16,7 @@
 <script>
 import HeaderDivider from '../components/HeaderDivider';
 import P5Background from '../components/P5Background';
-import GridContainer from '../components/GridContainer';
-import GridItem from '../components/GridItem';
+import SpinningSushicat from '../components/SpinningSushicat';
 
 import { mapGetters, mapMutations } from 'vuex';
 
@@ -21,6 +24,7 @@ export default {
 	name: 'Home',
 	data() {
 		return {
+			sushicatHeight: 75,
 		};
 	},
 	computed: {
@@ -36,7 +40,7 @@ export default {
 	components: {
 		HeaderDivider,
 		P5Background,
-		GridContainer,
+		SpinningSushicat,
 	},
 	created() {
 		if (window.innerWidth < 480) {
@@ -49,5 +53,25 @@ export default {
 <style lang="scss" scoped>
 
 @import '../styles/common.scss';
+
+#header-grid {
+	display: flex;
+
+	width: 100%;
+	height: 100%;
+
+	align-items: center;
+	justify-content: center;
+
+	column-count: 3;
+	column-rule: none;
+	
+	text-align: center;
+	overflow: visible;
+	
+	* {
+		height: 100%;
+	}
+}
 
 </style>

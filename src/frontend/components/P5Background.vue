@@ -6,11 +6,6 @@
 <script>
 export default {
 	name: 'P5Background',
-	data() {
-		return {
-			
-		};
-	},
 	props: {
 		enabled: Boolean,
 	},

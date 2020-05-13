@@ -1,12 +1,13 @@
 <template>
-<div class="header">
-	<h1 class="font-comic-sans"><slot /></h1>
+<div class="header font-comic-sans" :style="{ height }">
+	<slot />
 </div>
 </template>
 
 <script>
 export default {
 	name: 'HeaderDivider',
+	props: { height: String, },
 };
 </script>
 
@@ -18,8 +19,8 @@ export default {
 	width: 100%;
 	text-align: center;
 	border-bottom: 1px solid black;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 </style>
