@@ -17,7 +17,7 @@ api.get('/ratelimit/tokens', ratelimit(), (req, res) => {
 
 api.post('/pat', [
 	ratelimit(2),
-	check('name').isString()
+	check('name').isString().notEmpty()
 ], async (req: Request, res: Response) => {
 	// validate
 	const errors = validationResult(req);
