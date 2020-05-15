@@ -11,6 +11,20 @@
 			</div>
 		</div>
 	</header-divider>
+	
+	<div id="pat-box">
+		<table>
+			<tr>
+				<th>name</th>
+				<th>pats</th>
+			</tr>
+			<tr v-for="item in this.$store.getters.pats" :key="item.name">
+				<td>{{ item.name }}</td>
+				<td>{{ item.pats }}</td>
+			</tr>
+		</table>
+	</div>
+	
 	<p5-background :enabled="backgroundVisible" />
 	<vue-snotify />
 </div>
@@ -32,7 +46,7 @@ export default {
 	methods: {
 		setBackgroundVisibility(val) {
 			this.backgroundVisible = val;
-		} 	
+		},
 	},
 	components: {
 		HeaderDivider,
@@ -44,6 +58,9 @@ export default {
 			this.setBackgroundVisibility(false);
 		}
 	},
+	created() {
+		this.$store.dispatch('updatePatUsers');
+	}
 };
 </script>
 
@@ -70,6 +87,12 @@ export default {
 	#right {
 		float: right;
 		width: 200px;
+	}
+}
+
+#pat-box {
+	table {
+		
 	}
 }
 
