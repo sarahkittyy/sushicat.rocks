@@ -52,8 +52,8 @@ const store = new Vuex.Store({
 	},
 	getters: {
 		pats(state) {
-			return state.patUsers;	
-		}
+			return state.patUsers.sort((a, b) => Math.sign(a.pats - b.pats));	
+		},
 	},
 });
 
