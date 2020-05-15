@@ -22,6 +22,7 @@ Vue.use(Snotify, {
 	toast: {
 		position: SnotifyPosition.rightBottom,
 		timeout: 1500,
+		titleMaxLength: 20,
 	},
 });
 
@@ -30,6 +31,9 @@ const vm = new Vue({
 	store,
 	router,
 	template: '<router-view />',
+	beforeCreate() {
+		Vue.$snotify = this.$snotify;
+	}
 });
 
 // todo - remove this in prod :)
