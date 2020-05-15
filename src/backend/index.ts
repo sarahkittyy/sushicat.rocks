@@ -22,6 +22,10 @@ app.use((req, res, next) => {
 	return next();
 });
 
+/// other
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 /// static assets
 app.use('/assets', ratelimit(), express.static(appRoot.resolve('assets')));
 app.use('/js', ratelimit(), express.static(appRoot.resolve('build/frontend/js')));
