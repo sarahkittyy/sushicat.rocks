@@ -1,7 +1,7 @@
 <template>
 <div class="center font-comic-sans">
 	<h1>page nyot found ;w;</h1>
-	<simple-button @click="back">go bacc &lt;3</simple-button>
+	<simple-button @click="back">go {{ redirectLocation }} &lt;3</simple-button>
 	<br />
 	<img src="/assets/penguindance.gif" class="penguindance" />
 </div>
@@ -14,8 +14,20 @@ export default {
 	name: 'NotFound',
 	methods: {
 		back() {
-			this.$router.go(-1);
+			if (this.hasBack) {
+				this.$router.go(-1);	
+			} else {
+				this.$router.go('/home');
+			}
 		}
+	},
+	computed: {
+		hasBack() {
+			return window.history.length != 0;
+		},
+		redirectLocation() {
+			return this.hasBack ? 'back' : 'home'; 
+		},
 	},
 	components: {
 		SimpleButton,
