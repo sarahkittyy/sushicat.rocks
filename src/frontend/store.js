@@ -20,6 +20,8 @@ const store = new Vuex.Store({
 			let i = users.findIndex(e => e.name === user.name);
 			if (i != -1) {
 				users[i] = user;
+			} else {
+				users.push(user);
 			}
 			
 			state.patUsers = [...users];		
