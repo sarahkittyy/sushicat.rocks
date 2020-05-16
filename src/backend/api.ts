@@ -28,7 +28,7 @@ api.post('/pat', [
 	
 	let pats = req.body.pats ?? 1;
 	
-	return res.send(await PatUser.pat(req.body.name, pats));
+	return res.send(await PatUser.pat(req.body.name.trim(), pats));
 });
 
 api.get('/pat', [
