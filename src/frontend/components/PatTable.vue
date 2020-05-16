@@ -9,6 +9,7 @@
 		@click="addPat">
 		commit cat pat &lt;3
 	</simple-button>
+	<br />
 	<simple-button
 		class="pat-button"
 		@click="updatePats">
