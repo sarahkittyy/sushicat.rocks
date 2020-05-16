@@ -1,5 +1,5 @@
 <template>
-<div v-if="running">
+<div v-if="running" class="enclosing">
 	<img src="/assets/hand.png" id="hand" />
 	<img src="/assets/kitty.png" id="kitty" />
 </div> 
@@ -29,6 +29,17 @@ export default {
 <style lang="scss" scoped>
 
 @import '../styles/common.scss';
+
+.enclosing {
+	position: absolute;
+	overflow: hidden;
+	width: 100%;
+	height: 75%;
+	top: 0;
+	left: 0;
+	
+	z-index: 99999997;
+}
 
 #hand {
 	position: absolute;

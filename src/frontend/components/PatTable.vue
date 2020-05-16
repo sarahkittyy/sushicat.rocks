@@ -133,6 +133,7 @@ export default {
 	*:not(table) {
 		margin-top: 12px;
 	}
+	
 	margin: 30px;
 	display: flexbox;
 
