@@ -41,6 +41,7 @@ const store = new Vuex.Store({
 			})
 			.catch((err) => {
 				Vue.$snotify.error('idk somethin bwoke tell sarah >w<', 'error gettin pats');
+				console.error(err);
 			});
 		},
 		patAndUpdate({ commit }, { name }) {
@@ -57,6 +58,7 @@ const store = new Vuex.Store({
 			})
 			.catch(err => {
 				Vue.$snotify.error('give the kitty a bweak <3', 'cat petting error');
+				console.error(err);
 			});
 		},
 	},
