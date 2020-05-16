@@ -6,8 +6,8 @@
 		class="name-input" />		
 	<simple-button
 		class="pat-button"
-		@click="sendPat">
-		pet the cat &lt;3
+		@click="addPat">
+		commit cat pat &lt;3
 	</simple-button>
 	<div id="pat-box">
 		<table>
@@ -15,7 +15,7 @@
 				<th>name</th>
 				<th>pats</th>
 			</tr>
-			<tr v-for="item in this.$store.getters.pats" :key="item.name">
+			<tr v-for="item in this.mergedPats" :key="item.name">
 				<td>{{ item.name }}</td>
 				<td>{{ item.pats }}</td>
 			</tr>
@@ -32,13 +32,71 @@ export default {
 	name: 'PatTable',
 	data() {
 		return {
-			patName: ''
+			patName: '',
+			disabled: false,
+			tempPats: [],
 		};
 	},
 	methods: {
-		sendPat() {
-			this.$store.dispatch('patAndUpdate', { name: this.patName });
+		/// add a temporary, front-end only pat
+		addPat() {
+			let newPats = [...this.tempPats];
+
+			let name = this.patName;
+			
+			if (name.length == 0) { return this.$snotify.warning('kitty gotta know who pettin her ;-;', 'kitty is confused'); }
+			if (name.length >= 20) { return this.$snotify.warning('name too long ;w;', 'kitty is confused'); }
+			
+			let i = newPats.findIndex(e => e.name === name);
+
+			if (i == -1) {
+				newPats.push({ name, pats: 1 });
+			} else {
+				if (newPats[i].pats >= 20) {
+					this.$snotify.warning('kitty needs time to vibe <3', 'slow down >//<');
+				} else {
+					newPats[i].pats += 1;
+				}
+			}
+			
+			this.tempPats = [...newPats];
 		},
+		/// push all temporary front-end pats to the db
+		pushPats() {
+			if (this.tempPats.length == 0) return;
+			
+			for (let user of this.tempPats) {
+				this.$store.dispatch('patAndUpdate', user);
+			}
+			this.tempPats = [];
+		},
+	},
+	computed: {
+		/// pats merged between temp-pats and actual $store pats
+		mergedPats() {
+			let res = [];
+			for (let p of this.$store.getters.patsUnsorted) {
+				res.push({...p});
+			}
+			
+			for (let user of this.tempPats) {
+				let i = res.findIndex(e => e.name === user.name);
+				if (i == -1) {
+					res.push({...user});
+				} else {
+					res[i].pats += user.pats;
+				}
+			}
+
+			return res.sort((a, b) => Math.sign(b.pats - a.pats));
+		}	
+	},
+	mounted() {
+		let t = setInterval(() => {
+			this.pushPats();
+		}, 2000);	
+		
+		document.addEventListener('beforeunload', () => clearInterval(t));
 	},
 	components: {
 		SimpleButton,

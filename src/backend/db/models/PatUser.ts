@@ -11,7 +11,7 @@ interface IPatUser extends IPatUserSchema {
 }
 
 interface IPatUserModel extends mongoose.Model<IPatUser> {
-	patOnce(name: string): Promise<{name: string, pats: number}>;
+	pat(name: string, times: number): Promise<{name: string, pats: number}>;
 	getPats(name: string): Promise<number | undefined>;
 	allUsers(): Promise<{name: string, pats: number}[]>;
 }
@@ -28,12 +28,12 @@ const PatUserSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-PatUserSchema.static('patOnce', async function(name: string) {
-	return await this.findOneAndUpdate({ name }, { $inc: { pats: 1 }}, { upsert: true, new: true, lean: true, }).select('name pats');
+PatUserSchema.static('pat', async function(name: string, times: number) {
+	return await this.findOneAndUpdate({ name }, { $inc: { pats: times }}, { upsert: true, new: true }).select('name pats').lean();
 });
 
 PatUserSchema.static('getPats', async function(name: string) {
-	let res = await this.findOne({ name }, 'pats');
+	let res = await this.findOne({ name }, 'pats').lean();
 	return res?.pats;
 });
 

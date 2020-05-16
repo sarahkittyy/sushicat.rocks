@@ -1,8 +1,8 @@
 /// utils for node-fetch
 
-function validateCode(response) {
+async function validateCode(response) {
 	if (!response.ok) {
-		throw Error(response.statusText);
+		throw {...(await response.json()), status: response.status};
 	} else {
 		return response;
 	}

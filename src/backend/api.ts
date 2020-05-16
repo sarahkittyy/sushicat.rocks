@@ -17,7 +17,8 @@ api.get('/ratelimit/tokens', ratelimit(), (req, res) => {
 
 api.post('/pat', [
 	ratelimit(2),
-	check('name').isString().notEmpty()
+	check('name').isString().notEmpty().isLength({ max: 12 }),
+	check('pats').optional().isInt({ lt: 20, gt: 0 }),
 ], async (req: Request, res: Response) => {
 	// validate
 	const errors = validationResult(req);
@@ -25,7 +26,9 @@ api.post('/pat', [
 		return res.status(400).send({ errors: errors.array() });
 	}
 	
-	return res.send(await PatUser.patOnce(req.body.name));
+	let pats = req.body.pats ?? 1;
+	
+	return res.send(await PatUser.pat(req.body.name, pats));
 });
 
 api.get('/pat', [

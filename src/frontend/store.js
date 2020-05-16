@@ -44,10 +44,10 @@ const store = new Vuex.Store({
 				console.error(err);
 			});
 		},
-		patAndUpdate({ commit }, { name }) {
+		patAndUpdate({ commit }, { name, pats }) {
 			fetch('/api/pat', {
 				method: 'post',
-				body: JSON.stringify({ name }),
+				body: JSON.stringify({ name, pats }),
 				headers: { 'Content-Type': 'application/json' },
 				
 			})
@@ -57,8 +57,24 @@ const store = new Vuex.Store({
 				commit('updatePatUser', { name: json.name, pats: json.pats });
 			})
 			.catch(err => {
-				Vue.$snotify.error('give the kitty a bweak <3', 'cat petting error');
 				console.error(err);
+				/// too fast??
+				if (err.status === 429) {
+					Vue.$snotify.error('give the kitty a bweak <3', 'cat petting error');
+				} else if (err.status === 400 ) {
+					let firstError = err.errors[0];
+					/// is the name the problem?
+					if (firstError.param === 'name') {
+						if (name.length === 0) {
+							Vue.$snotify.warning('kitty gotta know who pettin her ;-;', 'kitty is confused')
+						} else {
+							Vue.$snotify.warning('name too long ;w;', 'kitty is confused');
+						}
+					// it must be the amount of pets, then >w<
+					} else {
+						Vue.$snotify.error('too many pets!!?!?!??', 'kitty is SHOOK');
+					}
+				}
 			});
 		},
 	},
@@ -66,6 +82,9 @@ const store = new Vuex.Store({
 		pats(state) {
 			return state.patUsers.sort((a, b) => Math.sign(b.pats - a.pats));	
 		},
+		patsUnsorted(state) {
+			return state.patUsers;
+		}
 	},
 });
 
