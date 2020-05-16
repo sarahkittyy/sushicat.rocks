@@ -15,9 +15,3 @@ then launch vagrant :)
 ```
 vagrant up --provision-with deps,dev
 ```
-
-## running the dev env
-
-```
-vagrant up
-```
