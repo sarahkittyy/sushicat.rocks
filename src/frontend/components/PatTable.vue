@@ -62,6 +62,7 @@ export default {
 
 			if (i == -1) {
 				newPats.push({ name, pats: 1 });
+				this.$refs.patAnim.run();
 			} else {
 				if (newPats[i].pats >= 20) {
 					this.$snotify.warning('kitty needs time to vibe <3', 'slow down >//<');
