@@ -12,7 +12,7 @@
 		</div>
 	</header-divider>
 	
-	<div id="pat-box">
+	<div id="pat-box" class="font-comic-sans">
 		<table>
 			<tr>
 				<th>name</th>
@@ -91,8 +91,35 @@ export default {
 }
 
 #pat-box {
+	margin: 30px;
+	border: 1px solid black;
+	border-radius: 15px;
+	width: 25%;
+	overflow: auto;
+
+
 	table {
+		border-collapse: collapse;
+		width: 100%;
+		border-style: hidden;
+		border-spacing: 0;
 		
+		background: #aaa;
+		
+		* {
+			padding: 10px;
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+		
+		th {
+			font-weight: 900;
+			font-size: 14pt;
+		}
+		
+		td, th {
+			border: 1px solid black;
+		}
 	}
 }
 
