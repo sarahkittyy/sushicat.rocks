@@ -42,8 +42,8 @@ class Cube {
 		translate(this.x, this.y, -100);
 		fill('#4a669477');
 		stroke(150,150,150,220);
-		rotateX(millis() / 2000 * this.speed);
-		rotateY(millis() / 2000 * this.speed);
+		rotateX(frameCount / (2*30) * this.speed);
+		rotateY(frameCount / (2*30) * this.speed);
 		box(this.size);
 		
 		pop();
@@ -62,7 +62,7 @@ function setup() {
 
 function draw() {
 	// if the canvas is hidden, do not render
-	if (document.querySelector('#canvas').hasAttribute('hidden')) return;
+	if (document.querySelector('#canvas').hasAttribute('hide')) return;
 	
 	// resize the canvas
 	let { innerWidth, innerHeight } = window;

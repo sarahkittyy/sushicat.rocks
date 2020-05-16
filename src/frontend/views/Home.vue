@@ -6,7 +6,7 @@
 			<spinning-sushicat dir="right" id="right" :maxheight="sushicatHeight" />
 			<div class="font-comic-sans" id="middle">
 				<h1>* sooshi cat *</h1>
-				<span>background?</span>
+				<span>animate background?</span>
 				<b-form-checkbox v-model="backgroundVisible" switch />
 			</div>
 		</div>

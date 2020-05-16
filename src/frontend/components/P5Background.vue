@@ -1,5 +1,5 @@
 <template>
-<div id="canvas" class="full-viewport fixed-background" :hidden="!enabled">
+<div id="canvas" class="full-viewport fixed-background" :hide="!enabled">
 </div>
 </template>
 
@@ -34,10 +34,6 @@ export default {
 	top: 0px;
 	left: 0px;
 	z-index: -9999999999;
-}
-
-#canvas[hidden] {
-	display: none;
 }
 
 </style>
