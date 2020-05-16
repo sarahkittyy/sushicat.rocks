@@ -60,6 +60,8 @@ export default {
 			if (name.length > 20) { return this.$snotify.warning('name too long ;w;', 'kitty is confused'); }
 			if (name.trim() === '') { return this.$snotify.warning('name gotta have letters', 'kitty is confused'); }
 			
+			name = name.trim();
+			
 			let i = newPats.findIndex(e => e.name === name);
 
 			if (i == -1) {
