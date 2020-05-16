@@ -40,7 +40,7 @@ const store = new Vuex.Store({
 				commit('setPatUsers', users);
 			})
 			.catch((err) => {
-				Vue.$snotify.error(err, 'error gettin pats');
+				Vue.$snotify.error('idk somethin bwoke tell sarah >w<', 'error gettin pats');
 			});
 		},
 		patAndUpdate({ commit }, { name }) {
@@ -56,7 +56,7 @@ const store = new Vuex.Store({
 				commit('updatePatUser', { name: json.name, pats: json.pats });
 			})
 			.catch(err => {
-				Vue.$snotify.error(err, 'cat petting error');
+				Vue.$snotify.error('give the kitty a bweak <3', 'cat petting error');
 			});
 		},
 	},
