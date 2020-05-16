@@ -20,7 +20,7 @@ export default {
 			this.running = true;
 			setTimeout(() => {
 				this.running = false;
-			}, 2000);
+			}, 300);
 		}
 	},
 };
@@ -38,7 +38,7 @@ export default {
 	width: 150px;
 	z-index: 99999999;
 	
-	animation: petter 2s linear 0s 1 alternate;
+	animation: petter 300ms linear 0s 1 alternate;
 }
 
 #kitty {
@@ -49,7 +49,7 @@ export default {
 	width: 100px;
 	z-index: 99999998;
 	
-	animation: petee 2s linear 0s 1 alternate;
+	animation: petee 300ms linear 0s 1 alternate;
 }
 
 @keyframes petter {
