@@ -3,6 +3,7 @@
 	<b-form-input
 		v-model="patName"
 		placeholder="ur name <3"
+		@keyup.enter="addPat"
 		class="name-input" />		
 	<simple-button
 		class="pat-button"
