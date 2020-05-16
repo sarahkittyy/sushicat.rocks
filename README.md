@@ -13,7 +13,7 @@ cp .env.example .env
 then launch vagrant :)
 
 ```
-vagrant up --provision-with dev
+vagrant up --provision-with deps,dev
 ```
 
 ## running the dev env
