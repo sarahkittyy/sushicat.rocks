@@ -38,6 +38,8 @@ export default {
 	top: 0;
 	left: 0;
 	
+	user-select: none;
+	
 	z-index: 99999997;
 }
 
