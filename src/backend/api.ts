@@ -17,7 +17,7 @@ api.get('/ratelimit/tokens', ratelimit(), (req, res) => {
 
 api.post('/pat', [
 	ratelimit(2),
-	check('name').isString().notEmpty().isLength({ max: 20 }).custom(value => { if (value.trim() !== value) throw new Error('Must contain non-whitespace characters.') }),
+	check('name').isString().notEmpty().isLength({ max: 20 }).custom(value => { if (value.trim() === '') throw new Error('Must contain non-whitespace characters.') }),
 	check('pats').optional().isInt({ lt: 20, gt: 0 }),
 ], async (req: Request, res: Response) => {
 	// validate
