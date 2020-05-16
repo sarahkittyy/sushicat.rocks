@@ -75,6 +75,7 @@ export default {
 	.name-input {
 		text-align: center;
 		font-size: 12pt;
+		border: 1px solid black;
 	}
 }
 
