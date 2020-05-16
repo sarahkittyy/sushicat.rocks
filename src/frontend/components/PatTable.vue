@@ -149,6 +149,12 @@ export default {
 	width: 25%;
 	padding: 10px;
 	
+	@media screen and (max-width: 720px) {
+		width: 100%;
+		margin: 0;
+		padding: 30px;
+	}
+	
 	.pat-button {
 		padding: 8px;
 		padding-left: 20px;

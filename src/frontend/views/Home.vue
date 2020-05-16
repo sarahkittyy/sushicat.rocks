@@ -2,8 +2,10 @@
 <div>
 	<header-divider height="125px">
 		<div class="container">
-			<spinning-sushicat dir="left" id="left" :maxheight="sushicatHeight" />
-			<spinning-sushicat dir="right" id="right" :maxheight="sushicatHeight" />
+			<span v-if="displaySushicats">
+				<spinning-sushicat dir="left" id="left" :maxheight="sushicatHeight" />
+				<spinning-sushicat dir="right" id="right" :maxheight="sushicatHeight" />
+			</span>
 			<div class="font-comic-sans" id="middle">
 				<h1>* sooshi cat *</h1>
 				<span>animate background?</span>
@@ -26,19 +28,32 @@ import SpinningSushicat from '../components/SpinningSushicat';
 import SimpleButton from '../components/SimpleButton';
 import PatTable from '../components/PatTable';
 
+import { debounce } from 'debounce';
+
 export default {
 	name: 'Home',
 	data() {
 		return {
-			sushicatHeight: 75,
 			backgroundVisible: true,
 			patName: '', 
+			sushicatHeight: 75,
+			displaySushicats: true,
 		};
 	},
 	methods: {
 		setBackgroundVisibility(val) {
 			this.backgroundVisible = val;
 		},
+		computeSushicatHeight: debounce(function () {
+			this.displaySushicats = true;
+			if (window.innerWidth >= 720) {
+				this.sushicatHeight = 75;
+			} else if (window.innerWidth >= 520) {
+				this.sushicatHeight = 75 * (window.innerWidth / 720);
+			} else {
+				this.displaySushicats = false;
+			}
+		}, 500),
 	},
 	components: {
 		HeaderDivider,
@@ -47,13 +62,13 @@ export default {
 		SimpleButton,
 		PatTable,
 	},
-	mounted() {
-		if (window.innerWidth < 480) {
-			this.setBackgroundVisibility(false);
-		}
-	},
 	created() {
 		this.$store.dispatch('updatePatUsers');
+		window.addEventListener('resize', this.computeSushicatHeight);
+		this.computeSushicatHeight();
+	},
+	destroyed() {
+		window.removeEventListener('resize', this.computeSushicatHeight);
 	}
 };
 </script>
@@ -63,14 +78,16 @@ export default {
 @import '../styles/common.scss';
 
 .container {
+	position: relative;
 	width: 100%;
 	
 	text-align: center;
 	justify-content: center;
 	
 	#left {
-		float: left;
+		position: absolute;
 		width: 200px;	
+		left: 3px;
 	}
 	
 	#middle {
@@ -79,8 +96,9 @@ export default {
 	}
 	
 	#right {
-		float: right;
+		position: absolute;
 		width: 200px;
+		right: 3px;
 	}
 }
 
