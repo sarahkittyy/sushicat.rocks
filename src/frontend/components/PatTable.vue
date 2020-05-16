@@ -9,6 +9,11 @@
 		@click="addPat">
 		commit cat pat &lt;3
 	</simple-button>
+	<simple-button
+		class="pat-button"
+		@click="updatePats">
+		update patboard o3o
+	</simple-button>
 	<div id="pat-box">
 		<table>
 			<tr>
@@ -21,12 +26,15 @@
 			</tr>
 		</table>
 	</div>
+	
+	<pat-anim />
 </div>
 </template>
 
 <script>
 
 import SimpleButton from '../components/SimpleButton';
+import PatAnim from '../components/PatAnim';
 
 export default {
 	name: 'PatTable',
@@ -60,6 +68,9 @@ export default {
 			}
 			
 			this.tempPats = [...newPats];
+		},
+		updatePats() {
+			this.$store.dispatch('updatePatUsers');	
 		},
 		/// push all temporary front-end pats to the db
 		pushPats() {
@@ -100,6 +111,7 @@ export default {
 	},
 	components: {
 		SimpleButton,
+		PatAnim,
 	},
 };
 
@@ -110,6 +122,9 @@ export default {
 @import '../styles/common.scss';
 
 #pats {
+	*:not(table) {
+		margin-top: 12px;
+	}
 	margin: 30px;
 	display: flexbox;
 
@@ -121,8 +136,6 @@ export default {
 	padding: 10px;
 	
 	.pat-button {
-		margin: 12px;
-
 		padding: 8px;
 		padding-left: 20px;
 		padding-right: 20px;

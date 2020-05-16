@@ -41,7 +41,7 @@ function ratelimit(usage: number = 1): (req: Request, res: Response, next: NextF
 		req.session.bucket = bucket;
 		
 		if (bucket.tokens <= 0) {
-			return res.status(429).send('Too many requests! Try slowing down <3');
+			return res.status(429).send({ errors: ['Too many requests! Try slowing down <3'] });
 		} else {
 			return next();
 		}

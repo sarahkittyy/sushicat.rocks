@@ -40,7 +40,11 @@ const store = new Vuex.Store({
 				commit('setPatUsers', users);
 			})
 			.catch((err) => {
-				Vue.$snotify.error('idk somethin bwoke tell sarah >w<', 'error gettin pats');
+				if (err.status === 429) {
+					Vue.$snotify.error('ur doin it rly fast plz slow down', 'error gettin pats');
+				} else {
+					Vue.$snotify.error('idk somethin bwoke tell sarah >w<', 'error gettin pats');
+				}
 				console.error(err);
 			});
 		},
