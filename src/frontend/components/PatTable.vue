@@ -12,7 +12,8 @@
 	<br />
 	<simple-button
 		class="pat-button"
-		@click="updatePats">
+		@click="updatePats"
+		:disabled="disableUpdate">
 		update patboard o3o
 	</simple-button>
 	<div id="pat-box">
@@ -28,7 +29,7 @@
 		</table>
 	</div>
 	
-	<pat-anim />
+	<pat-anim ref="patAnim" />
 </div>
 </template>
 
@@ -44,6 +45,7 @@ export default {
 			patName: '',
 			disabled: false,
 			tempPats: [],
+			disableUpdate: false,
 		};
 	},
 	methods: {
@@ -65,13 +67,18 @@ export default {
 					this.$snotify.warning('kitty needs time to vibe <3', 'slow down >//<');
 				} else {
 					newPats[i].pats += 1;
+					this.$refs.patAnim.run();
 				}
 			}
 			
 			this.tempPats = [...newPats];
 		},
 		updatePats() {
+			this.disableUpdate = true;
 			this.$store.dispatch('updatePatUsers');	
+			setTimeout(() => {
+				this.disableUpdate = false;
+			}, 2000);
 		},
 		/// push all temporary front-end pats to the db
 		pushPats() {

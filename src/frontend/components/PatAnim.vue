@@ -1,6 +1,7 @@
 <template>
-<div class="font-comic-sans absolute-right">
-	
+<div v-if="running">
+	<img src="/assets/hand.png" id="hand" />
+	<img src="/assets/kitty.png" id="kitty" />
 </div> 
 </template>
 
@@ -9,9 +10,19 @@ export default {
 	name: 'PatAnim',
 	data() {
 		return {
-			
+			running: false,
 		};
-	}
+	},
+	methods: {
+		run() {
+			if (this.running) return;
+			
+			this.running = true;
+			setTimeout(() => {
+				this.running = false;
+			}, 2000);
+		}
+	},
 };
 </script>
 
@@ -19,17 +30,38 @@ export default {
 
 @import '../styles/common.scss';
 
-.absolute-right {
+#hand {
 	position: absolute;
+	top: 10%;
+	right: -4%;
 	
+	width: 150px;
+	z-index: 99999999;
+	
+	animation: petter 2s linear 0s 1 alternate;
+}
+
+#kitty {
+	position: absolute;
+	top: 15%;
+	right: 0%;
+	
+	width: 100px;
+	z-index: 99999998;
+	
+	animation: petee 2s linear 0s 1 alternate;
 }
 
 @keyframes petter {
-	
+	0% {
+		transform: rotate(0deg);
+	}
+	50% {
+		transform: rotate(-40deg);
+	}
 }
 
 @keyframes petee {
-
 }
 
 </style>
