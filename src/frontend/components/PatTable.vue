@@ -53,7 +53,7 @@ export default {
 			let name = this.patName;
 			
 			if (name.length == 0) { return this.$snotify.warning('kitty gotta know who pettin her ;-;', 'kitty is confused'); }
-			if (name.length >= 20) { return this.$snotify.warning('name too long ;w;', 'kitty is confused'); }
+			if (name.length > 20) { return this.$snotify.warning('name too long ;w;', 'kitty is confused'); }
 			
 			let i = newPats.findIndex(e => e.name === name);
 
