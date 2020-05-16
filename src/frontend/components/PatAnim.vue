@@ -22,7 +22,7 @@ export default {
 				this.running = false;
 			}, 300);
 		}
-	},
+	}
 };
 </script>
 
@@ -40,7 +40,7 @@ export default {
 	
 	user-select: none;
 	
-	z-index: 99999997;
+	z-index: -99999999;
 }
 
 #hand {
@@ -49,7 +49,7 @@ export default {
 	right: -4%;
 	
 	width: 150px;
-	z-index: 99999999;
+	z-index: -99999997;
 	
 	animation: petter 300ms linear 0s 1 alternate;
 }
@@ -60,7 +60,7 @@ export default {
 	right: 0%;
 	
 	width: 100px;
-	z-index: 99999998;
+	z-index: -99999998;
 	
 	animation: petee 300ms linear 0s 1 alternate;
 }
