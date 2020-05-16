@@ -17,7 +17,7 @@ api.get('/ratelimit/tokens', ratelimit(), (req, res) => {
 
 api.post('/pat', [
 	ratelimit(2),
-	check('name').isString().notEmpty().isLength({ max: 20 }).custom(value => value.trim() !== value),
+	check('name').isString().notEmpty().isLength({ max: 20 }).custom(value => value.trim() === value),
 	check('pats').optional().isInt({ lt: 20, gt: 0 }),
 ], async (req: Request, res: Response) => {
 	// validate
