@@ -1,7 +1,6 @@
 import Vue from 'vue';
 
 import VueRouter from 'vue-router';
-import LoadScript from 'vue-plugin-load-script';
 import Snotify, { SnotifyPosition } from 'vue-snotify';
 
 import 'vue-snotify/styles/simple.css';
@@ -12,7 +11,6 @@ import router from './router';
 Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
-Vue.use(LoadScript);
 Vue.use(Snotify, {
 	toast: {
 		position: SnotifyPosition.rightBottom,

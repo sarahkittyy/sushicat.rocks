@@ -62,7 +62,7 @@ function setup() {
 
 function draw() {
 	// if the canvas is hidden, do not render
-	if (document.querySelector('#canvas').hasAttribute('hide')) return;
+	if (document.querySelector('#canvas').hasAttribute('hidden')) return;
 	
 	// resize the canvas
 	let { innerWidth, innerHeight } = window;
