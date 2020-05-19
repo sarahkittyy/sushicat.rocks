@@ -1,5 +1,3 @@
-import Vue from 'vue';
-
 import fetch from 'node-fetch';
 import { validateCode } from '../utils/fetch';
 
@@ -17,9 +15,17 @@ function fetchPatUsers() {
 		})
 		.catch((err) => {
 			if (err.status === 429) {
-				reject({ message: 'ur doin it rly fast plz slow down', error: 'ewwow gettin pats'});
+				reject({ 
+					message: 'ur doin it rly fast plz slow down',
+					error: 'ewwow gettin pats',
+					status: err.status,
+				});
 			} else {
-				reject({ message: 'idk somethin bwoke tell sarah >w<', error: 'ewwow gettin pats'});
+				reject({
+					message: 'idk somethin bwoke tell sarah >w<',
+					error: 'ewwow gettin pats',
+					status: err.status,
+				});
 			}
 		});
 	});
@@ -49,12 +55,14 @@ function postPatAndUpdate(name, pats) {
 					if (name.length === 0) {
 						reject({
 							message: 'kitty gotta know who pettin her ;-;',
-							error: 'kitty is confused'
+							error: 'kitty is confused',
+							status: err.status,
 						});
 					} else {
 						reject({
 							message: 'name too long ;w;',
-							error: 'kitty is confused'
+							error: 'kitty is confused',
+							status: err.status,
 						});
 					}
 				// it must be the amount of pets, then >w<
@@ -62,6 +70,7 @@ function postPatAndUpdate(name, pats) {
 					reject({
 						message: 'too many pets!!?!?!??',
 						error: 'kitty is SHOOK',
+						status: err.status,
 					});
 				}
 			}

@@ -80,7 +80,7 @@ export default {
 		},
 		updatePats() {
 			this.disableUpdate = true;
-			this.$store.dispatch('updatePatUsers');	
+			this.$store.dispatch('fetchPatUsers');	
 			setTimeout(() => {
 				this.disableUpdate = false;
 			}, 2000);
@@ -90,7 +90,7 @@ export default {
 			if (this.tempPats.length == 0) return;
 			
 			for (let user of this.tempPats) {
-				this.$store.dispatch('patAndUpdate', user);
+				this.$store.dispatch('postPatAndUpdate', user);
 			}
 			this.tempPats = [];
 		},

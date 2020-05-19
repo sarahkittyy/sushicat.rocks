@@ -4,10 +4,12 @@ import { ratelimit } from '../util/Bucket';
 import { body, query, validationResult } from 'express-validator';
 
 import { PatUser, PatUserSchema } from '../db/models/PatUser';
+import { incArf, getArfs } from './arfs';
 
 const api = express.Router();
 
 api.get('/', ratelimit(), (req, res) => {
+	console.log('nyah...');
 	return res.send('api v1 <3');
 });
 
@@ -53,8 +55,20 @@ api.get('/pat', [
 	} else {
 		return res.send(await PatUser.allUsers());
 	}
-	
 });
+
+api.route('/arf')
+	.post(ratelimit(), async (req, res) => {
+		if (req.session.hasArfed) {
+			return res.send({ arfs: await getArfs() });
+		} else {
+			req.session.hasArfed = true;
+			return res.send({ arfs: await incArf() });
+		}
+	})
+	.get(ratelimit(), async (req, res) => {
+		return res.send({ arfs: await getArfs() });
+	});
 
 api.all('**', ratelimit(), (req, res) => {
 	return res.status(404).send('api endpoint not found ;-;');

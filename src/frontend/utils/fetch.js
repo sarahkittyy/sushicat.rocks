@@ -2,12 +2,14 @@
 
 async function validateCode(response) {
 	if (!response.ok) {
-		throw {...(await response.json()), status: response.status};
+		if (response.headers.get("content-type").indexOf("application/json") !== -1) {
+			throw {...(await response.json()), status: response.status};
+		} else {
+			throw { response, status: response.status };
+		}
 	} else {
 		return response;
 	}
 };
 
-module.exports = {
-	validateCode
-};
+export { validateCode };

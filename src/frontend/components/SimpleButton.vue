@@ -20,6 +20,7 @@ export default {
 	border-radius: 12px;
 	text-align: center;
 	outline: none;
+	padding: 8px;
 	
 	&:hover {
 		background-color: #999;

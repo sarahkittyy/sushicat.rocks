@@ -1,22 +1,21 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
-import fetch from 'node-fetch';
-import { validateCode } from '../utils/fetch';
-
-import { fetchPatUsers, postPatAndUpdate } from './pats';
+import * as pat from './pats';
+import * as arf from './arf';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
 	state: {
 		patUsers: [],
+		totalArfs: 0,
 	},
 	mutations: {
 		setPatUsers(state, users) {
 			state.patUsers = users;
 		},
-		updatePatUser(state, user) {
+		setPatUser(state, user) {
 			let users = [...state.patUsers];
 
 			let i = users.findIndex(e => e.name === user.name);
@@ -26,23 +25,42 @@ const store = new Vuex.Store({
 				users.push(user);
 			}
 			
-			state.patUsers = [...users];		
+			state.patUsers = [...users];
+		},
+		setTotalArfs(state, arfs) {
+			state.totalArfs = arfs;
 		},
 	},
 	actions: {
-		updatePatUsers({ commit }) {
-			fetchPatUsers()
+		fetchPatUsers({ commit }) {
+			pat.fetchPatUsers()
 			.then((users) => {
 				commit('setPatUsers', users);
 			})
 			.catch(({ error, message }) => Vue.$snotify.error(message, error));
 		},
-		patAndUpdate({ commit }, { name, pats }) {
-			postPatAndUpdate(name, pats)
+		postPatAndUpdate({ commit }, { name, pats }) {
+			pat.postPatAndUpdate(name, pats)
 			.then(user => {
-				commit('updatePatUser', user);
+				commit('setPatUser', user);
 			})
 			.catch(({message, error}) => Vue.$snotify.error(message, error));
+		},
+		postArf({ commit }) {
+			arf.postArf()
+			.then(({ arfs }) => commit('setTotalArfs', arfs))
+			.catch(({error, message, status}) => {
+				if (status != 400) {
+					Vue.$snotify.error(message, error);
+				}
+			});
+		},
+		fetchArfs({ commit }) {
+			arf.fetchArfs()
+			.then(({ arfs }) => commit('setTotalArfs', arfs))
+			.catch(({error, message}) => {
+				Vue.$snotify.error(message, error);
+			});
 		},
 	},
 	getters: {
@@ -51,6 +69,9 @@ const store = new Vuex.Store({
 		},
 		patsUnsorted(state) {
 			return state.patUsers;
+		},
+		arfs(state) {
+			return state.totalArfs;
 		}
 	},
 });

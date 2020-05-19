@@ -65,7 +65,7 @@ export default {
 		ToggleSwitch,
 	},
 	created() {
-		this.$store.dispatch('updatePatUsers');
+		this.$store.dispatch('fetchPatUsers');
 		window.addEventListener('resize', this.computeSushicatHeight);
 		this.computeSushicatHeight();
 	},
