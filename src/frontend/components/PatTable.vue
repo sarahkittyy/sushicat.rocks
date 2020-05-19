@@ -1,10 +1,9 @@
 <template>
 <div id="pats" class="font-comic-sans">
-	<b-form-input
+	<text-input
 		v-model="patName"
 		placeholder="ur name <3"
-		@keyup.enter="addPat"
-		class="name-input" />		
+		@keyup.native.enter="addPat" />
 	<simple-button
 		class="pat-button"
 		@click="addPat">
@@ -38,6 +37,7 @@
 
 import SimpleButton from '../components/SimpleButton';
 import PatAnim from '../components/PatAnim';
+import TextInput from '../components/TextInput';
 
 export default {
 	name: 'PatTable',
@@ -125,6 +125,7 @@ export default {
 	components: {
 		SimpleButton,
 		PatAnim,
+		TextInput,
 	},
 };
 
@@ -161,12 +162,6 @@ export default {
 		padding-right: 20px;
 
 		border-width: 1px;
-	}
-	
-	.name-input {
-		text-align: center;
-		font-size: 12pt;
-		border: 1px solid black;
 	}
 }
 

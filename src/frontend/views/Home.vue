@@ -9,7 +9,7 @@
 			<div class="font-comic-sans" id="middle">
 				<h1>* sooshi cat *</h1>
 				<span>animate background?</span>
-				<b-form-checkbox v-model="backgroundVisible" switch />
+				<toggle-switch v-model="backgroundVisible" />
 			</div>
 		</div>
 	</header-divider>
@@ -27,6 +27,7 @@ import P5Background from '../components/P5Background';
 import SpinningSushicat from '../components/SpinningSushicat';
 import SimpleButton from '../components/SimpleButton';
 import PatTable from '../components/PatTable';
+import ToggleSwitch from '../components/ToggleSwitch';
 
 import { debounce } from 'debounce';
 
@@ -61,6 +62,7 @@ export default {
 		SpinningSushicat,
 		SimpleButton,
 		PatTable,
+		ToggleSwitch,
 	},
 	created() {
 		this.$store.dispatch('updatePatUsers');
