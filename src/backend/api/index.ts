@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
 
-import { ratelimit } from './util/Bucket';
+import { ratelimit } from '../util/Bucket';
 import { body, query, validationResult } from 'express-validator';
 
-import { PatUser, PatUserSchema } from './db/models/PatUser';
+import { PatUser, PatUserSchema } from '../db/models/PatUser';
 
 const api = express.Router();
 
