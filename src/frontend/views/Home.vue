@@ -16,6 +16,10 @@
 	
 	<pat-table />
 	
+	<corner-info id="corner-toast">
+		<img src="/assets/github.png" id="github-link" @click="toGithub" />	
+	</corner-info>
+
 	<p5-background :enabled="backgroundVisible" />
 	<vue-snotify />
 </div>
@@ -28,6 +32,7 @@ import SpinningSushicat from '../components/SpinningSushicat';
 import SimpleButton from '../components/SimpleButton';
 import PatTable from '../components/PatTable';
 import ToggleSwitch from '../components/ToggleSwitch';
+import CornerInfo from '../components/CornerInfo';
 
 import { debounce } from 'debounce';
 
@@ -44,6 +49,9 @@ export default {
 	methods: {
 		setBackgroundVisibility(val) {
 			this.backgroundVisible = val;
+		},
+		toGithub() {
+			window.location = 'https://github.com/sarahkittyy/sushicat.rocks';	
 		},
 		computeSushicatHeight: debounce(function () {
 			this.displaySushicats = true;
@@ -63,6 +71,7 @@ export default {
 		SimpleButton,
 		PatTable,
 		ToggleSwitch,
+		CornerInfo,
 	},
 	created() {
 		this.$store.dispatch('fetchPatUsers');
@@ -105,6 +114,20 @@ export default {
 		position: absolute;
 		width: 200px;
 		right: 3px;
+	}
+}
+
+#corner-toast {
+	#github-link {
+		max-width: 32px;
+		
+		&:hover {
+			max-width: 38px;
+		}
+		
+		&:active {
+			max-width: 36px;
+		}
 	}
 }
 
