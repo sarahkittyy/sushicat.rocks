@@ -3,7 +3,8 @@
 		"allowJs": true,
 		"outDir": "build/backend",
 		"allowSyntheticDefaultImports": true,
-		"esModuleInterop": true
+		"esModuleInterop": true,
+		"moduleResolution": "node"
 	},
 	"exclude": [
 		"node_modules"
