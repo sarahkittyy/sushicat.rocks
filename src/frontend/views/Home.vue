@@ -92,7 +92,11 @@ export default {
 	
 	#middle {
 		margin: 0 auto;
-		width: 500px
+		width: 500px;
+		
+		@media (max-width: 520px) {
+			width: auto;
+		}
 	}
 	
 	#right {

@@ -17,6 +17,7 @@ export default {
 
 .header {
 	width: 100%;
+	
 	text-align: center;
 	border-bottom: 1px solid black;
 	padding-top: 10px;
