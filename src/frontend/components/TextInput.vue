@@ -33,6 +33,7 @@ export default {
 	border-radius: 5px;
 	border: 2px solid transparent;
 	outline: none;
+	text-align: center;
 	
 	transition: all 0.3s;
 	
