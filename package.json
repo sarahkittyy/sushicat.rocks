@@ -9,8 +9,8 @@
     "backend": "tsc-watch --onSuccess 'node build/backend/index.js'",
     "serve": "pm2 start pm2.config.json",
     "prod": "vue-cli-service build --mode production && tsc && node .",
-		"prod-pm2": "pm2 start pm2.config.prod.json",
-		"stop-pm2": "pm2 stop all"
+    "prod-pm2": "pm2 start pm2.config.prod.json",
+    "stop-pm2": "pm2 stop all"
   },
   "author": "Sarah Ohlin",
   "license": "MIT",
@@ -33,6 +33,7 @@
     "node-sass": "^4.14.1",
     "pm2": "^4.4.0",
     "sass-loader": "^8.0.2",
+    "tsc": "^1.20150623.0",
     "tsc-watch": "^4.2.3",
     "typescript": "^3.8.3",
     "vue-plugin-load-script": "^1.2.0",
