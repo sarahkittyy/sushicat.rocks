@@ -63,6 +63,7 @@ api.route('/arf')
 			return res.send({ arfs: await getArfs() });
 		} else {
 			req.session.hasArfed = true;
+			req.session.save(console.error);
 			return res.send({ arfs: await incArf() });
 		}
 	})
