@@ -1,7 +1,5 @@
 <template>
-<div id="background" :style="backgroundStyle">
-	<div id="canvas" class="full-viewport fixed-background" :hidden="!enabled">
-	</div>
+<div id="canvas" class="full-viewport fixed-background" :hide="!enabled">
 </div>
 </template>
 
@@ -18,15 +16,6 @@ export default {
 	},
 	props: {
 		enabled: Boolean,
-	},
-	computed: {
-		backgroundStyle() {
-			if (this.canvas && this.canvas.hasAttribute('hidden')) {
-				return 'background-color: #969696';
-			} else {
-				return '';
-			}
-		},
 	},
 	mounted() {
 		const script = function (p5) {
@@ -94,7 +83,10 @@ export default {
 
 			p5.draw = function () {
 				// if the canvas is hidden, do not render
-				if (document.querySelector('#canvas').hasAttribute('hide')) return;
+				if (document.querySelector('#canvas').hasAttribute('hide')) {
+					p5.background(220);
+					return;
+				}
 				
 				// resize the canvas
 				let { innerWidth, innerHeight } = window;
@@ -139,6 +131,9 @@ export default {
 	top: 0px;
 	left: 0px;
 	z-index: -9999999999;
+	
+	&[hide] {
+	}
 }
 
 </style>
