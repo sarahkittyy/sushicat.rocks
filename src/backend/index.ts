@@ -3,7 +3,10 @@ import express from 'express';
 import session from 'express-session';
 import appRoot from 'app-root-path';
 import moment from 'moment';
+import connectMongo from 'connect-mongo';
+const MongoStore = connectMongo(session);
 
+import mongoose from 'mongoose';
 import './db/init';
 
 import api from './api';
@@ -14,6 +17,10 @@ app.use(session({
 	secret: process.env.SECRET,
 	saveUninitialized: false,
 	resave: false,
+	store: new MongoStore({
+		mongooseConnection: mongoose.connection,
+		secret: process.env.SECRET,
+	}),
 }));
 
 /// app request logger
