@@ -13,7 +13,7 @@
 
 <script>
 
-import SimpleButton from '../components/SimpleButton';
+import SimpleButton from '~/SimpleButton';
 
 export default {
 	name: 'Arf',
@@ -41,7 +41,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../styles/common.scss';
+@import '~@/common.scss';
 
 #arf-container {
 	width: 100%;

@@ -35,9 +35,9 @@
 
 <script>
 
-import SimpleButton from '../components/SimpleButton';
-import PatAnim from '../components/PatAnim';
-import TextInput from '../components/TextInput';
+import SimpleButton from '~/SimpleButton';
+import PatAnim from '~/PatAnim';
+import TextInput from '~/TextInput';
 
 export default {
 	name: 'PatTable',

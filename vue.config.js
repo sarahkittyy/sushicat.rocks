@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
 	outputDir: 'build/frontend',
 	pages: {
@@ -22,4 +24,12 @@ module.exports = {
 		},
 		writeToDisk: true,
 	},
+	configureWebpack: {
+		resolve: {
+			alias: {
+				'~': path.resolve(__dirname, 'src/frontend/components'),
+				'@': path.resolve(__dirname, 'src/frontend/styles'),
+			}
+		}
+	}
 };

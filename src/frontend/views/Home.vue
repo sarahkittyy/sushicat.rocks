@@ -14,7 +14,13 @@
 		</div>
 	</header-divider>
 	
-	<pat-table />
+
+	<div class="content">
+		<pat-table />
+		<nav-list>
+			
+		</nav-list>
+	</div>
 	
 	<corner-info id="corner-toast">
 		<img src="/assets/github.png" id="github-link" @click="toGithub" />	
@@ -26,13 +32,14 @@
 </template>
 
 <script>
-import HeaderDivider from '../components/HeaderDivider';
-import P5Background from '../components/P5Background';
-import SpinningSushicat from '../components/SpinningSushicat';
-import SimpleButton from '../components/SimpleButton';
-import PatTable from '../components/PatTable';
-import ToggleSwitch from '../components/ToggleSwitch';
-import CornerInfo from '../components/CornerInfo';
+import HeaderDivider from '~/HeaderDivider';
+import P5Background from '~/P5Background';
+import SpinningSushicat from '~/SpinningSushicat';
+import SimpleButton from '~/SimpleButton';
+import PatTable from '~/PatTable';
+import ToggleSwitch from '~/ToggleSwitch';
+import CornerInfo from '~/CornerInfo';
+import AppList from '~/AppList';
 
 import { debounce } from 'debounce';
 
@@ -72,6 +79,7 @@ export default {
 		PatTable,
 		ToggleSwitch,
 		CornerInfo,
+		AppList
 	},
 	created() {
 		this.$store.dispatch('fetchPatUsers');
@@ -87,6 +95,24 @@ export default {
 <style lang="scss" scoped>
 
 @import '../styles/common.scss';
+
+.content {
+	display: flex;
+	
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: stretch;
+	
+	@media (max-width: 520px) {
+		flex-direction: column;
+	}
+	
+	width: 100%;
+	
+	* {
+		flex: 1;
+	}
+}
 
 .container {
 	position: relative;

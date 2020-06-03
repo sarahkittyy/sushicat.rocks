@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import SimpleButton from '../components/SimpleButton';
+import SimpleButton from '~/SimpleButton';
 
 export default {
 	name: 'NotFound',
