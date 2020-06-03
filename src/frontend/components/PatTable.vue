@@ -133,7 +133,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '~@/common';
+@use '~@/common';
 
 #pats {
 	*:not(table) {
@@ -177,7 +177,7 @@ export default {
 		border-style: hidden;
 		border-spacing: 0;
 		
-		background: #aaa;
+		background: common.$grey;
 		
 		* {
 			padding: 10px;

@@ -95,7 +95,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '~@/common';
+@use '~@/common';
 
 .content {
 	display: flex;

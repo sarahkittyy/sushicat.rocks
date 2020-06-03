@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '~@/common';
+@use '~@/common';
 
 $width: 40px;
 $height: $width / 2;

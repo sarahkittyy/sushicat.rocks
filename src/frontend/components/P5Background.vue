@@ -117,7 +117,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '~@/common';
+@use '~@/common';
 
 .full-viewport {
 	width: 100%;

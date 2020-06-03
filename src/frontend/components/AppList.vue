@@ -1,6 +1,6 @@
 <template>
 <div class="container">
-	
+	<slot />
 </div>
 </template>
 
@@ -12,10 +12,16 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '~@/common';
+@use '~@/common';
 
 .container {
+	display: flex;
 
+	width: 100%;
+	
+	justify-content: center;
+	
+	border: 2px solid 
 }
 
 </style>
