@@ -150,7 +150,7 @@ export default {
 	width: 25%;
 	padding: 10px;
 	
-	@media screen and (max-width: 520px) {
+	@media screen and (max-width: common.$small-width) {
 		width: 100%;
 		margin: 0px;
 		padding: 0px;

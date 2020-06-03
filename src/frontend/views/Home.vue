@@ -109,7 +109,7 @@ export default {
 
 	width: calc(100% - 60px);
 	
-	@media (max-width: 520px) {
+	@media (max-width: common.$small-width) {
 		flex-direction: column;
 		margin: 0px;
 		margin-top: 10px;
@@ -139,7 +139,7 @@ export default {
 		margin: 0 auto;
 		width: 500px;
 		
-		@media (max-width: 520px) {
+		@media (max-width: common.$small-width) {
 			width: auto;
 		}
 	}

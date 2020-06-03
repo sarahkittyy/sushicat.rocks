@@ -37,7 +37,7 @@ export default {
 	
 	margin: 30px;
 	
-	@media (max-width: 520px) {
+	@media (max-width: common.$small-width) {
 		margin: 0px;
 		
 		margin-top: 20px;
