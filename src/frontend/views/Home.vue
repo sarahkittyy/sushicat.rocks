@@ -17,10 +17,18 @@
 
 	<div class="content">
 		<pat-table />
-		<app-list heading="navigate <3">
-			<list-item to="/arf">arf!</list-item>
-		</app-list>
 	</div>
+	
+	<corner-nav>
+		<template v-slot:small>
+			nav &lt;3
+		</template>
+		<template v-slot:large>
+			<app-list heading="navigation <3" text-only>
+				<list-item to="/arf">arf! &lt;3</list-item>
+			</app-list>
+		</template>
+	</corner-nav>
 	
 	<corner-info id="corner-toast">
 		<img src="/assets/github.png" id="github-link" @click="toGithub" />	
@@ -39,6 +47,7 @@ import SimpleButton from '~/SimpleButton';
 import PatTable from '~/PatTable';
 import ToggleSwitch from '~/ToggleSwitch';
 import CornerInfo from '~/CornerInfo';
+import CornerNav from '~/CornerNav';
 import AppList from '~/AppList';
 import ListItem from '~/ListItem';
 
@@ -80,8 +89,9 @@ export default {
 		PatTable,
 		ToggleSwitch,
 		CornerInfo,
+		CornerNav,
 		AppList,
-		ListItem
+		ListItem,
 	},
 	created() {
 		this.$store.dispatch('fetchPatUsers');

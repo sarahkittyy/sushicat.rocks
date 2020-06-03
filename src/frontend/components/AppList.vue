@@ -1,5 +1,5 @@
 <template>
-<div class="list-content font-comic-sans">
+<div :class="classList">
 	<h2>{{ heading }}</h2>
 	<ul>
 		<slot />
@@ -12,6 +12,12 @@ export default {
 	name: 'AppList',
 	props: {
 		heading: String,
+		textOnly: Boolean,
+	},
+	computed: {
+		classList() {
+			return 'list-content font-comic-sans' + (this.textOnly ? '' : ' border');
+		}
 	}
 };
 </script>
@@ -31,17 +37,18 @@ export default {
 	
 	flex-direction: column;
 	
-	border: 1px solid black;
-	background-color: common.$grey;
-	
-	border-radius: 20px;
-	
-	margin: 30px;
-	
-	@media (max-width: common.$small-width) {
-		margin: 0px;
+	.border {
+		border: 1px solid black;
+		background-color: common.$grey;
 		
-		margin-top: 20px;
+		border-radius: 20px;
+		margin: 30px;
+
+		@media (max-width: common.$small-width) {
+			margin: 0px;
+			
+			margin-top: 20px;
+		}
 	}
 	
 	* {
