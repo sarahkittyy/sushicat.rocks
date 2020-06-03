@@ -12,7 +12,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../styles/common.scss';
+@import '~@/common';
 
 .fixed-bottom-left {
 	position: fixed;

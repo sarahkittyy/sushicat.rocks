@@ -133,7 +133,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../styles/common.scss';
+@import '~@/common';
 
 #pats {
 	*:not(table) {

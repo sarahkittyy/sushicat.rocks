@@ -28,7 +28,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../styles/common.scss';
+@import '~@/common';
 
 .enclosing {
 	position: absolute;

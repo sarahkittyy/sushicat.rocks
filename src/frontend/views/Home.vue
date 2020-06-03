@@ -17,9 +17,9 @@
 
 	<div class="content">
 		<pat-table />
-		<nav-list>
-			
-		</nav-list>
+		<app-list head="navigate <3">
+			<list-item> </list-item>
+		</app-list>
 	</div>
 	
 	<corner-info id="corner-toast">
@@ -40,6 +40,7 @@ import PatTable from '~/PatTable';
 import ToggleSwitch from '~/ToggleSwitch';
 import CornerInfo from '~/CornerInfo';
 import AppList from '~/AppList';
+import ListItem from '~/AppList';
 
 import { debounce } from 'debounce';
 
@@ -94,7 +95,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../styles/common.scss';
+@import '~@/common';
 
 .content {
 	display: flex;

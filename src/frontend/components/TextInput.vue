@@ -26,7 +26,7 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '../styles/common.scss';
+@import '~@/common';
 
 .input {
 	padding: 10px;
