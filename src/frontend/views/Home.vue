@@ -17,8 +17,8 @@
 
 	<div class="content">
 		<pat-table />
-		<app-list head="navigate <3">
-			<list-item> </list-item>
+		<app-list heading="navigate <3">
+			<list-item to="/arf">arf!</list-item>
 		</app-list>
 	</div>
 	
@@ -40,7 +40,7 @@ import PatTable from '~/PatTable';
 import ToggleSwitch from '~/ToggleSwitch';
 import CornerInfo from '~/CornerInfo';
 import AppList from '~/AppList';
-import ListItem from '~/AppList';
+import ListItem from '~/ListItem';
 
 import { debounce } from 'debounce';
 
@@ -80,7 +80,8 @@ export default {
 		PatTable,
 		ToggleSwitch,
 		CornerInfo,
-		AppList
+		AppList,
+		ListItem
 	},
 	created() {
 		this.$store.dispatch('fetchPatUsers');
@@ -103,16 +104,22 @@ export default {
 	flex-wrap: nowrap;
 	justify-content: center;
 	align-items: stretch;
+
+	margin: 30px;
+
+	width: calc(100% - 60px);
 	
 	@media (max-width: 520px) {
 		flex-direction: column;
+		margin: 0px;
+		margin-top: 10px;
+		width: 100%;
 	}
-	
-	width: 100%;
 	
 	* {
 		flex: 1;
 	}
+	
 }
 
 .container {
