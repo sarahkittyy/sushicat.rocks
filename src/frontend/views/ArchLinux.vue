@@ -1,7 +1,13 @@
 <template>
 <div class="arch-container">
 	<div id="terminal">
-		<span v-for="(line, index) in textLines"class="text output">{{ line }}<br v-if="index != (textLines.length - 1)" /></span>
+		<span
+			v-for="(line, index) in textLines"
+			class="text output"
+		>
+			{{ line }}
+			<br v-if="index != (textLines.length - 1)" />
+		</span>
 		<input 
 			ref="input"
 			class="text input-hide"
