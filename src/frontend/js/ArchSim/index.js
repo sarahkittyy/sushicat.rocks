@@ -1,3 +1,5 @@
+import { FS } from './fs';
+
 //! load all 'binary' files from ./bin
 function loadBinaries() {
 	let bins = {};
@@ -18,7 +20,8 @@ export default class ArchSim {
 		
 		this.bin = loadBinaries();
 		
-		this.cwd = '/home/arch';
+		this.fs = new FS(this);
+		this.fs.to('home/arch');
 	}
 	
 	PS1() {
@@ -30,7 +33,7 @@ export default class ArchSim {
 	}
 	
 	cwdPretty() {
-		return this.cwd.replace(/\/home\/arch\//, '~/').replace(/\/home\/arch$/, '~');
+		return this.fs.cwd().replace(/\/home\/arch\//, '~/').replace(/\/home\/arch$/, '~');
 	}
 	
 	// send command, returns response
