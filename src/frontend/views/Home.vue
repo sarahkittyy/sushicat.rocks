@@ -30,9 +30,9 @@
 		</template>
 	</corner-nav>
 	
-	<corner-info id="corner-toast">
+	<corner-links id="corner-toast">
 		<img src="/assets/github.png" id="github-link" @click="toGithub" />	
-	</corner-info>
+	</corner-links>
 
 	<p5-background :enabled="backgroundVisible" />
 	<vue-snotify />
@@ -46,7 +46,7 @@ import SpinningSushicat from '~/SpinningSushicat';
 import SimpleButton from '~/SimpleButton';
 import PatTable from '~/PatTable';
 import ToggleSwitch from '~/ToggleSwitch';
-import CornerInfo from '~/CornerInfo';
+import CornerLinks from '~/CornerLinks';
 import CornerNav from '~/CornerNav';
 import AppList from '~/AppList';
 import ListItem from '~/ListItem';
@@ -88,7 +88,7 @@ export default {
 		SimpleButton,
 		PatTable,
 		ToggleSwitch,
-		CornerInfo,
+		CornerLinks,
 		CornerNav,
 		AppList,
 		ListItem,
@@ -172,6 +172,8 @@ export default {
 		&:active {
 			max-width: 36px;
 		}
+		
+		transition: all 200ms;
 	}
 }
 
