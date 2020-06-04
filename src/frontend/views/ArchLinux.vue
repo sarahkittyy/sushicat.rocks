@@ -10,6 +10,7 @@
 			@blur="refocus"
 			@keydown.enter="submit"
 			:style="inputWidth"
+			:maxlength="80"
 		>
 		</input>
 	</div>
@@ -105,6 +106,8 @@ export default {
 	padding: none;
 	background: none;
 	text-decoration: none;
+	
+	max-width: 80%;
 }
 
 .output {
