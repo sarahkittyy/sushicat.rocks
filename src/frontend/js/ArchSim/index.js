@@ -17,14 +17,20 @@ export default class ArchSim {
 		this.history = [];
 		
 		this.bin = loadBinaries();
+		
+		this.cwd = '/home/arch';
 	}
 	
 	PS1() {
-		return `[arch@arch] ~ $ `;
+		return `[arch@arch] ${this.cwdPretty()} $ `;
 	}
 	
 	bootup() {
 		return `Arch (tty1)\n\nLogin as: arch (automatic login)\n${this.PS1()}`;
+	}
+	
+	cwdPretty() {
+		return this.cwd.replace(/\/home\/arch\//, '~/').replace(/\/home\/arch$/, '~');
 	}
 	
 	// send command, returns response
@@ -44,6 +50,6 @@ export default class ArchSim {
 			return `sh: command not found: ${cmd}\n${this.PS1()}`;
 		}	
 		
-		return `${this.bin[cmd](args)}${this.PS1()}`;
+		return `${this.bin[cmd](this, args)}${this.PS1()}`;
 	}
 };

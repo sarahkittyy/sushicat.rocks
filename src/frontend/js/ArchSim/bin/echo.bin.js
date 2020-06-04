@@ -1,3 +1,3 @@
-module.exports = function echo(args) {
+module.exports = function echo(sim, args) {
 	return `${args}\n`;
 }

@@ -1,3 +1,3 @@
-module.exports = function clear(args) {
+module.exports = function clear(sim, args) {
 	return `\\#[clear]`;
 }
