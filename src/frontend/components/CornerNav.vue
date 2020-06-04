@@ -53,6 +53,8 @@ export default {
 	&:hover {
 		width: 15%;
 		height: 20%;
+		
+		min-width: 200px;
 	}
 }
 
