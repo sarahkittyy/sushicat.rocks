@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { validateCode } from '../utils/fetch';
+import { validateCode } from '../js/fetch';
 
 function fetchPatUsers() {
 	return new Promise((resolve, reject) => {

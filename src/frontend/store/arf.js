@@ -1,5 +1,5 @@
 import fetch from 'node-fetch';
-import { validateCode } from '../utils/fetch';
+import { validateCode } from '../js/fetch';
 
 function postArf() {
 	return new Promise((resolve, reject) => {
