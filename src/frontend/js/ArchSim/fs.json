@@ -3,7 +3,7 @@
 		"home": {
 			"arch": {
 				"README.md": "files/home_readme.md",
-				"lol.txt": "files/lol.txt"
+				"important.txt": "files/important.txt",
 			}
 		}
 	}
