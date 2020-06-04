@@ -3,8 +3,17 @@
 	src: url('/assets/COMIC.TTF') format('truetype');
 }
 
+@font-face {
+	font-family: 'CP437';
+	src: url('/assets/PxPlus_VGA_SquarePx.ttf') format('truetype');
+}
+
 .font-comic-sans {
 	font-family: "Comic Sans MS", "Comic Sans";
+}
+
+.font-cp437 {
+	font-family: "CP437";
 }
 
 // colors
