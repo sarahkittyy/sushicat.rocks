@@ -26,6 +26,7 @@
 		<template v-slot:large>
 			<app-list heading="navigation <3" text-only>
 				<list-item to="/arf">arf! &lt;3</list-item>
+				<list-item to="/arch">arch_linux.js</list-item>
 			</app-list>
 		</template>
 	</corner-nav>
