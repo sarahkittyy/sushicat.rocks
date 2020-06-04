@@ -1,3 +1,9 @@
+/**
+ * This is probably the worst code I have ever written in my whole life.
+ * Leave before it's too late ;-;
+ *
+ */
+
 const fsData = require('./fs.json');
 
 export { fsData as rawFsData };
