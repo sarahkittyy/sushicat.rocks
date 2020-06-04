@@ -15,7 +15,6 @@ function extraPaths(sim) {
 		return file.replace(/\.\/bin\/(\w+)\.bin\.js$/, '$1');
 	}
 	
-	
 	return {
 		bin: ctx.keys().reduce((o, s) => {
 			let name = binToName(s);
@@ -25,6 +24,39 @@ function extraPaths(sim) {
 		}, {})
 	};
 }
+
+export class ObjNav {
+	constructor(obj) {
+		this.obj = obj;
+		this.traversed = [];
+	}
+	
+	go(key) {
+		
+		if (key === '..') {
+			this.traversed.pop();
+		} else if (!this.get()[key]) {
+			return false;
+		} else {
+			this.traversed.push(key);
+		}
+		return this;
+	}
+	
+	path() {
+		let s = this.traversed.join('/');
+		if (!s.startsWith('/')) s = `/${s}`;
+		return s;
+	}
+	
+	get() {
+		let pt = this.obj;
+		for (let i of this.traversed) {
+			pt = pt[i];
+		}
+		return pt;
+	}
+};
 
 /**
  * @return filedata if the file exists, otherwise null,
@@ -62,16 +94,19 @@ export function resolveDir(sim, path) {
 	// resolve paths relative to root
 	if (path.startsWith('/')) {
 		solvedPath = path;
+	} else if (path.trim().length === 0) {
+		solvedPath = sim.cwd;
 	} else if (path.startsWith('~')) {
 		solvedPath = `/home/arch/${path.replace(/^~\/?/, '')}`;
 	} else {
 		solvedPath = `${sim.cwd}${sim.cwd.endsWith('/') ? '' : '/'}${path}`;
 	}
+	console.log(solvedPath);
 	
 	let p = solvedPath.split('/')
 		.filter(Boolean)
 		.map(s => s.trim())
-		.filter(s => s != '.');
+		.filter(s => s !== '.');
 	if (p.length === 0) {
 		return {
 			path: solvedPath,
@@ -80,25 +115,23 @@ export function resolveDir(sim, path) {
 	}
 	let dir = p.pop();
 	
-	let point = {
+	let fs = new ObjNav({
 		...fsData.fs,
 		...extraPaths(sim),
-	};
+	});
 	for(let subdir of p) {
-		point = point[subdir];
+		let r = fs.go(subdir);
 
-		if (point == null) {
-			return null;
-		}
+		if (!r) return null;
 	}
 	
-	let finalDir = point[dir];
+	let finalDir = fs.go(dir);
 	if (!finalDir) {
 		return null;
 	} else {
 		return {
-			path: solvedPath,
-			data: finalDir,
+			path: fs.path(),
+			data: finalDir.get(),
 		};
 	}
 }
