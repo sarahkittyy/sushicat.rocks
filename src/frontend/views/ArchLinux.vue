@@ -2,7 +2,16 @@
 <div class="arch-container">
 	<div id="terminal">
 		<span v-for="(line, index) in textLines"class="text output">{{ line }}<br v-if="index != (textLines.length - 1)" /></span>
-		<input ref="input" class="text input-hide" v-model="input" autofocus @blur="refocus" @keydown.enter="submit"></input>
+		<input 
+			ref="input"
+			class="text input-hide"
+			v-model="input"
+			autofocus
+			@blur="refocus"
+			@keydown.enter="submit"
+			:style="inputWidth"
+		>
+		</input>
 	</div>
 </div> 
 </template>
@@ -51,6 +60,9 @@ export default {
 	computed: {
 		textLines() {
 			return this.text.split('\n');
+		},
+		inputWidth() {
+			return `width: ${this.input.length + 1}ch`;
 		}
 	},
 	mounted() {
