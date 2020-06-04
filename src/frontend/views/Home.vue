@@ -162,20 +162,4 @@ export default {
 	}
 }
 
-#corner-toast {
-	#github-link {
-		max-width: 32px;
-		
-		&:hover {
-			max-width: 38px;
-		}
-		
-		&:active {
-			max-width: 36px;
-		}
-		
-		transition: all 200ms;
-	}
-}
-
 </style>

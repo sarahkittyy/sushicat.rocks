@@ -1,5 +1,5 @@
 <template>
-<div class="fixed-bottom-left grey-box">
+<div class="fixed-bottom-left grey-box smooth-scaling">
 	<slot />
 </div>
 </template>
@@ -29,6 +29,24 @@ export default {
 	border: 2px solid black;
 	border-bottom: none;
 	border-left: none;
+}
+
+.smooth-scaling {
+	transition: all 200ms;
+	* {
+		transition: all 200ms;
+		max-width: 32px;
+		
+		&:hover {
+			max-width: 38px;
+		}
+		
+		&:active {
+			max-width: 36px;
+		}
+		
+		transition: all 200ms;
+	}
 }
 
 </style>
