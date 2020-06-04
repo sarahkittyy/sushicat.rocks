@@ -1,10 +1,18 @@
 const { resolveFile } = require('../fs');
 
 module.exports = function cat(sim, args) {
-	// resolve to either the cwd, or /, or ~
-	let res = resolveFile(sim, args);
-	if (!res) {
-		return `cat: ${args}: No such file or directory\n`;
+	let ret = [];	
+	
+	for (let arg of args.split(' ')) {
+		// resolve to either the cwd, or /, or ~
+		let res = resolveFile(sim, arg);
+		if (!res) {
+			ret.push(`cat: ${arg}: No such file or directory`);
+		} else if (res === 'directory') {
+			ret.push(`cat: ${arg}: Is a directory`);
+		}
+		ret.push(res.contents);
 	}
-	return res.contents;
+	
+	return ret.join('\n');
 }

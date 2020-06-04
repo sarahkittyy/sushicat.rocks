@@ -15,7 +15,8 @@ let procDirs = {
 }
 
 /**
- * @return filedata if the file exists, otherwise null
+ * @return filedata if the file exists, otherwise null,
+ * also returns 'directory' if you ask for a directory
  */
 export function resolveFile(sim, path) {
 	let i = path.lastIndexOf('/');
@@ -27,12 +28,15 @@ export function resolveFile(sim, path) {
 	
 	if (!dir) {
 		return null;
-	} else if (!file){
-		return null
+	} else if (!file) {
+		return null;
+	} else if (!(typeof file === 'string' || file instanceof String)) {
+		return 'directory';
 	} else {
+		let contents = getFileContents(file);
 		return {
 			file: fileName,
-			contents: getFileContents(file)
+			contents
 		};
 	}
 }
