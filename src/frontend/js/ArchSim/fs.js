@@ -107,7 +107,6 @@ export function resolveDir(sim, path) {
 	} else {
 		solvedPath = `${sim.cwd}${sim.cwd.endsWith('/') ? '' : '/'}${path}`;
 	}
-	console.log(solvedPath);
 	
 	let p = solvedPath.split('/')
 		.filter(Boolean)
