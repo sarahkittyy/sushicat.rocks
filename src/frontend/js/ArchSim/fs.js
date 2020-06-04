@@ -65,7 +65,7 @@ export function resolveDir(sim, path) {
 	} else if (path.startsWith('~')) {
 		solvedPath = `/home/arch/${path.replace(/^~\/?/, '')}`;
 	} else {
-		solvedPath = `${sim.cwd}/${path}`;
+		solvedPath = `${sim.cwd}${sim.cwd.endsWith('/') ? '' : '/'}${path}`;
 	}
 	
 	let p = solvedPath.split('/')
