@@ -8,7 +8,7 @@
 
 <script>
 export default {
-	name: 'ListItem',
+	name: 'UrlListItem',
 	props: {
 		to: String,
 	},

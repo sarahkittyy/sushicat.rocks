@@ -25,8 +25,8 @@
 		</template>
 		<template v-slot:large>
 			<app-list heading="navigation <3" text-only>
-				<list-item to="/arf">arf! &lt;3</list-item>
-				<list-item to="/arch">arch_linux.js</list-item>
+				<url-list-item to="/arf">arf! &lt;3</url-list-item>
+				<url-list-item to="/arch">arch_linux.js</url-list-item>
 			</app-list>
 		</template>
 	</corner-nav>
@@ -50,7 +50,7 @@ import ToggleSwitch from '~/ToggleSwitch';
 import CornerLinks from '~/CornerLinks';
 import CornerNav from '~/CornerNav';
 import AppList from '~/AppList';
-import ListItem from '~/ListItem';
+import UrlListItem from '~/UrlListItem';
 
 import { debounce } from 'debounce';
 
@@ -92,7 +92,7 @@ export default {
 		CornerLinks,
 		CornerNav,
 		AppList,
-		ListItem,
+		UrlListItem,
 	},
 	created() {
 		this.$store.dispatch('fetchPatUsers');
