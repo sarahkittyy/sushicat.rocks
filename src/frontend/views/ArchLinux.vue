@@ -19,6 +19,8 @@
 <script>
 import ArchSim from '../js/ArchSim';
 
+import { debounce } from 'debounce';
+
 export default {
 	name: 'ArchLinux',
 	data() {
@@ -41,7 +43,7 @@ export default {
 			}
 			
 			this.input = "";
-			this.text += res;
+			this.text = `${this.text}${res}`;
 		},
 		refocus() {
 			if (this.inputBox) this.inputBox.focus();
@@ -55,7 +57,11 @@ export default {
 				default:
 					break;
 			}
-		}
+		},
+		scrollDown: debounce(function () {
+			var container = this.$el.querySelector('#terminal');
+			container.scrollTop = container.scrollHeight;
+		}, 100)
 	},
 	computed: {
 		textLines() {
@@ -70,6 +76,14 @@ export default {
 		this.inputBox.focus();
 
 		this.text = this.sim.bootup();
+	},
+	watch: {
+		text() {
+			this.scrollDown();
+		},
+		input() {
+			this.scrollDown();
+		}
 	}
 };
 </script>
