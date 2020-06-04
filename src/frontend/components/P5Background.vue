@@ -83,7 +83,11 @@ export default {
 
 			p5.draw = function () {
 				// if the canvas is hidden, do not render
-				if (document.querySelector('#canvas').hasAttribute('hide')) {
+				let $cnv = document.querySelector('#canvas');
+				if (!$cnv) {
+					return;
+				}
+				if ($cnv.hasAttribute('hide')) {
 					p5.background(220);
 					return;
 				}
