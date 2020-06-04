@@ -16,7 +16,6 @@ export default {
 	},
 	methods: {
 		mouseenter() {
-			console.log('over');
 			clearTimeout(this.timeout);
 			this.timeout = setTimeout(() => {
 				this.hovering = true;
