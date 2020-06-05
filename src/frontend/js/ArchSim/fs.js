@@ -1,6 +1,8 @@
 const fsData = require('./fs.json');
 const ctx = require.context('./', true, /\.\/(bin|files)\/.*\.js$/);
 
+const unset = require('lodash.unset');
+
 /// return an object of any extra paths
 function extraPaths(sim) {
 	function binToName(file) {
@@ -21,6 +23,12 @@ function readFile(file) {
 	return ctx(`./${file}.js`);
 }
 
+/**
+ * CODES:
+ * 404 -- file / path not found
+ * 400 -- it was the wrong type (got file, expected dir, etc)
+ * 200 -- OK
+ */
 export class FS {
 	// init
 	constructor(sim) {
@@ -31,18 +39,63 @@ export class FS {
 			...extraPaths(sim)
 		};
 		this.traversed = [];
+		
+		this.saveData = [];
 	}
 	
-	/// go to a directory in the current folder
+	/**
+	 * go to a directory in the current folder
+	 * return:
+	 * { code: 404,400,200 
+	 * , file?: the file if we couldn't enter it as a dir
+	 * }
+	 */
 	go(key) {
 		if (key === '..') {
 			this.traversed.pop();
 		} else if (!this.get().contents[key]) {
-			return false;
+			return { code: 404 };
+		/// if it's a file
+		} else if (typeof this.get().contents[key] === 'string') {
+			return { code: 400 };
 		} else {
 			this.traversed.push(key);
 		}
-		return this;
+		return { code: 200 };
+	}
+	
+	/// save a backup of this.traversed
+	push() {
+		this.saveData.push([...this.traversed]);
+	}
+	
+	/// load the lastest backup of this.traversed
+	pop() {
+		this.traversed = [...this.saveData.pop()];
+	}
+	
+	/// remove a file
+	/// return { code: Number }
+	rm(path) {
+		let r = this.get(path);
+		if (!r) {
+			return null;
+		} else {
+			this.push();
+			
+			let r = this.to(path);
+			if (r.code === 404) {
+				this.pop();
+				return { code: 404 };
+			} else if (r.fileName) {
+				unset(this.fsData, [...this.traversed, r.fileName]);
+				this.pop();
+				return { code: 200 };
+			} else {
+				this.pop();
+				return { code: 400 };
+			}
+		}
 	}
 	
 	cwd() {
@@ -56,23 +109,15 @@ export class FS {
 	 * 	type: 'file' | 'directory',
 	 *  shortName: String,
 	 *  contents: String | object
-	 * } | null
+	 * }
 	 */
-	get(path) {
-		if (path) {
-			this.traversedSave = [...this.traversed];
-			let t = this.to(path);
-			if (!t.success) { return null; }
-			let res = this.get();
-			this.traversed = [...this.traversedSave];
-			return res;
-		}
-		
+	get(fileName) {
 		// navigate the fs
 		let p = this.fsData;
 		for (let link of this.traversed) {
 			p = p[link];
 		}
+		if (fileName) { p = p[fileName]; }
 		
 		// is it a file?
 		if (typeof p === 'string') {
@@ -90,14 +135,30 @@ export class FS {
 		}
 	}
 	
-	/// from a path input to a directory -- returns {
-	///		success: Boolean
-	///		code: Number
-	/// }
-	/// if success is false, the cwd is not changed
+	at(path) {
+		this.push();
+
+		let tr = this.to(path);
+		if (tr.code === 404) {
+			this.pop();
+			return { code: 404 };
+		} else if (!!tr.fileName) { // if we nav to a file
+			// return that file
+			let f = this.get(tr.fileName);
+			this.pop();
+			return f;
+		}
+
+		// else just return the dir
+		let r = this.get();
+		this.pop();
+		return r;
+	}
+	
+	/// moves to the path given
 	to(path) {
 		// backup this.traversed
-		this.traversedSave = [...this.traversed];
+		this.push();
 		
 		// split the path
 		let arr = path
@@ -121,17 +182,25 @@ export class FS {
 		// for every next path to nav to
 		for (let link of arr) {
 			let res = this.go(link);
-			if (!res) {
-				this.traversed = [...this.traversedSave];
+			/// if it's a file
+			if (res.code === 400) {
+				// don't pop, just return the file
 				return {
-					success: false,
-					code: 404,
+					code: 300,
+					fileName: link
+				};
+			}
+			/// if it's not ok
+			if (res.code !== 200) {
+				/// give up and return error
+				this.pop();
+				return {
+					code: res.code,
 				};
 			}
 		}
 		
 		return {
-			success: true,
 			code: 200,
 		};
 	}

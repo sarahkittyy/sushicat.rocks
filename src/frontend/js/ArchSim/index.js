@@ -53,6 +53,7 @@ export default class ArchSim {
 			return `sh: command not found: ${cmd}\n${this.PS1()}`;
 		}	
 		
-		return `${this.bin[cmd](this, args)}${this.PS1()}`;
+		let res = this.bin[cmd](this, args);
+		return `${res}${res.endsWith('\n') || res.length == 0 ? '' : '\n'}${this.PS1()}`;
 	}
 };
