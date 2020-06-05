@@ -79,7 +79,7 @@ export class FS {
 	rm(path) {
 		let r = this.get(path);
 		if (!r) {
-			return null;
+			return { code: 404 };
 		} else {
 			this.push();
 			
