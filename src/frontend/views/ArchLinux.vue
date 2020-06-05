@@ -32,7 +32,7 @@ export default {
 	name: 'ArchLinux',
 	data() {
 		return {
-			sim: new ArchSim(),
+			sim: new ArchSim(this.$router),
 			input: "",
 			text: "",
 			inputBox: null

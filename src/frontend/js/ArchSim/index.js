@@ -15,8 +15,10 @@ function loadBinaries() {
 }
 
 export default class ArchSim {
-	constructor() {
+	constructor(router) {
 		this.history = [];
+		
+		this.router = router;
 		
 		this.bin = loadBinaries();
 		
