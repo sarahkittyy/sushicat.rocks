@@ -43,6 +43,15 @@ export class FS {
 		this.saveData = [];
 	}
 	
+	immutable() {
+		let immutable = [
+			/\/bin/,
+		];
+		
+		const any = (arr, cond) => arr.reduce((v, c) => (v || cond(c)), false);
+		return any(immutable, r => r.test(this.cwd()));
+	}
+	
 	/**
 	 * go to a directory in the current folder
 	 * return:
@@ -88,6 +97,9 @@ export class FS {
 				this.pop();
 				return { code: 404 };
 			} else if (r.fileName) {
+				if (this.immutable()) {
+					return { code: 401 };
+				}
 				unset(this.fsData, [...this.traversed, r.fileName]);
 				this.pop();
 				return { code: 200 };
