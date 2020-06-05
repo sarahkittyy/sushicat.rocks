@@ -1,5 +1,6 @@
 <template>
-<div>
+<div class="switchbox">
+	<span><slot /></span>
 	<input type="checkbox" class="checkbox" id="toggle" v-model="inputVal" />
 	<label for="toggle" class="switch" />
 </div>
@@ -30,6 +31,17 @@ export default {
 
 $width: 40px;
 $height: $width / 2;
+
+.switchbox {
+	display: flex;
+
+	align-items: center;
+	justify-content: center;
+	
+	span {
+		margin-right: 10px;
+	}
+}
 
 .switch {
 	position: relative;

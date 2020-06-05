@@ -21,7 +21,9 @@ export default {
 		const script = function (p5) {
 			var cnv;
 			var cubes = [];
-			var totalcubes = 15;
+			var totalcubes = 8;
+			
+			var tex;
 
 			class Cube {
 				constructor() {
@@ -65,11 +67,16 @@ export default {
 					p5.stroke(150,150,150,220);
 					p5.rotateX(p5.frameCount / (2*30) * this.speed);
 					p5.rotateY(p5.frameCount / (2*30) * this.speed);
+					p5.texture(tex);
 					p5.box(this.size);
 					
 					p5.pop();
 				}
 			};
+			
+			p5.preload = function () {
+				tex = p5.loadImage('assets/sushicat.png');
+			}
 
 			p5.setup = function () {
 				// create the canvas
@@ -106,7 +113,6 @@ export default {
 				}
 				
 				// draw
-				p5.pointLight(255, 255, 255, -innerWidth/2, -innerHeight/2, 0);
 				for (let cube of cubes) {
 					cube.update();
 					cube.draw();

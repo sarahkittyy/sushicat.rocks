@@ -1,15 +1,15 @@
 <template>
 <div>
-	<header-divider height="125px">
+	<header-divider height="150px">
 		<div class="container">
 			<span v-if="displaySushicats">
 				<spinning-sushicat dir="left" id="left" :maxheight="sushicatHeight" />
 				<spinning-sushicat dir="right" id="right" :maxheight="sushicatHeight" />
 			</span>
 			<div class="font-comic-sans" id="middle">
-				<h1>* sooshi cat *</h1>
-				<span>animate background?</span>
-				<toggle-switch v-model="backgroundVisible" />
+				<img src="/assets/logo.png" :style="`max-height: ${sushicatHeight + 30}px;`" class="logo" />
+				<br />
+				<toggle-switch v-model="backgroundVisible">animate background?</toggle-switch>
 			</div>
 		</div>
 	</header-divider>
@@ -60,7 +60,7 @@ export default {
 		return {
 			backgroundVisible: true,
 			patName: '', 
-			sushicatHeight: 75,
+			sushicatHeight: 90,
 			displaySushicats: true,
 		};
 	},
@@ -74,9 +74,9 @@ export default {
 		computeSushicatHeight: debounce(function () {
 			this.displaySushicats = true;
 			if (window.innerWidth >= 720) {
-				this.sushicatHeight = 75;
+				this.sushicatHeight = 90;
 			} else if (window.innerWidth >= 520) {
-				this.sushicatHeight = 75 * (window.innerWidth / 720);
+				this.sushicatHeight = 90 * (window.innerWidth / 720);
 			} else {
 				this.displaySushicats = false;
 			}
