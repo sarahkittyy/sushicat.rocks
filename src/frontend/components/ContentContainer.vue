@@ -15,6 +15,9 @@ export default {
 @use '~@/common';
 
 .box {
+	display: flexbox;
+	height: 100%;
+	
 	border: 1px solid common.$dark-grey;
 	border-radius: 15px;
 	

@@ -16,6 +16,12 @@
 	font-family: "CP437";
 }
 
+.rainbow-text {
+	background-image: linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet);
+	background-clip: text;
+	color: transparent;
+}
+
 // colors
 $grey: #aaa;
 $dark-grey: #777;

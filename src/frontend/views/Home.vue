@@ -15,9 +15,11 @@
 	</header-divider>
 	
 
-	<div class="content">
+	<div class="content font-comic-sans">
 		<pat-table />
-		<content-container>
+		<content-container style="text-align: center;">
+			<h1 class="rainbow-text">hewwo an welcome to my site</h1=>
+			<h4>nya~</h4>
 		</content-container>
 	</div>
 	
@@ -123,20 +125,17 @@ export default {
 	margin: 30px;
 
 	width: calc(100% - 60px);
-	
+
 	@media (max-width: common.$small-width) {
 		flex-direction: column;
 		margin: 0px;
 		margin-top: 10px;
 		width: 100%;
-		
-		* {
-			margin-top: 10px;
-		}
 	}
 	
 	* {
 		flex: 1;
+		margin: 30px;
 	}
 	
 }
