@@ -17,6 +17,8 @@
 
 	<div class="content">
 		<pat-table />
+		<content-container>
+		</content-container>
 	</div>
 	
 	<corner-nav>
@@ -51,6 +53,7 @@ import CornerLinks from '~/CornerLinks';
 import CornerNav from '~/CornerNav';
 import AppList from '~/AppList';
 import UrlListItem from '~/UrlListItem';
+import ContentContainer from '~/ContentContainer';
 
 import { debounce } from 'debounce';
 
@@ -93,6 +96,7 @@ export default {
 		CornerNav,
 		AppList,
 		UrlListItem,
+		ContentContainer
 	},
 	created() {
 		this.$store.dispatch('fetchPatUsers');
@@ -125,6 +129,10 @@ export default {
 		margin: 0px;
 		margin-top: 10px;
 		width: 100%;
+		
+		* {
+			margin-top: 10px;
+		}
 	}
 	
 	* {
