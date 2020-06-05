@@ -11,7 +11,6 @@ module.exports = function ls(sim, args) {
 			continue;
 		} else {
 			// print all files in the dir
-			console.log(res);
 			ret.push(`${Object.keys(res.contents).join(' ')}\n`);
 		}
 		

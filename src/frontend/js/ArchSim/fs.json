@@ -3,7 +3,10 @@
 		"home": {
 			"arch": {
 				"README.md": "files/home_readme.md",
-				"important.txt": "files/important.txt"
+				"important.txt": "files/important.txt",
+				"Pictures": {
+					"ellie.png": "files/ellie.png"
+				}
 			}
 		}
 	}
