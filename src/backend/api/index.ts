@@ -84,6 +84,7 @@ api.get('/leffen_tweet', (req, res) => {
 		return res.send(t.full_text);
 	})
 	.catch((err) => {
+		console.error(err);
 		return res.send(`Couldn't retrieve tweets :(`);
 	});
 });
