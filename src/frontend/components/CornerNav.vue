@@ -22,6 +22,7 @@ export default {
 			}, 200);
 		},
 		mouseleave() {
+			clearTimeout(this.timeout);
 			this.hovering = false;
 		}
 	}
