@@ -5,6 +5,8 @@ import appRoot from 'app-root-path';
 import moment from 'moment';
 import connectMongo from 'connect-mongo';
 const MongoStore = connectMongo(session);
+import https from 'https';
+import { readFileSync } from 'fs';
 
 import mongoose from 'mongoose';
 import './db/init';
@@ -49,6 +51,9 @@ app.get('/*', ratelimit(), (req, res) => {
 	res.sendFile(appRoot.resolve('build/frontend/index.html'));
 });
 
-app.listen(process.env.BACKEND_PORT ?? 3000, () => {
+https.createServer({
+	key: readFileSync('server.key'),
+	cert: readFileSync('server.cert')
+}, app).listen(process.env.BACKEND_PORT ?? 3000, () => {
 	console.log('listening!');
 });
