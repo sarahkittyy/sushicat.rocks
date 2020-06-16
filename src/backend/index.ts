@@ -6,6 +6,7 @@ import moment from 'moment';
 import connectMongo from 'connect-mongo';
 const MongoStore = connectMongo(session);
 import https from 'https';
+import http from 'http';
 import { readFileSync } from 'fs';
 
 import mongoose from 'mongoose';
@@ -51,9 +52,12 @@ app.get('/*', ratelimit(), (req, res) => {
 	res.sendFile(appRoot.resolve('build/frontend/index.html'));
 });
 
+var basePort = parseInt(process.env.PORT ?? '3000');
+
+http.createServer(app).listen(basePort);
 https.createServer({
 	key: readFileSync('server.key'),
 	cert: readFileSync('server.cert')
-}, app).listen(process.env.BACKEND_PORT ?? 3000, () => {
+}, app).listen(basePort + 443, () => {
 	console.log('listening!');
 });

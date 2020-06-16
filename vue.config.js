@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 
 module.exports = {
 	outputDir: 'build/frontend',
@@ -13,6 +14,9 @@ module.exports = {
 	devServer: {
 		port: process.env.VUE_APP_PORT,
 		public: `${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}`,
+		https: true,
+		key: fs.readFileSync('server.key'),
+		cert: fs.readFileSync('server.cert'),
 		watchOptions: {
 			poll: 1000,
 			aggregateTimeout: 500,
