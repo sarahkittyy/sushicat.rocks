@@ -81,7 +81,6 @@ api.get('/leffen_tweet', (req, res) => {
 	})
 	.then((tweets) => {
 		let t = tweets.filter((t: any) => !t.full_text.startsWith('Uncut'))[Math.floor(Math.random() * tweets.length)];
-		let text = t.full_text;
 		return res.send(t.full_text);
 	})
 	.catch((err) => {
