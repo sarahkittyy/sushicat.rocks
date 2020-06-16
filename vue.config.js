@@ -15,8 +15,8 @@ module.exports = {
 		port: process.env.VUE_APP_PORT,
 		public: `${process.env.VUE_APP_URL}:${process.env.VUE_APP_PORT}`,
 		https: true,
-		key: fs.readFileSync('server.key'),
-		cert: fs.readFileSync('server.cert'),
+		key: (process.env.NODE_ENV === 'production' ? '' : fs.readFileSync('server.key'),
+		cert: (process.env.NODE_ENV === 'production' ? '' : fs.readFileSync('server.cert'),
 		watchOptions: {
 			poll: 1000,
 			aggregateTimeout: 500,
