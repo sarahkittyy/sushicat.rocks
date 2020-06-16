@@ -13,10 +13,8 @@
 			</div>
 		</div>
 	</header-divider>
-	
 
 	<div class="content font-comic-sans">
-		<pat-table />
 		<content-container style="text-align: center;">
 			<h1 class="rainbow-text">hewwo an welcome to my site</h1>
 			<h4>nya~</h4>
@@ -25,6 +23,7 @@
 				<a class="twitter-timeline" href="https://twitter.com/DeepLeffen?ref_src=twsrc%5Etfw"></a>
 			</twitter>
 		</content-container>
+		<pat-table />
 	</div>
 	
 	<corner-nav>
