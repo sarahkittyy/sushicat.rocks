@@ -18,8 +18,12 @@
 	<div class="content font-comic-sans">
 		<pat-table />
 		<content-container style="text-align: center;">
-			<h1 class="rainbow-text">hewwo an welcome to my site</h1=>
+			<h1 class="rainbow-text">hewwo an welcome to my site</h1>
 			<h4>nya~</h4>
+			<twitter style="height: 780px; overflow: scroll;">
+				<div slot="loading">loading...</div>
+				<a class="twitter-timeline" href="https://twitter.com/DeepLeffen?ref_src=twsrc%5Etfw"></a>
+			</twitter>
 		</content-container>
 	</div>
 	
@@ -56,6 +60,7 @@ import CornerNav from '~/CornerNav';
 import AppList from '~/AppList';
 import UrlListItem from '~/UrlListItem';
 import ContentContainer from '~/ContentContainer';
+import { twitter } from 'vue-twitter';
 
 import { debounce } from 'debounce';
 
@@ -98,7 +103,8 @@ export default {
 		CornerNav,
 		AppList,
 		UrlListItem,
-		ContentContainer
+		ContentContainer,
+		twitter
 	},
 	created() {
 		this.$store.dispatch('fetchPatUsers');
