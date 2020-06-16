@@ -6,6 +6,8 @@ import { body, query, validationResult } from 'express-validator';
 import { PatUser, PatUserSchema } from '../db/models/PatUser';
 import { incArf, getArfs } from './arfs';
 
+import client from '../util/twitter';
+
 const api = express.Router();
 
 api.get('/', ratelimit(), (req, res) => {
@@ -71,6 +73,22 @@ api.route('/arf')
 		return res.send({ arfs: await getArfs() });
 	});
 
+api.get('/leffen_tweet', (req, res) => {
+	client.get('/statuses/user_timeline', {
+		screen_name: 'DeepLeffen',
+		count: 20,
+		tweet_mode: 'extended',
+	})
+	.then((tweets) => {
+		let t = tweets.filter(t => !t.full_text.startsWith('Uncut'))[Math.floor(Math.random() * tweets.length)];
+		let text = t.full_text;
+		return res.send(t.full_text);
+	})
+	.catch((err) => {
+		return res.send(`Couldn't retrieve tweets :(`);
+	});
+});
+	
 api.all('**', ratelimit(), (req, res) => {
 	return res.status(404).send('api endpoint not found ;-;');
 });

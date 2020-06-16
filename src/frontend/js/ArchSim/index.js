@@ -39,7 +39,7 @@ export default class ArchSim {
 	}
 	
 	// send command, returns response
-	sendCommand(input) {
+	async sendCommand(input) {
 		this.history.push(input);
 		if (this.history.length > 100) {
 			this.history.shift();
@@ -55,7 +55,7 @@ export default class ArchSim {
 			return `sh: command not found: ${cmd}\n${this.PS1()}`;
 		}	
 		
-		let res = this.bin[cmd](this, args);
+		let res = await this.bin[cmd](this, args);
 		return `${res}${res.endsWith('\n') || res.length == 0 ? '' : '\n'}${this.PS1()}`;
 	}
 };

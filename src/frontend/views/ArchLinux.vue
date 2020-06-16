@@ -39,9 +39,9 @@ export default {
 		};
 	},
 	methods: {
-		submit() {
+		async submit() {
 			this.text += this.input + '\n';
-			let res = this.sim.sendCommand(this.input);
+			let res = await this.sim.sendCommand(this.input);
 			
 			// search for special escape codes
 			let test = [...res.matchAll(/\\#\[(\w+)\]/g)];
