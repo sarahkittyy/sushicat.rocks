@@ -4,3 +4,6 @@ node_modules
 build
 .vagrant
 *.log
+
+server.cert
+server.key
