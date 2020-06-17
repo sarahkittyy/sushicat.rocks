@@ -1,6 +1,7 @@
 <template>
 <div style="width: 100%; height: 100vh; overflow: hidden;" class="font-comic-sans">
 	<div class="site" v-if="entered">
+		<audio ref="bgAudio" @canplay="decreaseVolume" src="/assets/009.mp3" autoplay></audio>
 		<div id="heading" :style="`flex-direction: ${headingFlexDir};`">
 			<img src="/assets/gendernotvibing.png" class="spinny" style="max-height: 200px;" />
 			<h1 class="rainbow-text">{{ heading }}</h1>
@@ -43,6 +44,10 @@ export default {
 		leaveCount: 0,
 	}),
 	methods: {
+		decreaseVolume() {
+			console.log('nya');
+			this.$refs.bgAudio.volume = 0.2;
+		},
 		init() {
 			this.entered = true;
 			
