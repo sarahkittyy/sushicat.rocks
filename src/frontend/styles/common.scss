@@ -35,6 +35,12 @@
     100%{background-position:0% 82%}
 }
 
+@mixin rainbow-text {
+	background-clip: text;
+	background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+	color: transparent;
+}
+
 // colors
 $grey: #aaa;
 $dark-grey: #777;
