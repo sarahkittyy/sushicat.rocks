@@ -38,7 +38,7 @@ export default {
 	right: 0;
 	bottom: 0;
 	
-	width: 50px;
+	min-width: 50px;
 	min-height: 30px;
 	
 	border-top: 2px solid black;
@@ -52,7 +52,7 @@ export default {
 	transition: all 200ms ease-out;
 	
 	&:hover {
-		width: 15%;
+		min-width: 15%;
 		min-height: 20%;
 		
 		min-width: 200px;
