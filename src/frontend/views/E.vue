@@ -19,10 +19,14 @@ export default {
 
 <style lang="scss" scoped>
 
-@import '~@/common';
+@use '~@/common';
 
 .e-image {
+	background-color: common.$grey;
+	
 	width: 100%;
+	height: 100vh;
+	overflow: hidden;
 	text-align: center;
 	
 	img { 
