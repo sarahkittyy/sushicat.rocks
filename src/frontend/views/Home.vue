@@ -35,6 +35,7 @@
 				<url-list-item to="/arf">arf! &lt;3</url-list-item>
 				<url-list-item to="/arch">arch_linux.js</url-list-item>
 				<url-list-item to="/e">e</url-list-item>
+				<url-list-item to="/why/are/you/here">[under construction do not click]</url-list-item>
 			</app-list>
 		</template>
 	</corner-nav>

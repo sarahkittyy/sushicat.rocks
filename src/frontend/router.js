@@ -6,6 +6,7 @@ import NotFound from './views/NotFound';
 import Arf from './views/Arf';
 import ArchLinux from './views/ArchLinux';
 import E from './views/E';
+import WhyAreYouHere from './views/WhyAreYouHere';
 
 const routes = [
 	{ path: '/', redirect: '/home' },
@@ -13,6 +14,7 @@ const routes = [
 	{ path: '/arf', component: Arf },
 	{ path: '/arch', component: ArchLinux },
 	{ path: '/e', component: E },
+	{ path: '/why/are/you/here', component: WhyAreYouHere },
 	{ path: '*', component: NotFound },
 ];
 
