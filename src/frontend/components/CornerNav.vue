@@ -39,7 +39,7 @@ export default {
 	bottom: 0;
 	
 	width: 50px;
-	height: 30px;
+	min-height: 30px;
 	
 	border-top: 2px solid black;
 	border-left: 2px solid black;
@@ -53,7 +53,7 @@ export default {
 	
 	&:hover {
 		width: 15%;
-		height: 20%;
+		min-height: 20%;
 		
 		min-width: 200px;
 	}
