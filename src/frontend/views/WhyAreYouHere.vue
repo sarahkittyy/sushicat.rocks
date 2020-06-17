@@ -122,6 +122,9 @@ export default {
 				'trans rights',
 				'trans rights',
 				'trans rights',
+				'ur cute sjdlfsdf',
+				'ur so fwiggin adorable',
+				'yes homo bro owo'
 			];
 			this.$snotify.info(msgs[Math.floor(Math.random() * msgs.length)], {
 				
