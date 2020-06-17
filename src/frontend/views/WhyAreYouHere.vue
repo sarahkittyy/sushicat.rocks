@@ -13,6 +13,13 @@
 				so grr go away transphobes<br />
 			</p>
 			<simple-button @click="tryLeave">leave uwu</simple-button>
+			<simple-button
+				class="jumpbtn"
+				:style="jumpBtnStyle"
+				@mouseover="randomizeStopButton"
+			>
+				STOP MUSIC ;A;
+			</simple-button>
 		</div>
 		<vue-snotify />
 	</div>
@@ -42,6 +49,8 @@ export default {
 		heading: "WebBy SiTE o3O",
 		headingFlexDir: 'row',
 		leaveCount: 0,
+		stopMusicX: 0,
+		stopMusicY: 0
 	}),
 	methods: {
 		decreaseVolume() {
@@ -72,6 +81,12 @@ export default {
 				this.notify();
 				this.flipHeading();
 			}, 2000));
+			
+			this.randomizeStopButton();
+		},
+		randomizeStopButton() {
+			this.stopMusicX = Math.random() * 95;
+			this.stopMusicY = Math.random() * 95;
 		},
 		tryLeave() {
 			this.leaveCount++;
@@ -113,6 +128,11 @@ export default {
 			});
 		}
 	},
+	computed: {
+		jumpBtnStyle() {
+			return `top: ${this.stopMusicX}%; left: ${this.stopMusicY}%;`;
+		}
+	},
 	created() {
 		document.title = 'oh nyo';
 	},
@@ -136,6 +156,13 @@ export default {
 	100% {
 		transform: rotate(359deg);
 	}
+}
+
+.jumpbtn {
+	position: absolute;
+	z-index: 99;
+	top: 10%;
+	right: 10%;
 }
 
 .rainbow-text {
