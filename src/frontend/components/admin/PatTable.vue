@@ -67,9 +67,6 @@ export default {
 		border-bottom: 1px solid black;
 		min-width: 100px;
 	}
-
-	tr {
-	}
 }
 
 </style>
