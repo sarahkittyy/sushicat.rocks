@@ -33,9 +33,11 @@ export default {
 	methods: {
 		updatePatUser(name, newValue) {
 			this.$store.dispatch('adminUpdatePats', { name, pats: newValue });
+			this.$snotify.success(`${name}'s entry updated.`, 'Success');
 		},
 		deletePatUser(name) {
 			this.$store.dispatch('adminDeletePats', { name });
+			this.$snotify.success(`${name}'s entry deleted.`, 'Success');
 		}
 	},
 	components: {
