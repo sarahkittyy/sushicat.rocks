@@ -40,12 +40,12 @@ pats.post('/set', [
 	body('pats').isNumeric(),
 	validate
 ], async (req: Request, res: Response) => {
-	await PatUser.findOneAndUpdate(
+	let newUser = await PatUser.findOneAndUpdate(
 		{ name: req.body.name }, 
 		{ $set: { pats: req.body.pats }},
-		{ upsert: true }
-	);
-	return res.send({ message: 'Success!' });
+		{ upsert: true, new: true }
+	).select('name pats').lean();
+	return res.send(newUser);
 });
 
 pats.get('/get', async (req: Request, res: Response) => {

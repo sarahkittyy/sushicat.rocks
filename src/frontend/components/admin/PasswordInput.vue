@@ -14,8 +14,6 @@ import TextInput from '~/admin/TextInput';
 
 export default {
 	name: 'PasswordInput',
-	data: () => ({
-	}),
 	components: {
 		TextInput
 	},
@@ -31,9 +29,6 @@ export default {
 				this.$emit('input', v);
 			}
 		}
-	},
-	created() {
-		this.$store.dispatch('checkAdmin')
 	}
 };
 </script>
