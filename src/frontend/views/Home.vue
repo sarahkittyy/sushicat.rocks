@@ -6,7 +6,7 @@
 				<spinning-sushicat dir="left" id="left" :maxheight="sushicatHeight" />
 				<spinning-sushicat dir="right" id="right" :maxheight="sushicatHeight" />
 			</span>
-			<div class="font-comic-sans" id="middle">
+			<div id="middle">
 				<img src="/assets/logo.png" :style="`max-height: ${sushicatHeight + 30}px;`" class="logo" />
 				<br />
 				<toggle-switch v-model="backgroundVisible">animate background?</toggle-switch>
@@ -14,7 +14,7 @@
 		</div>
 	</header-divider>
 
-	<div class="content font-comic-sans">
+	<div class="content">
 		<content-container style="text-align: center;">
 			<h1 class="rainbow-text">hewwo an welcome to my site</h1>
 			<h4>nya~</h4>
@@ -123,6 +123,8 @@ export default {
 @use '~@/common';
 
 .content {
+	@include common.font-comic-sans;
+	
 	display: flex;
 	
 	flex-wrap: nowrap;
@@ -161,6 +163,8 @@ export default {
 	}
 	
 	#middle {
+		@include common.font-comic-sans;
+		
 		margin: 0 auto;
 		width: 500px;
 		

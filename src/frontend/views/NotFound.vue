@@ -1,5 +1,5 @@
 <template>
-<div class="center font-comic-sans">
+<div class="center">
 	<h1>page nyot found ;w;</h1>
 	<simple-button @click="back">go {{ redirectLocation }} &lt;3</simple-button>
 	<br />
@@ -40,6 +40,8 @@ export default {
 @use '~@/common';
 
 .center {
+	@include common.font-comic-sans;
+	
 	position: absolute;
 	top: 50%;
 	left: 50%;

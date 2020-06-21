@@ -8,11 +8,11 @@
 	src: url('/assets/PxPlus_VGA_SquarePx.ttf') format('truetype');
 }
 
-.font-comic-sans {
+@mixin font-comic-sans {
 	font-family: "Comic Sans MS", "Comic Sans";
 }
 
-.font-cp437 {
+@mixin font-cp437 {
 	font-family: "CP437";
 }
 

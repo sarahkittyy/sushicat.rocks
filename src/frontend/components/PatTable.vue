@@ -1,5 +1,5 @@
 <template>
-<div id="pats" class="font-comic-sans">
+<div id="pats">
 	<text-input
 		v-model="patName"
 		placeholder="ur name <3"
@@ -136,6 +136,8 @@ export default {
 @use '~@/common';
 
 #pats {
+	@include common.font-comic-sans;
+	
 	*:not(table) {
 		margin-top: 12px;
 	}

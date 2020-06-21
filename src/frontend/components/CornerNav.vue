@@ -1,5 +1,5 @@
 <template>
-<div class="corner-toast font-comic-sans" @mouseenter="mouseenter" @mouseleave="mouseleave">
+<div class="corner-toast" @mouseenter="mouseenter" @mouseleave="mouseleave">
 	<slot name="small" v-if="!hovering" />
 	<slot name="large" v-else />
 </div>
@@ -34,6 +34,8 @@ export default {
 @use '~@/common';
 
 .corner-toast {
+	@include common.font-comic-sans;
+	
 	position: fixed;
 	right: 0;
 	bottom: 0;

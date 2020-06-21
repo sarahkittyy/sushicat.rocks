@@ -1,5 +1,5 @@
 <template>
-<div class="header font-comic-sans" :style="{ height }">
+<div class="header" :style="{ height }">
 	<slot />
 </div>
 </template>
@@ -16,6 +16,8 @@ export default {
 @use '~@/common';
 
 .header {
+	@include common.font-comic-sans;
+	
 	width: 100%;
 	
 	text-align: center;

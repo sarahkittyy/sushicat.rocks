@@ -1,5 +1,5 @@
 <template>
-<div style="width: 100%; height: 100vh; overflow: hidden;" class="font-comic-sans">
+<div style="width: 100%; height: 100vh; overflow: hidden;" class="main">
 	<div class="site" v-if="entered">
 		<audio ref="bgAudio" @canplay="decreaseVolume" src="/assets/009.mp3" autoplay></audio>
 		<div id="heading" :style="`flex-direction: ${headingFlexDir};`">
@@ -151,6 +151,10 @@ export default {
 <style lang="scss" scoped>
 
 @use '~@/common';
+
+.main {
+	@include common.font-comic-sans;
+}
 
 @keyframes spin {
 	0% {

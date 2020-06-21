@@ -16,7 +16,7 @@ export default {
 	},
 	computed: {
 		classList() {
-			return 'list-content font-comic-sans' + (this.textOnly ? '' : ' border');
+			return 'list-content' + (this.textOnly ? '' : ' border');
 		}
 	}
 };
@@ -27,6 +27,8 @@ export default {
 @use '~@/common';
 
 .list-content {
+	@include common.font-comic-sans;
+	
 	display: flex;
 
 	width: 100%;
