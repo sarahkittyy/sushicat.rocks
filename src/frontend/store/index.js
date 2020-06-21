@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 
 import * as pat from './pats';
 import * as arf from './arf';
+import * as auth from './auth';
 
 Vue.use(Vuex);
 
@@ -10,6 +11,7 @@ const store = new Vuex.Store({
 	state: {
 		patUsers: [],
 		totalArfs: 0,
+		adminStatus: false,
 	},
 	mutations: {
 		setPatUsers(state, users) {
@@ -30,6 +32,9 @@ const store = new Vuex.Store({
 		setTotalArfs(state, arfs) {
 			state.totalArfs = arfs;
 		},
+		setAdminStatus(state, status) {
+			state.adminStatus = status;
+		}
 	},
 	actions: {
 		fetchPatUsers({ commit }) {
@@ -62,6 +67,31 @@ const store = new Vuex.Store({
 				Vue.$snotify.error(message, error);
 			});
 		},
+		adminLogin({ commit }, { password }) {
+			auth.login(password)
+			.then(() => commit('setAdminStatus', true))
+			.catch(({error, message}) => {
+				Vue.$snotify.error(message, error);
+			});
+		},
+		adminLogout({ commit }) {
+			auth.logout()
+			.then(() => {
+				commit('setAdminStatus', false);
+			})
+			.catch(({ error, message }) => {
+				Vue.$snotify.error(message, error);
+			})
+		},
+		adminCheckStatus({commit}) {
+			auth.status()
+			.then((v) => {
+				commit('setAdminStatus', v);
+			})
+			.catch(({error, message}) => {
+				Vue.$snotify.error(message, error);
+			})
+		}
 	},
 	getters: {
 		pats(state) {
@@ -72,7 +102,10 @@ const store = new Vuex.Store({
 		},
 		arfs(state) {
 			return state.totalArfs;
-		}
+		},
+		admin(state) {
+			return state.adminStatus;
+		},
 	},
 });
 

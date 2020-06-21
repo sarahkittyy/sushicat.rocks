@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
 @font-face {
 	font-family: 'Comic Sans MS';
 	src: url('/assets/COMIC.TTF') format('truetype');
@@ -14,6 +16,10 @@
 
 @mixin font-cp437 {
 	font-family: "CP437";
+}
+
+@mixin font-roboto {
+	font-family: 'Roboto', sans-serif;
 }
 
 .rainbow-text {
@@ -45,6 +51,9 @@
 $grey: #aaa;
 $dark-grey: #777;
 $light-grey: #ccc;
+
+$primary: #8b43ff;
+$secondary: #ffc343;
 
 // sizes
 $small-width: 520px;

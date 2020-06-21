@@ -7,6 +7,7 @@ import Arf from './views/Arf';
 import ArchLinux from './views/ArchLinux';
 import E from './views/E';
 import WhyAreYouHere from './views/WhyAreYouHere';
+import Admin from './views/Admin';
 
 const routes = [
 	{ path: '/', redirect: '/home' },
@@ -15,6 +16,7 @@ const routes = [
 	{ path: '/arch', component: ArchLinux },
 	{ path: '/e', component: E },
 	{ path: '/why/are/you/here', component: WhyAreYouHere },
+	{ path: '/admin', component: Admin },
 	{ path: '*', component: NotFound },
 ];
 
