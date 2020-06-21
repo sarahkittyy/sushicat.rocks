@@ -6,6 +6,8 @@ import { body, query, validationResult } from 'express-validator';
 import { PatUser, PatUserSchema } from '../db/models/PatUser';
 import { incArf, getArfs } from './arfs';
 
+import admin from './admin';
+
 import client from '../util/twitter';
 
 const api = express.Router();
@@ -89,6 +91,8 @@ api.get('/leffen_tweet', (req, res) => {
 		return res.send(`Couldn't retrieve tweets :(`);
 	});
 });
+
+api.use('/admin', admin);
 	
 api.all('**', ratelimit(), (req, res) => {
 	return res.status(404).send('api endpoint not found ;-;');
