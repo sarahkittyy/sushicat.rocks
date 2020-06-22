@@ -3,17 +3,12 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Snotify, { SnotifyPosition } from 'vue-snotify';
 
-import { defineCustomElements as ion } from '@ion-phaser/core/loader';
-
 import 'vue-snotify/styles/simple.css';
 
 import store from './store';
 import router from './router';
 
 Vue.config.productionTip = false;
-Vue.config.ignoredElements = [/ion-\w*/];
-
-ion(window);
 
 Vue.use(VueRouter);
 Vue.use(Snotify, {
