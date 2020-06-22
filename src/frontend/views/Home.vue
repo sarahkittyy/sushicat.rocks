@@ -33,6 +33,7 @@
 		<template v-slot:large>
 			<app-list heading="navigation <3" text-only>
 				<url-list-item to="/arf">arf! &lt;3</url-list-item>
+				<url-list-item to="/nyoom">NYOOM CARS</url-list-item>
 				<url-list-item to="/arch">arch_linux.js</url-list-item>
 				<url-list-item to="/e">e</url-list-item>
 				<url-list-item to="/why/are/you/here">[under construction do not click]</url-list-item>
@@ -109,6 +110,8 @@ export default {
 		twitter
 	},
 	created() {
+		document.title = '* sooshi cat *';
+		
 		this.$store.dispatch('fetchPatUsers');
 		window.addEventListener('resize', this.computeSushicatHeight);
 		this.computeSushicatHeight();

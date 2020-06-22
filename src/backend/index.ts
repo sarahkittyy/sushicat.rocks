@@ -12,6 +12,10 @@ import './db/init';
 import api from './api';
 import { ratelimit } from './util/Bucket';
 
+import http from 'http';
+import io from 'socket.io';
+import { ioConfig } from './sockets';
+
 const app = express();
 app.use(session({
 	secret: process.env.SECRET,
@@ -51,6 +55,11 @@ app.get('/*', ratelimit(), (req, res) => {
 
 var basePort = parseInt(process.env.PORT ?? '3000');
 
-app.listen(basePort, () => {
+const server = http.createServer(app);
+
+const socket = io(server);
+ioConfig(socket);
+
+server.listen(basePort, () => {
 	console.log(`listenin on port ${basePort}`);
 });

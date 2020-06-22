@@ -66,7 +66,7 @@ Vagrant.configure("2") do |config|
   #   apt-get update
   #   apt-get install -y apache2
   # SHELL
-  config.vm.provision :shell, path: "vagrant/provision.sh", name: "setup"
+  config.vm.provision :shell, path: "vagrant/provision.sh", name: "setup", privileged: false
   config.vm.provision :shell, path: "vagrant/refresh-deps.sh", privileged: false, name: "deps"
   config.vm.provision :shell, path: "vagrant/init-dev.sh", privileged: false, name: "dev"
 end

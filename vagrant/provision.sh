@@ -1,10 +1,13 @@
 #!/bin/bash
 
-apt-get update
+sudo apt-get update
 
-apt install -y mongodb
-systemctl enable --now mongodb
+sudo apt install -y mongodb
+sudo systemctl enable --now mongodb
 
-apt install -y npm nodejs
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 
-sudo npm i -g npx
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+nvm install node

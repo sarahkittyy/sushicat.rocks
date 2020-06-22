@@ -21,6 +21,7 @@
     "@types/express-validator": "^3.0.0",
     "@types/mongoose": "^5.7.16",
     "@types/node": "^13.13.5",
+    "@types/socket.io": "^2.1.8",
     "@types/twitter": "^1.7.0",
     "@vue/cli-service": "^4.3.1",
     "app-root-path": "^3.0.0",
@@ -40,6 +41,7 @@
     "pm2": "^4.4.0",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
+    "socket.io": "^2.3.0",
     "tsc-watch": "^4.2.3",
     "twitter": "^1.7.1",
     "typescript": "^3.9.2",
@@ -49,6 +51,7 @@
   "dependencies": {
     "debounce": "^1.2.0",
     "node-fetch": "^2.6.0",
+    "socket.io-client": "^2.3.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vue-snotify": "^3.2.1",
