@@ -6,6 +6,7 @@
 
 <script>
 import io from 'socket.io-client';
+import * as p5 from 'p5';
 
 export default {
 	name: 'NyoomCars',
