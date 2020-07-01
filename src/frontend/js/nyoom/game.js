@@ -1,0 +1,208 @@
+function deg2rad(d) {
+	return d * (Math.PI / 180);
+};
+
+function rad2deg(r) {
+	return r * (180 / Math.PI);
+};
+
+function dampen(v, max) {
+	if (v > max / 2) {
+		v -= max;
+	} else if (v < -max / 2) {
+		v += max;
+	} else {
+		v = 0;
+	}
+	return v;
+};
+
+class World {
+	constructor(p5) {
+		this.p5 = p5;
+		
+		this.players = {};
+	}
+	
+	addPlayer(data) {
+		let p = new Player(this.p5);
+		this.players[data.id] = p;
+		
+		p.id = data.id;
+		p.pos = data.pos;
+		p.angle = data.angle;
+		p.avel = data.avel;
+		p.vel = data.vel;
+		p.keys = data.keys;
+		
+		return p;
+	}
+	
+	update(dt) {
+		Object.keys(this.players).forEach(p => this.players[p].update(dt));
+	}
+	
+	draw() {
+		Object.keys(this.players).forEach(p => this.players[p].draw());
+	}
+};
+
+class Player {
+	constructor(p5) {
+		this.p5 = p5;
+		
+		this.id = '';
+		
+		this.pos = { x: 0, y: 0 };
+		this.angle = 0;
+		this.avel = 0;
+		this.vel = 0;
+		
+		this.accel = 0.003;
+		this.aaccel = 0.003;
+		this.maxvel = 0.15;
+		this.maxavel = 0.15;
+		
+		this.keys = {
+			left: false,
+			right: false,
+			up: false,
+			down: false,
+		};
+	}
+	
+	setKeys(keys) {
+		this.keys = keys;
+	}
+	
+	update(dt) {
+		if (this.keys.up) { this.vel += this.accel * dt; }
+		else if (this.keys.down) { this.vel -= this.accel * dt; }
+		else { this.vel = dampen(this.vel, this.maxvel) }
+		
+		if (this.keys.left) { this.avel += this.aaccel * dt; }
+		else if (this.keys.right) { this.avel -= this.aaccel * dt; }
+		else { this.avel = dampen(this.avel, this.maxavel) }
+		
+		if (this.vel > this.maxvel) { this.vel = this.maxvel }
+		if (this.vel < -this.maxvel) { this.vel = -this.maxvel }
+
+		if (this.avel > this.maxavel) { this.avel = this.maxavel }
+		if (this.avel < -this.maxavel) { this.avel = -this.maxavel }
+		
+		this.angle -= this.avel * dt;
+		
+		let xv = Math.cos(deg2rad(this.angle)) * this.vel;
+		let yv = Math.sin(deg2rad(this.angle)) * this.vel;
+		
+		this.pos.x += xv * dt;
+		this.pos.y += yv * dt;
+	}
+	
+	draw() {
+		this.p5.fill(0xFFFFFF);
+		this.p5.circle(this.pos.x, this.pos.y, 42);
+	}
+};
+
+export default (container, $socket) => (p5) => {
+	var $cnv;
+	
+	var world = new World(p5);
+	
+	var t = window.performance.now();
+	
+	const width = 700;
+	const height = 700;
+	
+	let me = null;
+	
+	p5.setup = () => {
+		$cnv = p5.createCanvas(width, height);
+		$cnv.parent(container)
+		$cnv.position((p5.windowWidth - width) / 2, (p5.windowHeight - height) / 2);
+		window.onresize = () => {
+			$cnv.position((p5.windowWidth - width) / 2, (p5.windowHeight - height) / 2);
+		};
+		
+		p5.frameRate(60);
+	};
+	
+	p5.draw = () => {
+		let dt = t - window.performance.now();
+		t = window.performance.now();
+		
+		p5.background('#ccc');
+		
+		world.update(dt);
+		world.draw();
+	};
+	
+	p5.keyPressed = () => {
+		if (!me) return;
+		
+		if (p5.key === 'w') {
+			me.keys.up = true;
+		} else if (p5.key === 's') {
+			me.keys.down = true;
+		} else if (p5.key === 'a') {
+			me.keys.left = true;
+		} else if (p5.key === 'd') {
+			me.keys.right = true;
+		}
+		
+		$socket.emit('keyStateChange', {keys: me.keys});
+	};
+	
+	p5.keyReleased = () => {
+		if (!me) return;
+
+		if (p5.key === 'w') {
+			me.keys.up = false;
+		} else if (p5.key === 's') {
+			me.keys.down = false;
+		} else if (p5.key === 'a') {
+			me.keys.left = false;
+		} else if (p5.key === 'd') {
+			me.keys.right = false;
+		}
+
+		$socket.emit('keyStateChange', {keys: me.keys});
+	};
+	
+	$socket.on('worldupdate', ({players}) => {
+		console.log('world update received');
+		world.players = {};
+		for (let player of players) {
+			let p = world.addPlayer(player);
+			if (player.id === $socket.id) {
+				me = p;
+			}
+		}
+	});
+	
+	$socket.on('playerjoin', (data) => {
+		console.log('player joined');
+		let p = world.addPlayer(data);
+		if (data.id === $socket.id) {
+			me = p;
+		}
+	});
+	
+	$socket.on('playerleave', (id) => {
+		console.log('player left');
+		
+		delete world.players[id];
+	});
+	
+	$socket.on('update', (data) => {
+		let { id, pos, angle, avel, vel, keys } = data;
+		
+		let p = world.players[id];
+		p.pos = pos;
+		p.angle = angle;
+		p.avel = avel;
+		p.vel = vel;
+		p.keys = keys;
+	});
+};
