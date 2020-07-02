@@ -9,6 +9,9 @@
 			placeholder="username"
 			@submit="load()"
 		/>
+		<simple-button id="submit-button" @click="load()">
+			enter
+		</simple-button>
 		<p v-if="error">error: {{ error }}</p>
 	</div>
 
@@ -105,6 +108,10 @@ export default {
 	border: 1px solid black;
 	border-radius: 15px;
 	background: common.$grey;
+	
+	#submit-button {
+		margin-top: 10px;
+	}
 }
 
 .leave-button {
