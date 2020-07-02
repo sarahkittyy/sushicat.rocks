@@ -41,7 +41,7 @@ class World {
 	}
 	
 	updatePlayer(id, data) {
-		let p = this.players[data.id];
+		let p = this.players[id || data.id];
 
 		p.pos = data.pos;
 		p.angle = data.angle;
