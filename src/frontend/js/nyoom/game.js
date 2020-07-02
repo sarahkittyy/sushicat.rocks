@@ -247,7 +247,8 @@ class Player {
 		this.p5.fill(0xFFFFFF);
 		this.p5.textSize(18);
 		this.p5.rotate(-deg2rad(this.angle + 90));
-		this.p5.text(this.username, -16, -32);
+		this.p5.textAlign(this.p5.CENTER);
+		this.p5.text(this.username, 0, -32);
 		this.p5.fill(0x8abeb7);
 
 		this.p5.pop();
