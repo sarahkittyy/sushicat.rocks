@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 function deg2rad(d) {
 	return d * (Math.PI / 180);
 };
@@ -41,11 +43,35 @@ class World {
 		
 		this.carImg = null;
 		this.mapImg = null;
+		
+		this.tiles = [];
 	}
 	
 	preload() {
 		this.carImg = this.p5.loadImage('/assets/car.png');
 		this.mapImg = this.p5.loadImage('/assets/nyoom_map_render.png');
+		
+		fetch('/assets/nyoom_map.json')
+		.then(res => res.text())
+		.then(text => JSON.parse(text))
+		.then(map => {
+			let { width, tilewidth, tileheight } = map;
+			this.tiles = map.layers[0].data
+				.map((t, i) => {
+					let x = (i % width) * tilewidth;
+					let y = Math.floor(i / width) * tileheight;
+					
+					x -= 32*15;
+					y -= 32*2;
+					
+					return {x, y, t};
+				})
+				.filter(v => v.t == 1);
+		})
+		.catch(e => {
+			alert('Error loading assets :(');
+			window.location.reload();
+		})
 	}
 	
 	addPlayer(data) {
@@ -72,7 +98,8 @@ class World {
 	}
 	
 	update(dt) {
-		Object.keys(this.players).forEach(p => this.players[p].update(dt, this.players));
+		Object.keys(this.players)
+			.forEach(p => this.players[p].update(dt, this.players, this.tiles));
 	}
 	
 	draw() {
@@ -117,7 +144,7 @@ class Player {
 		this.keys = keys;
 	}
 	
-	update(dt, players) {
+	update(dt, players, tiles) {
 		if (this.keys.up) {
 			if (this.vel < 0) { this.vel += this.accel * dt; }
 			this.vel += this.accel * dt;
@@ -154,11 +181,12 @@ class Player {
 			yv * dt,
 			Object.keys(players)
 				.map(p => players[p])
-				.filter(p => p.id !== this.id)
+				.filter(p => p.id !== this.id),
+			tiles,
 		);
 	}
 	
-	moveWithCollisions(xv, yv, players) {
+	moveWithCollisions(xv, yv, players, tiles) {
 		// true or false
 		const hitsSomething = (x, y) => {
 			for(let player of players) {
@@ -171,6 +199,15 @@ class Player {
 				let dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
 				
 				if (dist < this.crad + prad) {
+					return true;
+				}
+			}
+			for (let tile of tiles) {
+				if (RectCircleColliding({
+					x, y, r: this.crad,
+				}, {
+					x: tile.x, y: tile.y, w: 32, h: 32
+				})) {
 					return true;
 				}
 			}
