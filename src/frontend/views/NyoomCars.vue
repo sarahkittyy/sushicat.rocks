@@ -18,6 +18,9 @@
 			leave
 		</simple-button>
 	</div>
+	<div class="lap-table" v-if="joined">
+		<nyoom-table />
+	</div>
 </div>
 </template>
 
@@ -28,6 +31,7 @@ import game from '../js/nyoom/game';
 
 import TextInput from '~/TextInput';
 import SimpleButton from '~/SimpleButton';
+import NyoomTable from '~/NyoomTable';
 
 export default {
 	name: 'NyoomCars',
@@ -57,13 +61,14 @@ export default {
 			this.$socket.emit('setusername', this.username);
 			
 			this.$socket.on('lap', ({ name, laps }) => {
-
+				this.$store.commit('setNyoomRacer', { name, laps });
 			});
 		}
 	},
 	components: {
 		TextInput,
 		SimpleButton,
+		NyoomTable,
 	},
 	watch: {
 		username(_) {
@@ -108,6 +113,13 @@ export default {
 	* {
 		width: 100px;
 	}
+}
+
+.lap-table {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 5px;
 }
 
 </style>

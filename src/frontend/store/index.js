@@ -5,6 +5,7 @@ import * as pat from './pats';
 import * as arf from './arf';
 import * as auth from './auth';
 import * as apat from './adminPats';
+import * as nyoom from './nyoom';
 
 Vue.use(Vuex);
 
@@ -13,6 +14,7 @@ const store = new Vuex.Store({
 		patUsers: [],
 		totalArfs: 0,
 		adminStatus: false,
+		nyoomUsers: [],
 	},
 	mutations: {
 		setPatUsers(state, users) {
@@ -35,7 +37,21 @@ const store = new Vuex.Store({
 		},
 		setAdminStatus(state, status) {
 			state.adminStatus = status;
-		}
+		},
+		setNyoomRacers(state, users) {
+			state.nyoomUsers = users;
+		},
+		setNyoomRacer(state, user) {
+			let users = [...state.nyoomUsers];
+			let i = users.findIndex(e => e.name === user.name);
+			if (i != -1) {
+				users[i] = user;
+			} else {
+				users.push(user);
+			}
+			
+			state.nyoomUsers = [...users];
+		},
 	},
 	actions: {
 		fetchPatUsers({ commit }) {
@@ -49,6 +65,13 @@ const store = new Vuex.Store({
 			pat.postPatAndUpdate(name, pats)
 			.then(user => {
 				commit('setPatUser', user);
+			})
+			.catch(({message, error}) => Vue.$snotify.error(message, error));
+		},
+		fetchNyoomRacers({ commit }) {
+			nyoom.fetchNyoomRacers()
+			.then((users) => {
+				commit('setNyoomRacers', users);
 			})
 			.catch(({message, error}) => Vue.$snotify.error(message, error));
 		},
@@ -127,7 +150,7 @@ const store = new Vuex.Store({
 			.catch(({error, message}) => {
 				Vue.$snotify.error(message, error);
 			})
-		}
+		},
 	},
 	getters: {
 		pats(state) {
@@ -142,6 +165,12 @@ const store = new Vuex.Store({
 		admin(state) {
 			return state.adminStatus;
 		},
+		nyooms(state) {
+			return state.nyoomUsers.sort((a, b) => Math.sign(b.laps - a.laps));
+		},
+		nyoomsUnsorted(state) {
+			return state.nyoomUsers;
+		}
 	},
 });
 

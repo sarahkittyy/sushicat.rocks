@@ -5,6 +5,7 @@ import { body, query, validationResult } from 'express-validator';
 
 import { PatUser, PatUserSchema } from '../db/models/PatUser';
 import { incArf, getArfs } from './arfs';
+import { NyoomRacer } from '../db/models/NyoomRacer';
 
 import admin from './admin';
 
@@ -75,7 +76,7 @@ api.route('/arf')
 		return res.send({ arfs: await getArfs() });
 	});
 
-api.get('/leffen_tweet', (req, res) => {
+api.get('/leffen_tweet', ratelimit(), (req, res) => {
 	client.get('/statuses/user_timeline', {
 		screen_name: 'DeepLeffen',
 		count: 20,
@@ -90,6 +91,10 @@ api.get('/leffen_tweet', (req, res) => {
 		console.error(err);
 		return res.send(`Couldn't retrieve tweets :(`);
 	});
+});
+
+api.get('/nyooms', ratelimit(), async (req, res) => {
+	return res.send(await NyoomRacer.find().select('name laps').lean());
 });
 
 api.use('/admin', admin);
