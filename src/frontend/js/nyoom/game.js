@@ -181,6 +181,8 @@ export default (container, $socket) => (p5) => {
 		let dt = (window.performance.now() - t) / 1000;
 		t = window.performance.now();
 		
+		p5.translate(350  -me.pos.x, 350 - me.pos.y);
+		
 		p5.background('#ccc');
 		
 		world.update(dt);
