@@ -1,6 +1,12 @@
 <template>
 <div>
-	<input type="text" @keyup.enter="$emit('submit')" v-model="inputVal" :placeholder="placeholder" class="input" />
+	<input
+		:type="type"
+		@keyup.enter="$emit('submit')"
+		v-model="inputVal"
+		:error="error"
+		:placeholder="placeholder"
+		class="input" />
 </div>
 </template>
 
@@ -10,6 +16,8 @@ export default {
 	props: {
 		value: String,
 		placeholder: String,
+		type: String,
+		error: Boolean,
 	},
 	computed: {
 		inputVal: {
@@ -39,6 +47,10 @@ export default {
 	
 	&:focus {
 		border: 2px solid #33ccff;
+	}
+	
+	&[error] {
+		border-color: red;
 	}
 }
 

@@ -2,8 +2,14 @@
 <div>
 
 	<div v-if="!joined" class="username-input">
-		<p>Username:</p>
-		<text-input v-model="username" placeholder="username" @submit="load()" />
+		<p>username:</p>
+		<text-input
+			v-model="username"
+			:error="!!error"
+			placeholder="username"
+			@submit="load()"
+		/>
+		<p v-if="error">error: {{ error }}</p>
 	</div>
 
 	<div id="sketch" />
@@ -28,14 +34,21 @@ export default {
 	data: () => ({
 		$socket: null,
 		game: null,
-		username: null,
+		username: '',
 		joined: false,
+		error: null,
 	}),
 	created() {
 		document.title = 'nyoom cars o3o';
 	},
 	methods: {
 		load() {
+			let trimmed = this.username.trim();
+			if (trimmed.length === 0) {
+				this.error = 'must include some characters'
+				return;
+			}
+			
 			this.$socket = io('/nyoom', {transports: ['websocket']});
 
 			this.game = new p5(game('sketch', this.$socket));
@@ -48,6 +61,11 @@ export default {
 		TextInput,
 		SimpleButton,
 	},
+	watch: {
+		username(_) {
+			this.error = null;
+		}
+	}
 };
 </script>
 

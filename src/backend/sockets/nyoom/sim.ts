@@ -219,7 +219,11 @@ export class Player {
 	}
 	
 	public setUsername(name: string) {
-		this.username = name;
+		let trimmed = name.trim();
+		if(trimmed.length === 0) {
+			trimmed = 'unnamed';
+		}
+		this.username = trimmed;
 	}
 	
 	public serialize(): PlayerData {

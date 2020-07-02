@@ -3,6 +3,7 @@
 	<text-input
 		v-model="patName"
 		placeholder="ur name <3"
+		type="text"
 		@submit="addPat" />
 	<simple-button
 		class="pat-button"
