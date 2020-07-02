@@ -1,6 +1,7 @@
 import io from 'socket.io';
 import fs from 'fs';
 import appRoot from 'app-root-path';
+import { NyoomRacer } from '../../db/models/NyoomRacer';
 
 export interface KeyState {
 	left: boolean;
@@ -40,6 +41,18 @@ export interface Tile {
 	t: number,
 };
 
+export interface Checkpoint {
+	x: number,
+	y: number,
+	w: number,
+	h: number,	
+};
+
+const tileOffset = {
+	x: 32*17,
+	y: 32*2,
+};
+
 export class World {
 	private server: io.Namespace;
 	
@@ -58,8 +71,8 @@ export class World {
 				let x = (index % width) * tilewidth;
 				let y = Math.floor(index / width) * tileheight; 
 				
-				x -= 32*15;
-				y -= 32*2;
+				x -= tileOffset.x;
+				y -= tileOffset.y;
 				
 				return { x, y, t };
 			})
@@ -71,6 +84,7 @@ export class World {
 			
 			// setup the player
 			let player = new Player(socket);
+			player.findUntouchedPos(Object.keys(this.players).map(p => this.players[p]), this.tiles);
 			this.players[socket.id] = player;
 
 			this.server.emit('worldupdate', this.serialize());
@@ -135,6 +149,9 @@ export class Player {
 	
 	private crad: number;
 	
+	private lastCheckpoint: number;
+	private checkpoints: Checkpoint[];
+	
 	public constructor(socket: io.Socket) {
 		this.socket = socket;
 		
@@ -147,7 +164,7 @@ export class Player {
 		
 		this.username = 'unnamed';
 		
-		this.pos = { x: 50, y: 50 };
+		this.pos = { x: 0, y: 0 };
 		this.angle = 0;
 		this.avel = 0;
 		this.vel = 0;
@@ -157,13 +174,75 @@ export class Player {
 		this.maxvel = 300;
 		this.maxavel = 200;
 		
+		this.lastCheckpoint = 0;
+		
 		this.crad = 16;
 		
 		this.color = Math.floor(Math.random() * 0xFFFFFF);
+		
+		this.checkpoints = [
+			{
+				x: 16 * 32,
+				y: 1 * 32,
+				w: 2 * 32,
+				h: 5 * 32,	
+			},
+			{
+				x: 25 * 32,
+				y: 30 * 32,
+				w: 1 * 32,
+				h: 3 * 32,
+			},
+			{
+				x: 1 * 32,
+				y: 23 * 32,
+				w: 7 * 32,
+				h: 1 * 32,
+			}
+		];
+		this.checkpoints.forEach(v => {
+			v.x -= tileOffset.x;
+			v.y -= tileOffset.y;
+		});
+	}
+	
+	public findUntouchedPos(players: Player[], tiles: Tile[]) {
+		for(let y = 0; y < 32*4; y += 32) {
+			for(let x = 0; x < 32*8; x += 32) {
+				if (!this.hitsSomething(x, y, players, tiles)) {
+					this.pos.x = x;
+					this.pos.y = y;
+					return;
+				}
+			}
+		}
 	}
 	
 	public handleKeyChange(keys: KeyState) {
 		this.keys = keys;
+	}
+	
+	private lap() {
+		NyoomRacer.lap(this.username).then(v => {
+			this.socket.emit('lap', { name: this.username, laps: v });
+		});
+	}
+	
+	private handleCheckpoints() {
+		let nextCheckpointI = this.lastCheckpoint + 1;
+		if (nextCheckpointI >= this.checkpoints.length) {
+			nextCheckpointI = 0;
+		}
+		let nextCheckpoint = this.checkpoints[nextCheckpointI];
+		
+		if (RectCircleColliding({
+			x: this.pos.x, y: this.pos.y, r: this.crad,
+		}, nextCheckpoint)) {
+			this.lastCheckpoint = nextCheckpointI;
+			if (this.lastCheckpoint === 0) {
+				this.lap();
+			}
+		}
 	}
 	
 	public update(dt: number, players: { [id: string]: Player }, tiles: Tile[]) {
@@ -206,43 +285,43 @@ export class Player {
 				.filter(p => p.socket.id !== this.socket.id),
 			tiles
 		);
+		
+		this.handleCheckpoints();
+	}
+	
+	private hitsSomething(x: number, y: number, players: Player[], tiles: Tile[]) {
+		for(let player of players) {
+			let px = player.pos.x;
+			let py = player.pos.y;
+			let prad = player.crad;
+			
+			let distX = px - x;
+			let distY = py - y;
+			let dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+			
+			if (dist < this.crad + prad) {
+				return true;
+			}
+		}
+		for (let tile of tiles) {
+			if (RectCircleColliding({
+				x, y, r: this.crad,
+			}, {
+				x: tile.x, y: tile.y, w: 32, h: 32
+			})) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	private moveWithCollisions(xv: number, yv: number, players: Player[], tiles: Tile[]) {
-		// true or false
-		const hitsSomething = (x, y) => {
-			for(let player of players) {
-				let px = player.pos.x;
-				let py = player.pos.y;
-				let prad = player.crad;
-				
-				let distX = px - x;
-				let distY = py - y;
-				let dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
-				
-				if (dist < this.crad + prad) {
-					return true;
-				}
-			}
-			for (let tile of tiles) {
-				if (RectCircleColliding({
-					x, y, r: this.crad,
-				}, {
-					x: tile.x, y: tile.y, w: 32, h: 32
-				})) {
-					return true;
-				}
-			}
-			
-			return false;
-		};
-		
-		
 		for(let t = 0; t < 1.0; t += 0.1) {
 			let x = this.pos.x + xv * 0.1;
 			let y = this.pos.y + yv * 0.1;
 			
-			let test = hitsSomething(x, y);
+			let test = this.hitsSomething(x, y, players, tiles);
 			if(test) {
 				this.vel = 0;
 				break;

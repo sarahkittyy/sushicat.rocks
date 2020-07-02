@@ -19,6 +19,11 @@ function dampen(v, accel) {
 	return v;
 };
 
+const tileOffset = {
+	x: 32*17,
+	y: 32*2,
+};
+
 // https://stackoverflow.com/questions/21089959/detecting-collision-of-rectangle-with-circle
 function RectCircleColliding(circle, rect) {
     var distX = Math.abs(circle.x - rect.x-rect.w/2);
@@ -61,8 +66,8 @@ class World {
 					let x = (i % width) * tilewidth;
 					let y = Math.floor(i / width) * tileheight;
 					
-					x -= 32*15;
-					y -= 32*2;
+					x -= tileOffset.x;
+					y -= tileOffset.y;
 					
 					return {x, y, t};
 				})
@@ -103,7 +108,7 @@ class World {
 	}
 	
 	draw() {
-		this.p5.image(this.mapImg, -(32 * 15), -(32 * 2), 32*35, 32*35);
+		this.p5.image(this.mapImg, -tileOffset.x, -tileOffset.y, 32*35, 32*35);
 		Object.keys(this.players).forEach(p => this.players[p].draw());
 	}
 };

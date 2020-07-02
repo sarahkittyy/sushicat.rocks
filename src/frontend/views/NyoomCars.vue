@@ -55,6 +55,10 @@ export default {
 			this.joined = true;
 			
 			this.$socket.emit('setusername', this.username);
+			
+			this.$socket.on('lap', ({ name, laps }) => {
+
+			});
 		}
 	},
 	components: {
