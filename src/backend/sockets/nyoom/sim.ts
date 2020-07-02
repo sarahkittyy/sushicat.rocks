@@ -130,7 +130,7 @@ export class World {
 
 export class Player {
 	private socket: io.Socket;
-	private server: io.Server;
+	private server: io.Namespace;
 	
 	private pos: Vector;
 	private angle: number;
@@ -153,7 +153,7 @@ export class Player {
 	private lastCheckpoint: number;
 	private checkpoints: Checkpoint[];
 	
-	public constructor(socket: io.Socket, server: io.Server) {
+	public constructor(socket: io.Socket, server: io.Namespace) {
 		this.socket = socket;
 		this.server = server;
 		
