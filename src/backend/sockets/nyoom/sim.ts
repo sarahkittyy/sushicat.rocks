@@ -83,7 +83,7 @@ export class World {
 			console.log(`new nyoom connection: ${socket.id}`);
 			
 			// setup the player
-			let player = new Player(socket);
+			let player = new Player(socket, this.server);
 			player.findUntouchedPos(Object.keys(this.players).map(p => this.players[p]), this.tiles);
 			this.players[socket.id] = player;
 
@@ -130,6 +130,7 @@ export class World {
 
 export class Player {
 	private socket: io.Socket;
+	private server: io.Server;
 	
 	private pos: Vector;
 	private angle: number;
@@ -152,8 +153,9 @@ export class Player {
 	private lastCheckpoint: number;
 	private checkpoints: Checkpoint[];
 	
-	public constructor(socket: io.Socket) {
+	public constructor(socket: io.Socket, server: io.Server) {
 		this.socket = socket;
+		this.server = server;
 		
 		this.keys = {
 			left: false,
@@ -224,7 +226,7 @@ export class Player {
 	
 	private lap() {
 		NyoomRacer.lap(this.username).then(v => {
-			this.socket.emit('lap', { name: this.username, laps: v });
+			this.server.emit('lap', { name: this.username, laps: v });
 		});
 	}
 	
