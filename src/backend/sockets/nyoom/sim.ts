@@ -336,7 +336,7 @@ export class Player {
 	
 	public setUsername(name: string) {
 		let trimmed = name.trim();
-		if(trimmed.length === 0) {
+		if(trimmed.length === 0 || trimmed.length > 20) {
 			trimmed = 'unnamed';
 		}
 		this.username = trimmed;

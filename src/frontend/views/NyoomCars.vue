@@ -52,8 +52,11 @@ export default {
 		load() {
 			let trimmed = this.username.trim();
 			if (trimmed.length === 0) {
-				this.error = 'must include some characters'
+				this.error = 'must include some characters';
 				return;
+			}
+			if (trimmed.length > 20) {
+				this.error = "must be <= 20 chars long";
 			}
 			
 			this.$socket = io('/nyoom', {transports: ['websocket']});
