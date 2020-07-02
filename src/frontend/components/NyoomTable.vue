@@ -33,8 +33,14 @@ export default {
 	
 	text-align: center;
 	
+	max-height: 80vh;
+	overflow: hidden;
+	
+	max-width: 350px;
+
 	th, td {
-		width: 100px;
+		padding: 5px;
+		
 	}
 }
 
