@@ -32,9 +32,17 @@ class World {
 	
 	addPlayer(data) {
 		let p = new Player(this.p5, this.carImg);
+		p.id = data.id;
 		this.players[data.id] = p;
 		
-		p.id = data.id;
+		this.updatePlayer(p.id, data);
+		
+		return p;
+	}
+	
+	updatePlayer(id, data) {
+		let p = this.players[data.id];
+
 		p.pos = data.pos;
 		p.angle = data.angle;
 		p.avel = data.avel;
@@ -42,8 +50,6 @@ class World {
 		p.keys = data.keys;
 		p.username = data.username;
 		p.color = data.color;
-		
-		return p;
 	}
 	
 	update(dt) {
@@ -227,15 +233,6 @@ export default (container, $socket) => (p5) => {
 	});
 	
 	$socket.on('update', (data) => {
-		let { id, pos, angle, avel, vel, keys, username, color } = data;
-		
-		let p = world.players[id];
-		p.pos = pos;
-		p.angle = angle;
-		p.avel = avel;
-		p.vel = vel;
-		p.keys = keys;
-		p.username = username;
-		p.color = color;
+		world.updatePlayer(data.id, data);
 	});
 };
