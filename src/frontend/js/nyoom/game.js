@@ -239,7 +239,8 @@ class Player {
 		this.p5.rotate(deg2rad(this.angle + 90));
 		this.p5.image(this.carImg, -16, -32);
 		this.p5.circle(0, 0, this.crad * 2);
-		this.p5.fill(0x000000);
+		this.p5.fill(0xFFFFFF);
+		this.p5.textSize(18);
 		this.p5.rotate(-deg2rad(this.angle + 90));
 		this.p5.text(this.username, -16, -32);
 		this.p5.fill(0x8abeb7);
