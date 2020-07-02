@@ -57,6 +57,7 @@ export default {
 			}
 			if (trimmed.length > 20) {
 				this.error = "must be <= 20 chars long";
+				return;
 			}
 			
 			this.$socket = io('/nyoom', {transports: ['websocket']});
@@ -80,6 +81,9 @@ export default {
 		username(_) {
 			this.error = null;
 		}
+	},
+	beforeDestroy() {
+		this.$socket.close();
 	}
 };
 </script>
