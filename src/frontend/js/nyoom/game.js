@@ -284,6 +284,8 @@ export default (container, $socket) => (p5) => {
 	};
 	
 	p5.draw = () => {
+		if (!me) return;
+
 		let dt = (window.performance.now() - t) / 1000;
 		t = window.performance.now();
 		
