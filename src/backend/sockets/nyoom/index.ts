@@ -11,7 +11,7 @@ export function conf(io: io.Server) {
 	let t = performance.now();
 	
 	setInterval(() => {
-		let dt = t - performance.now();
+		let dt = (performance.now() - t) / 1000;
 		t = performance.now();
 		
 		world.update(dt);

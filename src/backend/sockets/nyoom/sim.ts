@@ -125,10 +125,10 @@ export class Player {
 		this.avel = 0;
 		this.vel = 0;
 		
-		this.accel = 0.003;
-		this.aaccel = 0.003;
-		this.maxvel = 0.15;
-		this.maxavel = 0.15;
+		this.accel = 200;
+		this.aaccel = 250;
+		this.maxvel = 300;
+		this.maxavel = 200;
 		
 		this.color = Math.floor(Math.random() * 0xFFFFFF);
 	}
@@ -138,13 +138,25 @@ export class Player {
 	}
 	
 	public update(dt: number) {
-		if (this.keys.up) { this.vel += this.accel * dt; }
-		else if (this.keys.down) { this.vel -= this.accel * dt; }
-		else { this.vel = dampen(this.vel, this.maxvel) }
+		if (this.keys.up) {
+			if (this.vel < 0) { this.vel += this.accel * dt; }
+			this.vel += this.accel * dt;
+		}
+		else if (this.keys.down) {
+			if (this.vel > 0) { this.vel -= this.accel * dt; }
+			this.vel -= this.accel * dt;
+		}
+		else { this.vel = dampen(this.vel, this.accel * dt * 2) }
 		
-		if (this.keys.left) { this.avel += this.aaccel * dt; }
-		else if (this.keys.right) { this.avel -= this.aaccel * dt; }
-		else { this.avel = dampen(this.avel, this.maxavel) }
+		if (this.keys.left) { 
+			if (this.avel < 0) { this.avel += this.aaccel * dt; }
+			this.avel += this.aaccel * dt;
+		}
+		else if (this.keys.right) { 
+			if (this.avel > 0) { this.avel -= this.aaccel * dt; }
+			this.avel -= this.aaccel * dt;
+		}
+		else { this.avel = dampen(this.avel, this.aaccel * dt * 2) }
 		
 		if (this.vel > this.maxvel) { this.vel = this.maxvel }
 		if (this.vel < -this.maxvel) { this.vel = -this.maxvel }
@@ -179,11 +191,11 @@ export class Player {
 	}
 };
 
-function dampen(v: number, max: number) {
-	if (v > max / 2) {
-		v -= max;
-	} else if (v < -max / 2) {
-		v += max;
+function dampen(v: number, accel: number) {
+	if (v > accel / 2) {
+		v -= accel;
+	} else if (v < -accel / 2) {
+		v += accel;
 	} else {
 		v = 0;
 	}
