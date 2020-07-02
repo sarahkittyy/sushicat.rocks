@@ -22,10 +22,16 @@ class World {
 		this.p5 = p5;
 		
 		this.players = {};
+		
+		this.carImg = null;
+	}
+	
+	preload() {
+		this.carImg = this.p5.loadImage('/assets/car.png');
 	}
 	
 	addPlayer(data) {
-		let p = new Player(this.p5);
+		let p = new Player(this.p5, this.carImg);
 		this.players[data.id] = p;
 		
 		p.id = data.id;
@@ -34,6 +40,7 @@ class World {
 		p.avel = data.avel;
 		p.vel = data.vel;
 		p.keys = data.keys;
+		p.username = data.username;
 		
 		return p;
 	}
@@ -48,8 +55,10 @@ class World {
 };
 
 class Player {
-	constructor(p5) {
+	constructor(p5, carImg) {
 		this.p5 = p5;
+		
+		this.carImg = carImg;
 		
 		this.id = '';
 		
@@ -62,6 +71,10 @@ class Player {
 		this.aaccel = 0.003;
 		this.maxvel = 0.15;
 		this.maxavel = 0.15;
+		
+		this.color = 0xFFFFFF;
+		
+		this.username = 'unnamed';
 		
 		this.keys = {
 			left: false,
@@ -100,8 +113,19 @@ class Player {
 	}
 	
 	draw() {
-		this.p5.fill(0xFFFFFF);
-		this.p5.circle(this.pos.x, this.pos.y, 42);
+		this.p5.push();
+
+		this.p5.translate(this.pos.x, this.pos.y);
+		
+		let colo = this.p5.color(`#${this.color.toString(16)}`);
+		this.p5.tint(color);
+		this.p5.rotate(deg2rad(this.angle + 90));
+		this.p5.image(this.carImg, -16, -32);
+		this.p5.fill(0x000000);
+		this.p5.rotate(-deg2rad(this.angle + 90));
+		this.p5.text(this.username, -16, -32);
+
+		this.p5.pop();
 	}
 };
 
@@ -117,6 +141,10 @@ export default (container, $socket) => (p5) => {
 	
 	let me = null;
 	
+	p5.preload = () => {
+		world.preload();
+	};
+	
 	p5.setup = () => {
 		$cnv = p5.createCanvas(width, height);
 		$cnv.parent(container)
@@ -126,6 +154,8 @@ export default (container, $socket) => (p5) => {
 		};
 		
 		p5.frameRate(60);
+		
+		p5.rectMode(p5.CENTER);
 	};
 	
 	p5.draw = () => {
@@ -196,7 +226,7 @@ export default (container, $socket) => (p5) => {
 	});
 	
 	$socket.on('update', (data) => {
-		let { id, pos, angle, avel, vel, keys } = data;
+		let { id, pos, angle, avel, vel, keys, username, color } = data;
 		
 		let p = world.players[id];
 		p.pos = pos;
@@ -204,5 +234,7 @@ export default (container, $socket) => (p5) => {
 		p.avel = avel;
 		p.vel = vel;
 		p.keys = keys;
+		p.username = username;
+		p.color = color;
 	});
 };

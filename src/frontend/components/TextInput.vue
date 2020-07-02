@@ -1,6 +1,6 @@
 <template>
 <div>
-	<input type="text" v-model="inputVal" :placeholder="placeholder" class="input" />
+	<input type="text" @keyup.enter="$emit('submit')" v-model="inputVal" :placeholder="placeholder" class="input" />
 </div>
 </template>
 

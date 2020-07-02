@@ -3,7 +3,7 @@
 	<text-input
 		v-model="patName"
 		placeholder="ur name <3"
-		@keyup.native.enter="addPat" />
+		@submit="addPat" />
 	<simple-button
 		class="pat-button"
 		@click="addPat">

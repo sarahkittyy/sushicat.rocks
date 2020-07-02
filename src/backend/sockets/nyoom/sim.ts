@@ -23,6 +23,8 @@ export interface PlayerData {
 	avel: number,
 	vel: number,
 	keys: KeyState,
+	username: string,
+	color: number,
 };
 
 export interface GameState {
@@ -47,6 +49,11 @@ export class World {
 			this.players[socket.id] = player;
 
 			this.server.emit('worldupdate', this.serialize());
+			
+			socket.on('setusername', (name) => {
+				player.setUsername(name);
+				this.server.emit('update', player.serialize());
+			});
 			
 			// on disconnect
 			socket.on('disconnect', (reason) => {
@@ -98,6 +105,9 @@ export class Player {
 	
 	private keys: KeyState;
 	
+	private username: string;
+	private color: number;
+	
 	public constructor(socket: io.Socket) {
 		this.socket = socket;
 		
@@ -108,6 +118,8 @@ export class Player {
 			down: false,
 		};
 		
+		this.username = 'unnamed';
+		
 		this.pos = { x: 50, y: 50 };
 		this.angle = 0;
 		this.avel = 0;
@@ -117,6 +129,8 @@ export class Player {
 		this.aaccel = 0.003;
 		this.maxvel = 0.15;
 		this.maxavel = 0.15;
+		
+		this.color = Math.floor(Math.random() * 0xFFFFFF);
 	}
 	
 	public handleKeyChange(keys: KeyState) {
@@ -147,6 +161,10 @@ export class Player {
 		this.pos.y += yv * dt;
 	}
 	
+	public setUsername(name: string) {
+		this.username = name;
+	}
+	
 	public serialize(): PlayerData {
 		return {
 			id: this.socket.id,
@@ -155,6 +173,8 @@ export class Player {
 			angle: this.angle,
 			avel: this.avel,
 			keys: this.keys,
+			username: this.username,
+			color: this.color,
 		};
 	}
 };
