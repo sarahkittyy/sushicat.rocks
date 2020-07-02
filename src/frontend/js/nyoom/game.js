@@ -41,6 +41,7 @@ class World {
 		p.vel = data.vel;
 		p.keys = data.keys;
 		p.username = data.username;
+		p.color = data.color;
 		
 		return p;
 	}
