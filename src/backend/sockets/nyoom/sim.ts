@@ -25,6 +25,7 @@ export interface PlayerData {
 	keys: KeyState,
 	username: string,
 	color: number,
+	crad: number,
 };
 
 export interface GameState {
@@ -78,7 +79,7 @@ export class World {
 	}
 	
 	public update(dt: number) {
-		Object.keys(this.players).forEach(k => this.players[k].update(dt));
+		Object.keys(this.players).forEach(k => this.players[k].update(dt, this.players));
 	}
 	
 	private serialize(): GameState {
@@ -108,6 +109,8 @@ export class Player {
 	private username: string;
 	private color: number;
 	
+	private crad: number;
+	
 	public constructor(socket: io.Socket) {
 		this.socket = socket;
 		
@@ -130,6 +133,8 @@ export class Player {
 		this.maxvel = 300;
 		this.maxavel = 200;
 		
+		this.crad = 16;
+		
 		this.color = Math.floor(Math.random() * 0xFFFFFF);
 	}
 	
@@ -137,7 +142,7 @@ export class Player {
 		this.keys = keys;
 	}
 	
-	public update(dt: number) {
+	public update(dt: number, players: { [id: string]: Player }) {
 		if (this.keys.up) {
 			if (this.vel < 0) { this.vel += this.accel * dt; }
 			this.vel += this.accel * dt;
@@ -168,9 +173,49 @@ export class Player {
 		
 		let xv = Math.cos(deg2rad(this.angle)) * this.vel;
 		let yv = Math.sin(deg2rad(this.angle)) * this.vel;
+
+		this.moveWithCollisions(
+			xv * dt,
+			yv * dt,
+			Object.keys(players)
+				.map(p => players[p])
+				.filter(p => p.socket.id !== this.socket.id)
+		);
+	}
+	
+	private moveWithCollisions(xv: number, yv: number, players: Player[]) {
+		// true or false
+		const hitsSomething = (x, y) => {
+			for(let player of players) {
+				let px = player.pos.x;
+				let py = player.pos.y;
+				let prad = player.crad;
+				
+				let distX = px - x;
+				let distY = py - y;
+				let dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+				
+				if (dist < this.crad + prad) {
+					return true;
+				}
+			}
+			return false;
+		};
 		
-		this.pos.x += xv * dt;
-		this.pos.y += yv * dt;
+		
+		for(let t = 0; t < 1.0; t += 0.1) {
+			let x = this.pos.x + xv * 0.1;
+			let y = this.pos.y + yv * 0.1;
+			
+			let test = hitsSomething(x, y);
+			if(test) {
+				this.vel = 0;
+				break;
+			}
+			
+			this.pos.x = x;
+			this.pos.y = y;
+		}
 	}
 	
 	public setUsername(name: string) {
@@ -187,6 +232,7 @@ export class Player {
 			keys: this.keys,
 			username: this.username,
 			color: this.color,
+			crad: this.crad,
 		};
 	}
 };

@@ -50,10 +50,11 @@ class World {
 		p.keys = data.keys;
 		p.username = data.username;
 		p.color = data.color;
+		p.crad = data.crad;
 	}
 	
 	update(dt) {
-		Object.keys(this.players).forEach(p => this.players[p].update(dt));
+		Object.keys(this.players).forEach(p => this.players[p].update(dt, this.players));
 	}
 	
 	draw() {
@@ -81,6 +82,8 @@ class Player {
 		
 		this.color = 0xFFFFFF;
 		
+		this.crad = 16;
+		
 		this.username = 'unnamed';
 		
 		this.keys = {
@@ -95,7 +98,7 @@ class Player {
 		this.keys = keys;
 	}
 	
-	update(dt) {
+	update(dt, players) {
 		if (this.keys.up) {
 			if (this.vel < 0) { this.vel += this.accel * dt; }
 			this.vel += this.accel * dt;
@@ -127,8 +130,47 @@ class Player {
 		let xv = Math.cos(deg2rad(this.angle)) * this.vel;
 		let yv = Math.sin(deg2rad(this.angle)) * this.vel;
 		
-		this.pos.x += xv * dt;
-		this.pos.y += yv * dt;
+		this.moveWithCollisions(
+			xv * dt,
+			yv * dt,
+			Object.keys(players)
+				.map(p => players[p])
+				.filter(p => p.id !== this.id)
+		);
+	}
+	
+	moveWithCollisions(xv, yv, players) {
+		// true or false
+		const hitsSomething = (x, y) => {
+			for(let player of players) {
+				let px = player.pos.x;
+				let py = player.pos.y;
+				let prad = player.crad;
+				
+				let distX = px - x;
+				let distY = py - y;
+				let dist = Math.sqrt(Math.pow(distX, 2) + Math.pow(distY, 2));
+				
+				if (dist < this.crad + prad) {
+					return true;
+				}
+			}
+			return false;
+		};
+		
+		for(let t = 0; t < 1.0; t += 0.1) {
+			let x = this.pos.x + xv * 0.1;
+			let y = this.pos.y + yv * 0.1;
+			
+			let test = hitsSomething(x, y);
+			if(test) {
+				this.vel = 0;
+				break;
+			}
+			
+			this.pos.x = x;
+			this.pos.y = y;
+		}
 	}
 	
 	draw() {
@@ -140,9 +182,11 @@ class Player {
 		this.p5.tint(color);
 		this.p5.rotate(deg2rad(this.angle + 90));
 		this.p5.image(this.carImg, -16, -32);
+		this.p5.circle(0, 0, this.crad * 2);
 		this.p5.fill(0x000000);
 		this.p5.rotate(-deg2rad(this.angle + 90));
 		this.p5.text(this.username, -16, -32);
+		this.p5.fill(0x8abeb7);
 
 		this.p5.pop();
 	}
