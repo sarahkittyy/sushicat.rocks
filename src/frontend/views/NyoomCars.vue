@@ -1,12 +1,17 @@
 <template>
 <div>
 
-	<div v-if="!joined" class="usernameInput">
+	<div v-if="!joined" class="username-input">
 		<p>Username:</p>
 		<text-input v-model="username" placeholder="username" @submit="load()" />
 	</div>
 
 	<div id="sketch" />
+	<div class="leave-button">
+		<simple-button v-if="joined" @click="$router.push('/home')">
+			leave
+		</simple-button>
+	</div>
 </div>
 </template>
 
@@ -16,6 +21,7 @@ import * as p5 from 'p5';
 import game from '../js/nyoom/game';
 
 import TextInput from '~/TextInput';
+import SimpleButton from '~/SimpleButton';
 
 export default {
 	name: 'NyoomCars',
@@ -39,7 +45,8 @@ export default {
 		}
 	},
 	components: {
-		TextInput
+		TextInput,
+		SimpleButton,
 	},
 };
 </script>
@@ -48,7 +55,7 @@ export default {
 
 @use '~@/common';
 
-.usernameInput {
+.username-input {
 	@include common.font-comic-sans;
 	
 	display: flex;
@@ -71,6 +78,14 @@ export default {
 	border: 1px solid black;
 	border-radius: 15px;
 	background: common.$grey;
+}
+
+.leave-button {
+	margin: 5px;
+	
+	* {
+		width: 100px;
+	}
 }
 
 </style>

@@ -117,7 +117,7 @@ class Player {
 
 		this.p5.translate(this.pos.x, this.pos.y);
 		
-		let colo = this.p5.color(`#${this.color.toString(16)}`);
+		let color = this.p5.color(`#${this.color.toString(16)}`);
 		this.p5.tint(color);
 		this.p5.rotate(deg2rad(this.angle + 90));
 		this.p5.image(this.carImg, -16, -32);
