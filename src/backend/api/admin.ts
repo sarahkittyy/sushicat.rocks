@@ -6,6 +6,7 @@ import { ratelimit } from '../util/Bucket';
 import validate from '../util/validate';
 
 import { PatUser } from '../db/models/PatUser';
+import { NyoomRacer } from '../db/models/NyoomRacer';
 
 const admin = express.Router();
 
@@ -53,6 +54,36 @@ pats.get('/get', async (req: Request, res: Response) => {
 	return res.send({ users });
 });
 
+const nyooms = express.Router();
+nyooms.use(adminOnly);
+
+nyooms.delete('/delete', [
+	body('name').isString(),
+	validate
+], async (req: Request, res: Response) => {
+	await NyoomRacer.findOneAndDelete({ name: req.body.name });
+	return res.send({ message: 'Deleted!' });
+});
+
+nyooms.post('/set', [
+	body('name').isString(),
+	body('laps').isNumeric(),
+	validate
+], async (req: Request, res: Response) => {
+	let newRacer = await NyoomRacer.findOneAndUpdate(
+		{ name: req.body.name },
+		{ $set: { laps: req.body.laps }},
+		{ upsert: true, new: true }
+	).select('name laps').lean();
+	return res.send(newRacer);
+});
+
+nyooms.get('/get', async (req: Request, res: Response) => {
+	let users = await NyoomRacer.find({}, 'name laps').lean();
+	return res.send({ users });
+})
+
 admin.use('/pats', pats);
+admin.use('/nyooms', nyooms);
 
 export default admin;

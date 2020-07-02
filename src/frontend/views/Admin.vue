@@ -11,6 +11,10 @@
 		<div v-if="selectedNav === 'Pats'" class="pats">
 			<pat-table id="pat-table" />
 		</div>
+		
+		<div v-if="selectedNav === 'Nyooms'" class="nyooms">
+			<nyoom-table id="nyoom-table" />
+		</div>
 
 		<div v-if="selectedNav === 'Leave'">
 			{{ leave() }}
@@ -33,6 +37,7 @@
 import PasswordInput from '~/admin/PasswordInput'; 
 import FixedNav from '~/admin/FixedNav';
 import PatTable from '~/admin/PatTable';
+import NyoomTable from '~/admin/NyoomTable';
 
 import { mapGetters } from 'vuex';
 
@@ -43,6 +48,7 @@ export default {
 		links: [
 			{ text: 'Home' },
 			{ text: 'Pats' },
+			{ text: 'Nyooms' },
 			{ text: 'Leave' },
 			{ text: 'Logout' },
 		],
@@ -67,6 +73,7 @@ export default {
 		PasswordInput,
 		FixedNav,
 		PatTable,
+		NyoomTable,
 	},
 	created() {
 		this.$store.dispatch('adminCheckStatus');
@@ -101,6 +108,19 @@ export default {
 	align-items: center;
 	
 	#pat-table {
+		margin: 15px;
+	}
+}
+
+.nyooms {
+	display: flex;
+	width: 100%;
+	
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	
+	#nyoom-table {
 		margin: 15px;
 	}
 }

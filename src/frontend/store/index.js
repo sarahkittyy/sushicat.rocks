@@ -6,6 +6,7 @@ import * as arf from './arf';
 import * as auth from './auth';
 import * as apat from './adminPats';
 import * as nyoom from './nyoom';
+import * as anyoom from './adminNyooms';
 
 Vue.use(Vuex);
 
@@ -103,6 +104,40 @@ const store = new Vuex.Store({
 		adminUpdatePats({ commit }, { name, pats }) {
 			apat.updatePatUser(name, pats)
 			.then(user => commit('setPatUser', user))
+			.catch(({ error, message, status }) => {
+				Vue.$snotify.error(message, error);
+				if (status === 401) {
+					commit('setAdminStatus', false);
+				}
+			});
+		},
+		adminFetchNyooms({ commit }) {
+			anyoom.getAllNyooms()
+			.then(users => {
+				commit('setNyoomRacers', users);
+			})
+			.catch(({error, message, status}) => {
+				Vue.$snotify.error(message, error);
+				if (status === 401) 
+				commit('setAdminStatus', false);
+			});
+		},
+		adminDeleteNyooms({ commit }, { name }) {
+			anyoom.deleteNyoomRacer(name)
+			.then(() => {
+				let users = this.getters.nyoomsUnsorted.filter(p => p.name !== name);
+				commit('setNyoomRacers', users);
+			})	
+			.catch(({ error, message, status }) => {
+				Vue.$snotify.error(message, error);
+				if (status === 401) {
+					commit('setAdminStatus', false);
+				}
+			});
+		},
+		adminUpdateNyooms({ commit }, { name, laps }) {
+			anyoom.updateNyoomRacer(name, laps)
+			.then(user => commit('setNyoomRacer', user))
 			.catch(({ error, message, status }) => {
 				Vue.$snotify.error(message, error);
 				if (status === 401) {
