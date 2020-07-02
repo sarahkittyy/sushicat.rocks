@@ -1,4 +1,6 @@
 import io from 'socket.io';
+import fs from 'fs';
+import appRoot from 'app-root-path';
 
 export interface KeyState {
 	left: boolean;
@@ -32,15 +34,37 @@ export interface GameState {
 	players: PlayerData[];
 };
 
+export interface Tile {
+	x: number,
+	y: number,
+	t: number,
+};
+
 export class World {
 	private server: io.Namespace;
 	
 	private players: { [id: string]: Player };
 	
+	private tiles: Tile[];
+	
 	public constructor(server: io.Namespace) {
 		this.server = server;
 		this.players = {};
-	
+		
+		let map = JSON.parse(fs.readFileSync(appRoot.resolve('/assets/nyoom_map.json')).toString());
+		let { width, tilewidth, tileheight } = map;
+		this.tiles = map.layers[0].data
+			.map((t: number, index: number) => {
+				let x = (index % width) * tilewidth;
+				let y = Math.floor(index / width) * tileheight; 
+				
+				x -= 32*15;
+				y -= 32*2;
+				
+				return { x, y, t };
+			})
+			.filter((v: any) => v.t == 1);
+		
 		this.server.on('connection', (socket: io.Socket) => {
 			// log the new connection
 			console.log(`new nyoom connection: ${socket.id}`);
@@ -79,7 +103,7 @@ export class World {
 	}
 	
 	public update(dt: number) {
-		Object.keys(this.players).forEach(k => this.players[k].update(dt, this.players));
+		Object.keys(this.players).forEach(k => this.players[k].update(dt, this.players, this.tiles));
 	}
 	
 	private serialize(): GameState {
@@ -142,7 +166,7 @@ export class Player {
 		this.keys = keys;
 	}
 	
-	public update(dt: number, players: { [id: string]: Player }) {
+	public update(dt: number, players: { [id: string]: Player }, tiles: Tile[]) {
 		if (this.keys.up) {
 			if (this.vel < 0) { this.vel += this.accel * dt; }
 			this.vel += this.accel * dt;
@@ -179,11 +203,12 @@ export class Player {
 			yv * dt,
 			Object.keys(players)
 				.map(p => players[p])
-				.filter(p => p.socket.id !== this.socket.id)
+				.filter(p => p.socket.id !== this.socket.id),
+			tiles
 		);
 	}
 	
-	private moveWithCollisions(xv: number, yv: number, players: Player[]) {
+	private moveWithCollisions(xv: number, yv: number, players: Player[], tiles: Tile[]) {
 		// true or false
 		const hitsSomething = (x, y) => {
 			for(let player of players) {
@@ -199,6 +224,16 @@ export class Player {
 					return true;
 				}
 			}
+			for (let tile of tiles) {
+				if (RectCircleColliding({
+					x, y, r: this.crad,
+				}, {
+					x: tile.x, y: tile.y, w: 32, h: 32
+				})) {
+					return true;
+				}
+			}
+			
 			return false;
 		};
 		
@@ -258,4 +293,22 @@ function deg2rad(d: number) {
 
 function rad2deg(r: number) {
 	return r * (180 / Math.PI);
+};
+
+// https://stackoverflow.com/questions/21089959/detecting-collision-of-rectangle-with-circle
+function RectCircleColliding(
+	circle: {x: number, y: number, r: number},
+	rect: {x: number, y: number, w: number, h: number}) {
+    var distX = Math.abs(circle.x - rect.x-rect.w/2);
+    var distY = Math.abs(circle.y - rect.y-rect.h/2);
+
+    if (distX > (rect.w/2 + circle.r)) { return false; }
+    if (distY > (rect.h/2 + circle.r)) { return false; }
+
+    if (distX <= (rect.w/2)) { return true; } 
+    if (distY <= (rect.h/2)) { return true; }
+
+    var dx=distX-rect.w/2;
+    var dy=distY-rect.h/2;
+    return (dx*dx+dy*dy<=(circle.r*circle.r));
 };

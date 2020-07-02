@@ -17,6 +17,22 @@ function dampen(v, accel) {
 	return v;
 };
 
+// https://stackoverflow.com/questions/21089959/detecting-collision-of-rectangle-with-circle
+function RectCircleColliding(circle, rect) {
+    var distX = Math.abs(circle.x - rect.x-rect.w/2);
+    var distY = Math.abs(circle.y - rect.y-rect.h/2);
+
+    if (distX > (rect.w/2 + circle.r)) { return false; }
+    if (distY > (rect.h/2 + circle.r)) { return false; }
+
+    if (distX <= (rect.w/2)) { return true; } 
+    if (distY <= (rect.h/2)) { return true; }
+
+    var dx=distX-rect.w/2;
+    var dy=distY-rect.h/2;
+    return (dx*dx+dy*dy<=(circle.r*circle.r));
+};
+
 class World {
 	constructor(p5) {
 		this.p5 = p5;
@@ -24,10 +40,12 @@ class World {
 		this.players = {};
 		
 		this.carImg = null;
+		this.mapImg = null;
 	}
 	
 	preload() {
 		this.carImg = this.p5.loadImage('/assets/car.png');
+		this.mapImg = this.p5.loadImage('/assets/nyoom_map_render.png');
 	}
 	
 	addPlayer(data) {
@@ -58,6 +76,7 @@ class World {
 	}
 	
 	draw() {
+		this.p5.image(this.mapImg, -(32 * 15), -(32 * 2), 32*35, 32*35);
 		Object.keys(this.players).forEach(p => this.players[p].draw());
 	}
 };
@@ -273,14 +292,6 @@ export default (container, $socket) => (p5) => {
 			if (player.id === $socket.id) {
 				me = p;
 			}
-		}
-	});
-	
-	$socket.on('playerjoin', (data) => {
-		console.log('player joined');
-		let p = world.addPlayer(data);
-		if (data.id === $socket.id) {
-			me = p;
 		}
 	});
 	
