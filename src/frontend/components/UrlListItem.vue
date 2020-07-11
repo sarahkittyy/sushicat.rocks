@@ -1,6 +1,6 @@
 <template>
-<li class="list-item">
-	<span class="list-item-content" @click="redirect">
+<li class="list-item" @click="redirect">
+	<span class="list-item-content">
 		<slot />
 	</span>
 </li>
@@ -31,19 +31,13 @@ export default {
 
 .list-item {
 	padding: 3px;
-
+	
 	color: black;
 	text-decoration: none;
 	
-	transition: all 300ms;
-}
-
-.list-item-content {
-	padding: 3px;
 	border: 2px solid transparent;
 	
 	&:hover {
-		cursor: pointer;
 		border: 2px outset common.$dark-grey;
 	}
 	
