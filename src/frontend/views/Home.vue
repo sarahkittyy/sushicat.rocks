@@ -23,6 +23,12 @@
 				<a class="twitter-timeline" href="https://twitter.com/DeepLeffen?ref_src=twsrc%5Etfw"></a>
 			</twitter>
 		</content-container>
+		<content-container style="text-align: center;">
+			<h1 class="rainbow-text">broadcast a notif!! &gt;w&lt;</h1>
+			<text-input v-model="notifInputName" placeholder="name" />
+			<text-input v-model="notifInputMessage" placeholder="message" />
+			<simple-button @click="sendNotif" style="margin-top: 0px;">send &gt;w&lt;</simple-button>
+		</content-container>
 		<pat-table />
 	</div>
 	
@@ -60,10 +66,13 @@ import PatTable from '~/PatTable';
 import ToggleSwitch from '~/ToggleSwitch';
 import CornerLinks from '~/CornerLinks';
 import CornerNav from '~/CornerNav';
+import TextInput from '~/TextInput';
 import AppList from '~/AppList';
 import UrlListItem from '~/UrlListItem';
 import ContentContainer from '~/ContentContainer';
 import { twitter } from 'vue-twitter';
+
+import io from 'socket.io-client';
 
 import { debounce } from 'debounce';
 
@@ -75,6 +84,9 @@ export default {
 			patName: '', 
 			sushicatHeight: 90,
 			displaySushicats: true,
+			notifInputName: '',
+			notifInputMessage: '',
+			socket: null,
 		};
 	},
 	methods: {
@@ -94,6 +106,12 @@ export default {
 				this.displaySushicats = false;
 			}
 		}, 500),
+		sendNotif() {
+			this.socket.emit('notify', { 
+				message: this.notifInputMessage,
+				name: this.notifInputName,
+			});
+		},
 	},
 	components: {
 		HeaderDivider,
@@ -107,6 +125,7 @@ export default {
 		AppList,
 		UrlListItem,
 		ContentContainer,
+		TextInput,
 		twitter
 	},
 	created() {
@@ -115,6 +134,19 @@ export default {
 		this.$store.dispatch('fetchPatUsers');
 		window.addEventListener('resize', this.computeSushicatHeight);
 		this.computeSushicatHeight();
+		
+		this.socket = io('/home', {
+			transports: ['websocket'],
+			rejectUnauthorized: process.env.NODE_ENV === 'production',
+		});
+		
+		this.socket.on('notify', ({ message, name }) => {
+			this.$snotify.info(message, `notif from ${name}`);
+		});
+		
+		this.socket.on('err', ({ error, message}) => {
+			this.$snotify.error(message, error);
+		});
 	},
 	destroyed() {
 		window.removeEventListener('resize', this.computeSushicatHeight);
@@ -150,7 +182,6 @@ export default {
 		flex: 1;
 		margin: 30px;
 	}
-	
 }
 
 .container {

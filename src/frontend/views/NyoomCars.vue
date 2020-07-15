@@ -60,7 +60,10 @@ export default {
 				return;
 			}
 			
-			this.$socket = io('/nyoom', {transports: ['websocket']});
+			this.$socket = io('/nyoom', {
+				transports: ['websocket'],
+				rejectUnauthorized: process.env.NODE_ENV === 'production',
+			});
 
 			this.game = new p5(game('sketch', this.$socket));
 			this.joined = true;
