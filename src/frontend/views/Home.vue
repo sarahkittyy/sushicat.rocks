@@ -23,11 +23,13 @@
 				<a class="twitter-timeline" href="https://twitter.com/DeepLeffen?ref_src=twsrc%5Etfw"></a>
 			</twitter>
 		</content-container>
-		<content-container style="text-align: center;">
+		<content-container class="notif-center">
 			<h1 class="rainbow-text">broadcast a notif!! &gt;w&lt;</h1>
 			<text-input v-model="notifInputName" placeholder="name" />
 			<text-input v-model="notifInputMessage" placeholder="message" />
 			<simple-button @click="sendNotif" style="margin-top: 0px;">send &gt;w&lt;</simple-button>
+			<h4 v-if="online == null">loading...</h4>
+			<h4 v-else>{{ online }} people on this site</h4> 
 		</content-container>
 		<pat-table />
 	</div>
@@ -87,6 +89,7 @@ export default {
 			notifInputName: '',
 			notifInputMessage: '',
 			socket: null,
+			online: null,
 		};
 	},
 	methods: {
@@ -147,6 +150,13 @@ export default {
 		this.socket.on('err', ({ error, message}) => {
 			this.$snotify.error(message, error);
 		});
+		
+		this.socket.on('peopleCount', ({ people }) => {
+			this.online = people;
+		});
+	},
+	beforeDestroy() {
+		this.socket.close();
 	},
 	destroyed() {
 		window.removeEventListener('resize', this.computeSushicatHeight);
@@ -181,6 +191,13 @@ export default {
 	* {
 		flex: 1;
 		margin: 30px;
+	}
+}
+
+.notif-center {
+	text-align: center;
+	*:not(:first-child) {
+		margin-top: 3px;
 	}
 }
 

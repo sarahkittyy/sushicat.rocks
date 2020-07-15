@@ -4,8 +4,18 @@ import moment from 'moment';
 export function conf(io: io.Server) {
 	const home = io.of('/home');
 	
+	let onlineCT = 0;
+	
 	home.on('connection', (socket: io.Socket) => {
 		let now = moment();
+
+		onlineCT++;
+		home.emit('peopleCount', { people: onlineCT });
+		socket.on('disconnect', () => {
+			onlineCT--;
+			
+			home.emit('peopleCount', { people: onlineCT });
+		});
 		
 		socket.on('notify', (data) => {
 			let t = moment().subtract(5, 'seconds');
