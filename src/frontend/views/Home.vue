@@ -173,7 +173,7 @@ export default {
 	
 	display: flex;
 	
-	flex-wrap: nowrap;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: stretch;
 

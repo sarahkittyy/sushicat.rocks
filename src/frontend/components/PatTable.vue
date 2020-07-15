@@ -151,6 +151,7 @@ export default {
 	justify-content: center;
 
 	width: 25%;
+	min-width: 300px;
 	padding: 10px;
 	
 	@media screen and (max-width: common.$small-width) {
