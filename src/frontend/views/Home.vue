@@ -26,7 +26,7 @@
 		<content-container class="notif-center">
 			<h1 class="rainbow-text">broadcast a notif!! &gt;w&lt;</h1>
 			<text-input v-model="notifInputName" placeholder="name" />
-			<text-input v-model="notifInputMessage" placeholder="message" />
+			<text-input v-model="notifInputMessage" placeholder="message" @submit="sendNotif" />
 			<simple-button @click="sendNotif" style="margin-top: 0px;">send &gt;w&lt;</simple-button>
 			<h4 v-if="online == null">loading...</h4>
 			<h4 v-else>{{ online }} people on this site</h4> 
