@@ -4,13 +4,11 @@ import { ratelimit } from '../util/Bucket';
 import { body, query, validationResult } from 'express-validator';
 
 import { PatUser, PatUserSchema } from '../db/models/PatUser';
-import { IsaacBonk } from '../db/models/IsaacBonk';
 import { incArf, getArfs } from './arfs';
 import { NyoomRacer } from '../db/models/NyoomRacer';
 
-import cors from 'cors';
-
 import admin from './admin';
+import bonk from './isaac-bonk';
 
 import client from '../util/twitter';
 
@@ -100,12 +98,7 @@ api.get('/nyooms', ratelimit(), async (req, res) => {
 	return res.send(await NyoomRacer.find().select('name laps').lean());
 });
 
-api.get('/isaac-bonk', [
-	cors(), 
-	ratelimit(8)
-], async (req, res) => {
-	return res.send({ count: await IsaacBonk.do() });
-});
+api.use('/isaac-bonk', bonk);
 
 api.use('/admin', admin);
 	
