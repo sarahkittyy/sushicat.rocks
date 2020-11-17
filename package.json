@@ -17,6 +17,7 @@
   "devDependencies": {
     "@ion-phaser/core": "^1.2.3",
     "@types/app-root-path": "^1.2.4",
+    "@types/cors": "^2.8.8",
     "@types/express": "^4.17.6",
     "@types/express-session": "^1.17.0",
     "@types/express-validator": "^3.0.0",
@@ -29,6 +30,7 @@
     "app-root-path": "^3.0.0",
     "bcrypt": "^5.0.0",
     "connect-mongo": "^3.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
