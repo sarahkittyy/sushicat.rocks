@@ -3,6 +3,7 @@
 	<div id="terminal">
 		<span
 			v-for="(line, index) in textLines"
+      :key="index"
 			class="text output"
 		>
 			{{ line }}
