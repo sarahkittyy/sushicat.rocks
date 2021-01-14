@@ -10,7 +10,7 @@
     "serve": "pm2 start pm2.config.json",
     "prod": "vue-cli-service build --mode production && tsc && node .",
     "prod-pm2": "pm2 start pm2.config.prod.json",
-    "stop-pm2": "pm2 stop all"
+    "stop-pm2": "pm2 stop pm2.config.prod.json"
   },
   "author": "Sarah Ohlin",
   "license": "MIT",
