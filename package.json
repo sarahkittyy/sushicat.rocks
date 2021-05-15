@@ -49,7 +49,7 @@
     "tsc-watch": "^4.2.3",
     "twitter": "^1.7.1",
     "typescript": "^3.9.2",
-    "vue-template-compiler": "^2.6.11",
+    "vue-template-compiler": "^2.6.12",
     "vue-twitter": "^0.1.0"
   },
   "dependencies": {
