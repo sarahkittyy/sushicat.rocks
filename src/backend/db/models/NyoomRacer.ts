@@ -26,7 +26,8 @@ const NyoomRacerSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 NyoomRacerSchema.static('lap', async function (name: string) {
-	let res = await this.findOneAndUpdate({ name }, { $inc: { laps: 1}}, { upsert: true, new: true }).select('laps').lean();
+  // @ts-ignore
+	let res = await this.findOneAndUpdate({ name }, { $inc: { laps: 1 }}, { upsert: true, new: true }).select('laps').lean();
 	return res.laps;
 });
 

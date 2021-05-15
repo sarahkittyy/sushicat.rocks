@@ -29,6 +29,7 @@ const PatUserSchema = new mongoose.Schema({
 
 
 PatUserSchema.static('pat', async function(name: string, times: number) {
+  // @ts-ignore
 	return await this.findOneAndUpdate({ name }, { $inc: { pats: times }}, { upsert: true, new: true }).select('name pats').lean();
 });
 
