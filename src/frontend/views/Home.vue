@@ -23,11 +23,21 @@
 				<a class="twitter-timeline" href="https://twitter.com/DeepLeffen?ref_src=twsrc%5Etfw"></a>
 			</twitter>
 		</content-container>
+    <vue-recaptcha
+      ref="recaptcha"
+      :sitekey="recaptchaKey"
+      badge="bottomleft"
+      style="display: none;"
+      size="invisible"
+      @verify="onVerify"
+    ></vue-recaptcha>
 		<content-container class="notif-center">
 			<h1 class="rainbow-text">broadcast a notif!! &gt;w&lt;</h1>
 			<text-input v-model="notifInputName" placeholder="name" />
-			<text-input v-model="notifInputMessage" placeholder="message" @submit="sendNotif" />
-			<simple-button @click="sendNotif" style="margin-top: 0px;">send &gt;w&lt;</simple-button>
+			<text-input v-model="notifInputMessage" placeholder="message" @submit="trySendNotif" />
+			<simple-button @click="trySendNotif" style="margin-top: 0px;">
+        send &gt;w&lt;
+      </simple-button>
 			<h4 v-if="online == null">loading...</h4>
 			<h4 v-else>{{ online }} people on this site</h4> 
 		</content-container>
@@ -72,6 +82,7 @@ import TextInput from '~/TextInput';
 import AppList from '~/AppList';
 import UrlListItem from '~/UrlListItem';
 import ContentContainer from '~/ContentContainer';
+import VueRecaptcha from 'vue-recaptcha';
 import { twitter } from 'vue-twitter';
 
 import io from 'socket.io-client';
@@ -93,6 +104,9 @@ export default {
 		};
 	},
 	methods: {
+    onVerify(response) {
+      this.sendNotif(response);
+    },
 		setBackgroundVisibility(val) {
 			this.backgroundVisible = val;
 		},
@@ -109,13 +123,23 @@ export default {
 				this.displaySushicats = false;
 			}
 		}, 500),
-		sendNotif() {
+    trySendNotif() {
+      this.$refs.recaptcha.execute();
+    },
+		sendNotif(response) {
 			this.socket.emit('notify', { 
 				message: this.notifInputMessage,
 				name: this.notifInputName,
+        response,
 			});
+      this.$refs.recaptcha.reset();
 		},
 	},
+  computed: {
+    recaptchaKey() {
+      return process.env.VUE_APP_RECAPTCHA_SITE_KEY;
+    },
+  },
 	components: {
 		HeaderDivider,
 		P5Background,
@@ -129,7 +153,8 @@ export default {
 		UrlListItem,
 		ContentContainer,
 		TextInput,
-		twitter
+		twitter,
+    VueRecaptcha,
 	},
 	created() {
 		document.title = '* sooshi cat *';

@@ -4,13 +4,24 @@
 		v-model="patName"
 		placeholder="ur name <3"
 		type="text"
-		@submit="addPat" />
-	<simple-button
-		class="pat-button"
-		@click="addPat">
-		commit cat pat &lt;3
-	</simple-button>
-	<br />
+    @submit="addPat"
+	/>
+  <vue-recaptcha
+    ref="recaptcha"
+    :sitekey="recaptchaKey"
+    badge="bottomleft"
+    style="margin: 0;"
+    size="invisible"
+    @verify="onVerify"
+    @expired="onExpire"
+  ></vue-recaptcha>
+  <simple-button
+    class="pat-button"
+    @click="addPat"
+  >
+    commit cat pat &lt;3
+  </simple-button>
+  <br />
 	<simple-button
 		class="pat-button"
 		@click="updatePats"
@@ -35,7 +46,7 @@
 </template>
 
 <script>
-
+import VueRecaptcha from 'vue-recaptcha';
 import SimpleButton from '~/SimpleButton';
 import PatAnim from '~/PatAnim';
 import TextInput from '~/TextInput';
@@ -48,9 +59,16 @@ export default {
 			disabled: false,
 			tempPats: [],
 			disableUpdate: false,
+      response: null,
 		};
 	},
 	methods: {
+    onVerify(response) {
+      this.pushPats(response);
+    },
+    onExpire() {
+      this.response = null;
+    },
 		/// add a temporary, front-end only pat
 		addPat() {
 			let newPats = [...this.tempPats];
@@ -87,11 +105,13 @@ export default {
 			}, 2000);
 		},
 		/// push all temporary front-end pats to the db
-		pushPats() {
+		pushPats(response) {
+      this.response = response;
+
 			if (this.tempPats.length == 0) return;
 			
 			for (let user of this.tempPats) {
-				this.$store.dispatch('postPatAndUpdate', user);
+        this.$store.dispatch('postPatAndUpdate', { ...user, response });
 			}
 			this.tempPats = [];
 		},
@@ -114,19 +134,28 @@ export default {
 			}
 
 			return res.sort((a, b) => Math.sign(b.pats - a.pats));
-		}	
+		},
+    recaptchaKey() {
+      return process.env.VUE_APP_RECAPTCHA_SITE_KEY;
+    }
 	},
-	mounted() {
+	created() {
 		let t = setInterval(() => {
-			this.pushPats();
-		}, 2000);	
-		
+      if (this.tempPats.length === 0) return;
+      if (this.response == null) {
+        this.$refs.recaptcha.execute();
+      } else {
+        this.pushPats(this.response);
+      }
+		}, 2000);			
+
 		document.addEventListener('beforeunload', () => clearInterval(t));
 	},
 	components: {
 		SimpleButton,
 		PatAnim,
 		TextInput,
+    VueRecaptcha,
 	},
 };
 

@@ -17,7 +17,7 @@ export default {
 .fixed-bottom-left {
 	position: fixed;
 	left: 0;
-	bottom: 0;
+	top: 0;
 	margin: 0;
 	padding: 5px;
 	z-index: 1;
@@ -25,9 +25,9 @@ export default {
 
 .grey-box {
 	background-color: #999;
-	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
 	border: 2px solid black;
-	border-bottom: none;
+	border-top: none;
 	border-left: none;
 }
 

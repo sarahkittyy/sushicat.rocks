@@ -31,11 +31,11 @@ function fetchPatUsers() {
 	});
 }
 
-function postPatAndUpdate(name, pats) {
+function postPatAndUpdate(name, pats, response) {
 	return new Promise((resolve, reject) => {
 		fetch('/api/pat', {
 			method: 'post',
-			body: JSON.stringify({ name, pats }),
+			body: JSON.stringify({ name, pats, response }),
 			headers: { 'Content-Type': 'application/json' },
 			
 		})
@@ -73,7 +73,13 @@ function postPatAndUpdate(name, pats) {
 						status: err.status,
 					});
 				}
-			}
+			} else if (err.status == 500) {
+        reject({
+          message: 'something went wrong with the captcha :3',
+          error: 'uh oh',
+          status: err.status,
+        });
+      }
 		});
 	});
 }
