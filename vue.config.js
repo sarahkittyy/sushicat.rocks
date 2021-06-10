@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 
+const dotenv = require('dotenv-webpack');
+
 module.exports = {
 	outputDir: 'build/frontend',
 	pages: {
@@ -34,6 +36,9 @@ module.exports = {
 				'~': path.resolve(__dirname, 'src/frontend/components'),
 				'@': path.resolve(__dirname, 'src/frontend/styles'),
 			}
-		}
-	}
+		},
+    plugins: [
+      new dotenv(),
+    ],
+	},
 };

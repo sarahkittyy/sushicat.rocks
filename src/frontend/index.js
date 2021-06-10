@@ -1,7 +1,8 @@
 import Vue from 'vue';
 
-import VueRouter from 'vue-router';
 import Snotify, { SnotifyPosition } from 'vue-snotify';
+import VueRecaptcha from 'vue-recaptcha';
+import VueRouter from 'vue-router';
 
 import 'vue-snotify/styles/simple.css';
 

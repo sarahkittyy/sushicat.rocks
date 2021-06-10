@@ -62,8 +62,8 @@ const store = new Vuex.Store({
 			})
 			.catch(({ error, message }) => Vue.$snotify.error(message, error));
 		},
-		postPatAndUpdate({ commit }, { name, pats }) {
-			pat.postPatAndUpdate(name, pats)
+		postPatAndUpdate({ commit }, { name, pats, response }) {
+			pat.postPatAndUpdate(name, pats, response)
 			.then(user => {
 				commit('setPatUser', user);
 			})

@@ -11,6 +11,7 @@ import admin from './admin';
 import bonk from './isaac-bonk';
 
 import client from '../util/twitter';
+import verifyRecaptcha from '../util/verifyRecaptcha';
 
 const api = express.Router();
 
@@ -27,16 +28,31 @@ api.post('/pat', [
 	ratelimit(2),
 	body('name').isString().notEmpty().isLength({ max: 20 }).custom(v => v.trim() !== ''),
 	body('pats').optional().isInt({ lt: 20, gt: 0 }),
+  body('response').isString().notEmpty(),
 ], async (req: Request, res: Response) => {
 	// validate
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(400).send({ errors: errors.array() });
 	}
-	
-	let pats = req.body.pats ?? 1;
-	
-	return res.send(await PatUser.pat(req.body.name.trim(), pats));
+
+  if (req.session.allowed == null || req.session.allowed == false) {
+    const resp = await verifyRecaptcha(req.body.response);
+    if (resp.success == true) {
+      req.session.allowed = true;
+      return await sendPat();
+    } else {
+      return res.status(400)
+        .send({ error: 'captcha invalid', message: 'could not verify captcha'});
+    }
+  } else {
+    return await sendPat();
+  }
+
+  async function sendPat() {
+    let pats = req.body.pats ?? 1;
+    return res.send(await PatUser.pat(req.body.name.trim(), pats));
+  }
 });
 
 api.get('/pat', [
@@ -48,7 +64,7 @@ api.get('/pat', [
 	if (!errors.isEmpty()) {
 		return res.status(400).send({ errors: errors.array() });
 	}
-	
+
 	let name: string | undefined = <string>req.query.name;
 	
 	if (name) {

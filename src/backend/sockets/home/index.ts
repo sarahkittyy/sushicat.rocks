@@ -1,6 +1,8 @@
 import io from 'socket.io';
 import moment from 'moment';
 
+import verifyRecaptcha from '../../util/verifyRecaptcha';
+
 export function conf(io: io.Server) {
 	const home = io.of('/home');
 	
@@ -17,7 +19,7 @@ export function conf(io: io.Server) {
 			home.emit('peopleCount', { people: onlineCT });
 		});
 		
-		socket.on('notify', (data) => {
+		socket.on('notify', async (data) => {
 			let t = moment().subtract(5, 'seconds');
 			
 			if (t < now) {
@@ -28,6 +30,22 @@ export function conf(io: io.Server) {
 			}
 			
 			now = moment();
+
+      // captcha check
+      if (!data?.response) {
+        return socket.emit('err', {
+          message: 'you must solve the captcha',
+          error: 'captcha error',
+        });
+      } else {
+        const resp = await verifyRecaptcha(data.response);
+        if (!resp.success) {
+          return socket.emit('err', {
+            message: 'captcha check failed',
+            error: 'captcha error',
+          });
+        }
+      }
 			
 			const name = data?.name?.trim();
 			const message = data?.message?.trim();
