@@ -13,7 +13,7 @@ import api from './api';
 import { ratelimit } from './util/Bucket';
 
 import http from 'http';
-import io from 'socket.io';
+import { Server, Socket } from 'socket.io';
 import { ioConfig } from './sockets';
 
 const app = express();
@@ -57,7 +57,7 @@ var basePort = parseInt(process.env.PORT ?? '3000');
 
 const server = http.createServer(app);
 
-const socket = io(server);
+const socket = new Server(server);
 ioConfig(socket);
 
 server.listen(basePort, () => {
