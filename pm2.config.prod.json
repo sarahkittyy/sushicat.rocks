@@ -2,8 +2,8 @@
 	"apps": [
 		{
 			"name": "backend",
-			"script": "npm",
-			"args": "run prod"
+			"script": "node",
+			"args": "."
 		}
 	]
 }
