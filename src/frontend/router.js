@@ -13,8 +13,9 @@ import NyoomCars from './views/NyoomCars';
 const routes = [
 	{ path: '/', redirect: '/home' },
 	{ path: '/discord', beforeEnter(to, from, next) {
-		window.location.replace("https://discord.gg/ewWPufHxWK");
+		window.location.href = "https://discord.gg/ewWPufHxWK";
 	}},
+	{ path: 'nya': redirect: '/nyoom' },
 	{ path: '/home', component: Home },
 	{ path: '/arf', component: Arf },
 	{ path: '/arch', component: ArchLinux },
